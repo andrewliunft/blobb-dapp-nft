@@ -27,18 +27,33 @@ contract Blobb is ERC721URIStorage, Ownable {
     address lastHit;
     bool isDead;
   }
+
+  struct BlobStats {
+    mapping(uint256 => uint256) birthDates;
+    mapping(uint256 => uint256) deathDates;
+
+    uint256 totalAttacks;
+    mapping(address => uint256) addressAttacks;
+    mapping(uint256 => address) attacksHistory;
+    uint256 totalKills;
+    mapping(address => uint256) addressKills;
+    mapping(uint256 => address) killsHistory;
+    uint256 totalHealings;
+    mapping(uint256 => uint256) lifeHealings;
+    uint256 revivals;
+  }
+
+  struct OwnerStats {
+    uint256 inflictedAttacks;
+    mapping(uint256 => uint256) blobAttacks;
+    uint256 inflictedKills;
+    mapping(uint256 => uint256) blobKills;  
+  }
+
   mapping(uint256 => Blob) public blobs;
-  mapping(address => Blob) public blobByOwner;
-  mapping(string => Blob) public blobByName;
-
-  mapping(uint256 => mapping(address => uint256)) public attacks;
-  mapping(uint256 => mapping(address => uint256)) public kills;
-
-  mapping(uint256 => mapping(uint256 => uint256)) public birthDates;
-  mapping(uint256 => mapping(uint256 => uint256)) public deathDates;
-
-  mapping(uint256 => mapping(uint256 => uint256)) public heals;
-  mapping(uint256 => uint256) public revivals;
+  mapping(uint256 => BlobStats) public blobStats;
+  mapping(address => OwnerStats) public ownerStats;
+  mapping(address => Blob) public ownedBlob;
 
   modifier actionsRequires(uint256 _blobID) {
     require(isContractEnabled, "Contract is stopped!");
@@ -86,15 +101,8 @@ contract Blobb is ERC721URIStorage, Ownable {
     return (blobs[_blobID].hp/10).toString();
   }
 
-  function _newDefaultBlob(uint256 _blobID, uint256 _hp, address _creator) internal pure returns(Blob memory) {
-    return Blob({ 
-      blobID: _blobID,
-      life: 1,
-      hp: _hp, 
-      creator: _creator, 
-      lastHit: address(0), 
-      isDead: false
-    });
+  function _newDefaultBlob(uint256 _blobID, address _creator) internal pure returns(Blob memory) {
+    return Blob(_blobID, 1, 10, _creator, address(0), false);
   }
 
   function getBlobURI(uint256 _blobID) public view returns(string memory) {
@@ -110,17 +118,17 @@ contract Blobb is ERC721URIStorage, Ownable {
 
   function mintBlob() public payable {
     require(isContractEnabled, "Contract is stopped!");
-    require(blobByOwner[msg.sender].creator == address(0), "You already OWN a Blobb!");
+    require(ownedBlob[msg.sender].creator == address(0), "You already OWN a Blobb!");
     require(msg.value == mintPrice, "Wrong MINT value!");
 
     _blobIDs.increment();
     uint256 newBlobID = _blobIDs.current();
     _safeMint(msg.sender, newBlobID);
 
-    blobs[newBlobID] = _newDefaultBlob(newBlobID, 10, msg.sender);
-    blobByOwner[msg.sender] = blobs[newBlobID];
+    blobs[newBlobID] = _newDefaultBlob(newBlobID, msg.sender);
+    ownedBlob[msg.sender] = blobs[newBlobID];
 
-    birthDates[newBlobID][blobs[newBlobID].life] = block.timestamp;
+    blobStats[newBlobID].birthDates[blobs[newBlobID].life] = block.timestamp;
 
     _setTokenURI(newBlobID, getBlobURI(newBlobID));
   }
@@ -134,7 +142,12 @@ contract Blobb is ERC721URIStorage, Ownable {
     blobs[_blobID].hp -= 1;
     blobs[_blobID].lastHit = msg.sender;
 
-    attacks[_blobID][msg.sender] += 1;
+    blobStats[_blobID].totalAttacks += 1;
+    blobStats[_blobID].addressAttacks[msg.sender] += 1;
+    blobStats[_blobID].attacksHistory[blobStats[_blobID].totalAttacks] = msg.sender;
+
+    ownerStats[msg.sender].inflictedAttacks += 1;
+    ownerStats[msg.sender].blobAttacks[_blobID] += 1;
 
     _setTokenURI(_blobID, getBlobURI(_blobID));
   }
@@ -149,9 +162,14 @@ contract Blobb is ERC721URIStorage, Ownable {
     blobs[_blobID].lastHit = msg.sender;
     blobs[_blobID].isDead = true;
 
-    kills[_blobID][msg.sender] += 1;
+    blobStats[_blobID].totalKills += 1;
+    blobStats[_blobID].addressKills[msg.sender] += 1;
+    blobStats[_blobID].killsHistory[blobStats[_blobID].totalKills] = msg.sender;
 
-    deathDates[_blobID][blobs[_blobID].life] = block.timestamp;
+    blobStats[_blobID].deathDates[blobs[_blobID].life] = block.timestamp;
+
+    ownerStats[msg.sender].inflictedKills += 1;
+    ownerStats[msg.sender].blobKills[_blobID] += 1;
 
     _setTokenURI(_blobID, getBlobURI(_blobID));
   }
@@ -163,7 +181,9 @@ contract Blobb is ERC721URIStorage, Ownable {
     require(msg.value == healPrice, "Wrong HEAL value!");
 
     blobs[_blobID].hp += 1;
-    heals[_blobID][blobs[_blobID].life] += 1;
+
+    blobStats[_blobID].totalHealings += 1;
+    blobStats[_blobID].lifeHealings[blobs[_blobID].life] += 1;
 
     _setTokenURI(_blobID, getBlobURI(_blobID));
   }
@@ -177,7 +197,7 @@ contract Blobb is ERC721URIStorage, Ownable {
     blobs[_blobID].isDead = false;
     blobs[_blobID].life += 1;
 
-    birthDates[_blobID][blobs[_blobID].life] = block.timestamp;
+    blobStats[_blobID].birthDates[blobs[_blobID].life] = block.timestamp;
 
     _setTokenURI(_blobID, getBlobURI(_blobID));
   }
