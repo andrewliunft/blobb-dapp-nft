@@ -1,0 +1,53 @@
+.header_div {
+  margin: 20px;
+  position: absolute;
+  top: 0;
+
+  /* text-align: center; */
+  user-select: none;
+}
+
+.span_title {
+  font-weight: bold;
+  font-size: var(--fSize);
+
+  text-shadow: 2px 2px 4px #0009, 0 0 2px #fff9;
+  transition: .25s ease;
+}
+
+.span_title:hover {
+  cursor: var(--cursor);
+  text-shadow: 0 0 4px #202020, 0 0 7px #fff9;
+  color: #202020;
+}
+
+.div_subtitle, .no_div_subtitle {
+  padding: 2px 5px 0 20px;
+  border-top: 2px solid #5e5e5e;
+  color: #5e5e5e;
+
+  text-align: right;
+  font-size: 2vmin;
+
+  translate: 0;
+
+  transition: 2s ease, translate .5s ease;
+}
+
+.no_div_subtitle {
+  border-top: 2px solid #5e5e5e00;
+  color: #5e5e5e00;
+  translate: -200px;
+  transition: .5s ease, translate .5s cubic-bezier(1,-0.74, 1,-0.9);
+}
+
+.div_wallet {
+  position: fixed;
+  top: 0;
+  right: 0;
+
+  margin: 20px 20px 0 0;
+
+  font-weight: bold;
+  font-size: max(20px, 2vmin);
+}

@@ -1,0 +1,48 @@
+.pending_tx_container {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.pending_tx_div {
+  max-width: 500px;
+  max-height: 200px;
+  padding: 0px 20px 0px 20px;
+
+  border: 2px solid #5e5e5e;
+  border-radius: 5px;
+  
+
+  box-shadow: 2px 2px 5px rgb(0, 0, 0, .75);
+}
+
+.pending_tx_title {
+  position: relative;
+  bottom: 12px;
+ 
+  padding: 0 5px;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 5px;
+  background-color: aliceblue;
+}
+
+.pending_loading {
+  display: flex;
+  justify-content: center;
+  width: 100px;
+  margin: auto;
+  position: relative;
+  top: 12px;
+
+  padding: 0 5px;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 5px;
+  background-color: aliceblue;
+}

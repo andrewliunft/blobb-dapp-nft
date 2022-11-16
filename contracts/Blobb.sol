@@ -19,6 +19,9 @@ contract Blobb is ERC721URIStorage, Ownable {
   uint256 public healPrice;
   uint256 public revivalPrice;
 
+  event Attack(address indexed attacker, address indexed attackedOwner, uint256 toBlobID);
+  event Kill(address indexed killer, address indexed killedOwner, uint256 toBlobID);
+
   struct Blob {
     uint256 blobID;
     uint256 life;
@@ -53,7 +56,7 @@ contract Blobb is ERC721URIStorage, Ownable {
   mapping(uint256 => Blob) public blobs;
   mapping(uint256 => BlobStats) public blobStats;
   mapping(address => OwnerStats) public ownerStats;
-  mapping(address => Blob) public ownedBlob;
+  mapping(address => uint256) public ownedBlob;
 
   modifier actionsRequires(uint256 _blobID) {
     require(isContractEnabled, "Contract is stopped!");
@@ -69,6 +72,7 @@ contract Blobb is ERC721URIStorage, Ownable {
   }
 
   function setIsContractEnabled(bool _isContractEnabled) external onlyOwner { isContractEnabled = _isContractEnabled; }
+  function getCurrentBlobID() external view returns(uint256) { return _blobIDs.current(); }
 
   function getImageURI(uint256 _blobID) public view returns(string memory) {
     return string(abi.encodePacked("data:image/svg+xml;base64,", Base64.encode(abi.encodePacked(
@@ -80,25 +84,21 @@ contract Blobb is ERC721URIStorage, Ownable {
           '}',
           '@keyframes spin {',
             'from {',
-              'transform: rotate(0deg) scale(', _getFormattedBlobHP(_blobID), ');',
+              'transform: rotate(0deg) scale(', blobs[_blobID].hp == 10 ? "1" : string(abi.encodePacked(".", blobs[_blobID].hp.toString())), ');',
             '}',
             'to {',
-              'transform: rotate(360deg) scale(', _getFormattedBlobHP(_blobID), ');',
+              'transform: rotate(360deg) scale(', blobs[_blobID].hp == 10 ? "1" : string(abi.encodePacked(".", blobs[_blobID].hp.toString())), ');',
             '}',
           '}',
         '</style>',
         '<g>',
           '<rect width="100%" height="100%"/>',
           '<g id="pink-blob">',
-            '<rect width="100" height="100" rx="20%" fill="red" x="12.5" y="12.5"/>',
+            '<rect width="100" height="100" rx="20%" fill="', blobs[_blobID].hp == 10 ? "green" : "red", '" x="12.5" y="12.5"/>',
           '</g>',
         '</g>',
       '</svg>'
     ))));
-  }
-
-  function _getFormattedBlobHP(uint256 _blobID) internal view returns(string memory) {
-    return (blobs[_blobID].hp/10).toString();
   }
 
   function _newDefaultBlob(uint256 _blobID, address _creator) internal pure returns(Blob memory) {
@@ -118,7 +118,7 @@ contract Blobb is ERC721URIStorage, Ownable {
 
   function mintBlob() public payable {
     require(isContractEnabled, "Contract is stopped!");
-    require(ownedBlob[msg.sender].creator == address(0), "You already OWN a Blobb!");
+    require(ownedBlob[msg.sender] == 0, "You already OWN a Blobb!");
     require(msg.value == mintPrice, "Wrong MINT value!");
 
     _blobIDs.increment();
@@ -126,7 +126,7 @@ contract Blobb is ERC721URIStorage, Ownable {
     _safeMint(msg.sender, newBlobID);
 
     blobs[newBlobID] = _newDefaultBlob(newBlobID, msg.sender);
-    ownedBlob[msg.sender] = blobs[newBlobID];
+    ownedBlob[msg.sender] = newBlobID;
 
     blobStats[newBlobID].birthDates[blobs[newBlobID].life] = block.timestamp;
 
@@ -150,6 +150,7 @@ contract Blobb is ERC721URIStorage, Ownable {
     ownerStats[msg.sender].blobAttacks[_blobID] += 1;
 
     _setTokenURI(_blobID, getBlobURI(_blobID));
+    emit Attack(msg.sender, blobs[_blobID].creator, _blobID);
   }
 
   function killBlob(uint256 _blobID) public payable actionsRequires(_blobID) {
@@ -172,6 +173,7 @@ contract Blobb is ERC721URIStorage, Ownable {
     ownerStats[msg.sender].blobKills[_blobID] += 1;
 
     _setTokenURI(_blobID, getBlobURI(_blobID));
+    emit Kill(msg.sender, blobs[_blobID].creator, _blobID);
   }
 
   function healBlob(uint256 _blobID) public payable actionsRequires(_blobID) {

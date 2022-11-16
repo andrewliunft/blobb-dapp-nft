@@ -1,0 +1,26 @@
+.root_div {
+  display: flex;
+  /* flex-direction: column; */
+  /* justify-content: center; */
+  height: 100vh;
+  background-image: url("../graphics/blobBackground.svg");
+  background-size: 50px;
+}
+
+.main_layout {
+  width: 90%;
+  height: 90%;
+  flex: 0.9;
+
+  max-width: 1280px;
+  max-height: 1080px;
+  min-width: 500px;
+  min-height: 500px;
+
+  /* margin: 5%; */
+  margin: auto;
+
+  /* border-radius: 10px;
+  border: 2px solid #3f3f3f; */
+  
+}

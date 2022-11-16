@@ -1,0 +1,70 @@
+.home_page_div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.info_div {
+  margin: 25px 50px;
+  padding: 0px 20px 25px 20px;
+
+  border: 2px solid #5e5e5e;
+  border-radius: 5px;
+
+  box-shadow: 2px 2px 5px rgb(0, 0, 0, .75);
+}
+
+.info_div_title {
+  position: relative;
+  bottom: 12px;
+ 
+  padding: 0 5px;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 5px;
+  background-color: aliceblue;
+}
+
+.highlight {
+  padding: 0 3px;
+  border-radius: 5px;
+  color: #323232;
+  background-color: #c2c5c8;
+}
+
+p {
+  text-align: center;
+}
+
+.home_page_button {
+  user-select: none;
+  margin-top: 101px;
+  padding: 10px 20px;
+  font-size: 25px;
+
+  border: 2px solid #5e5e5e;
+  border-radius: 5px;
+
+  box-shadow: 2px 2px 5px rgb(0, 0, 0, .75);
+
+  transition: .25s ease, background-color .1s ease;
+}
+
+.home_page_button:hover {
+  cursor: pointer;
+  
+  margin-top: 106px;
+  margin-bottom: 5px;
+  padding: 5px 10px;
+
+  border: 2px solid aliceblue;
+  border-radius: 15px;
+
+  /* background-color: aliceblue; */
+}
+.home_page_button:active {
+  background-color: rgba(240, 248, 255);
+}

@@ -1,0 +1,74 @@
+.div_container {
+  width: 80%;
+  max-width: 500px;
+
+  font-weight: bold;
+  text-align: center;
+}
+
+.actions_div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  padding: 25px 20px 25px 20px;
+
+  border-top: 2px solid #5e5e5e;
+  border-radius: 5px;
+
+  text-align: center;
+  /* box-shadow: 2px 2px 5px rgb(0, 0, 0, .75); */
+}
+
+.title_span {
+  position: relative;
+  top: 12px;
+ 
+  padding: 0 5px;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 5px;
+  background-color: aliceblue;
+}
+
+.highlight {
+  padding: 0 3px;
+  border-radius: 5px;
+  color: #323232;
+  background-color: #c2c5c8;
+}
+
+.heal_button, .heal_button_off, .attack_button {
+  flex: 1;
+  user-select: none;
+  cursor: pointer;
+  
+  margin: 10px 10px 10px 10px;
+  padding: 10px 20px;
+  font-size: 25px;
+
+  border: 2px solid #5e5e5e;
+  border-radius: 5px;
+
+  box-shadow: 2px 2px 5px rgb(0, 0, 0, .75);
+
+  transition: .25s ease, background-color .1s ease;
+}
+
+.heal_button:hover, .attack_button:hover {
+  flex: 1.25;
+  color: aliceblue;
+  border: 2px solid aliceblue;
+  border-radius: 20px;
+}
+
+.heal_button_off {
+  cursor: default;
+  pointer-events: none;
+  opacity: .5;
+}
+
+.arrows {
+  color: lime;
+  text-shadow: 0 0 5px lime;
+}
