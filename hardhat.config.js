@@ -1,6 +1,7 @@
 require("@nomicfoundation/hardhat-toolbox");
+require("hardhat-contract-sizer")
 
-const dotenv = require("dotenv").config()
+require("dotenv").config()
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {

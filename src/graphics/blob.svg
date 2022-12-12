@@ -21,8 +21,8 @@
     }
     #b-shad {
       transform: translate(2px, 2px);
-      filter: blur(2px);
-      stroke: black;
+      filter: blur(1px);
+      stroke: #000b;
       stroke-width: 4px;
       /* fill: #000000; */
     }
@@ -42,11 +42,15 @@
     <use id="b-shad" href="#b-path" />
     <use id="b" href="#b-path" />
     <use id="b-blur" href="#b-path" />
-    
   </g>
-  <text fill="#ffffff" font-family="Titan One" filter="drop-shadow(0 1px 0 black)">
+  <!-- #0278d8 -->
+  <g style="opacity: 1;">
+    <circle r="10" cx=".5" cy=".5" x="100px" fill="url(#s-grad)" stroke="#000b" stroke-width=".0" filter="drop-shadow(1 1 1 #000b)" transform="translate(150 50)" />
+    <path d="M147,51 L150, 55 L154, 47" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="drop-shadow(1 0 1 #0009)"/>
+  </g>
+  <text fill="url(#t-grad)" font-family="Titan One" filter="drop-shadow(0 1px 0 #000b)">
     <textPath text-anchor="middle" startOffset="50%">
-      0x313...52af#
+      0x313...52af
       <animate attributeName="href" repeatCount="indefinite" dur="1s" values="#t-path" />
     </textPath>
   </text>
@@ -54,12 +58,16 @@
     <path id="b-path" d="M33.6-46C45.8-37.4 59.6-30.6 64-20.1 68.4-9.6 63.4 4.7 59.2 19.8 55.1 34.9 51.8 50.9 42.1 59.2 32.4 67.5 16.2 68.2-.6 69-17.4 69.9-34.9 71-46.4 63.2-57.8 55.5-63.4 38.9-69.3 22.2-75.2 5.4-81.5-11.5-78.2-26.6-75-41.7-62.3-55-47.6-62.8-33-70.7-16.5-73.2-2.9-69.2 10.7-65.1 21.4-54.6 33.6-46Z"/>
     <path id="t-path" d="M-60.38 7.8C-47.55-6.28-41.34-19.94-5.32-3.79 26.98 2 27.9433-15.1133 45.61-15.39" transform="translate(100 100)"/>
     <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color: rgb(255,0,0,.0); stopOpacity: 0.5" />
-      <stop offset="100%" style="stop-color: rgb(255,255,0,.0); stopOpacity: 0.5" />
+      <stop offset="0%" stop-color="rgb(255,0,0)" stopOpacity="0.5" />
+      <stop offset="100%" stop-color="rgb(255,255,0)" stopOpacity="0.5" />
     </linearGradient>
     <linearGradient id="s-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color: rgb(255,0,0); stopOpacity: 0.5" />
-      <stop offset="100%" style="stop-color: rgb(255,255,0); stopOpacity: 0.5" />
-    </linearGradient>  
+      <stop offset="0%" stop-color="rgb(255,0,0)" stopOpacity="0.5" />
+      <stop offset="100%" stop-color="rgb(255,255,0)" stopOpacity="0.5" />
+    </linearGradient>
+    <linearGradient id="t-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#eee" stopOpacity="0.5" />
+      <stop offset="100%" stop-color="white" stopOpacity="0.5" />
+    </linearGradient>   
   </defs>
 </svg>

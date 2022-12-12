@@ -10,23 +10,19 @@ function BlobbActions({ currAccount, blobb }) {
   const {funcs: { healBlob }} = useContext(MyBlobContext)
   const navigate = useNavigate()
 
-  function mintButtonHandler() {
-
-  }
-
   function healButtonHandler() {
     newWalletRequest("HEAL", "HEALING YOUR BLOBB!", healBlob)
   }
 
   return(
     <div className={classes.div_container}>
-      <span className={classes.title_span}>CLICK YOUR <span className={classes.highlight}>BLOBB</span> TO OPEN STATS</span>
+      <span className={classes.title_span}>CLICK THE <span className={classes.highlight}>BLOBB</span> TO SHOW STATS</span>
       <div className={classes.actions_div}>
         <div className={blobb.hp < 10 ? classes.heal_button : classes.heal_button_off} onClick={healButtonHandler}>
-          HEAL
+          heal
         </div>
-        <div className={classes.attack_button} onClick={() => navigate("/battack")}>
-          ATTACK <span className={classes.arrows}>{">>"}</span>
+        <div className={classes.attack_button} onClick={() => navigate("/benemy")}>
+          attack <span className={classes.arrows}>{">>"}</span>
         </div>
         
         {/* HELLO {currAccount.slice(0, 5) + "..." + currAccount.slice(38, 42)} <br />

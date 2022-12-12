@@ -1,87 +1,8 @@
-import classes from "./BlobbSVG.module.css"
+import classes from "./EnemyBlobbSVG.module.css"
 
-function BlobbSVG({ currAccount, colors, mintFunc }) {
-  const SVG_SQWARE = (bHP, smooth) => 
-    <svg className={classes.blobb_svg} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 125 125" fill="none">
-      <style type="text/css">
-        {`
-          #blobb, #blobb-shadow, #path {
-            // animation: spin infinite 10s linear;
-            transform-box: fill-box;
-            transform-origin: center;
-            scale: `+bHP/10+`;
-            transition: .25s ease;            
-          }
-          #blobb:active {
-            scale: `+(bHP/10+.1)+`;
-          }
-          #blobb-blur {
-            filter: blur(2px);
-          }
-          #blobb-shadow {
-            transform-box: fill-box;
-            filter: blur(3px);
-          }
-          .address_text {
-            font-weight: bold;
-            font-size: 5px;
-            text-shadow: 2px 2px 0 #0009;
-          }
-          @keyframes spin {
-            from {
-              rotate: 0deg;
-            }
-            to {
-              rotate: 360deg;
-            }
-          }
-        `}
-      </style>
-      <g>
-        <rect width="100%" height="100%" />
-        <rect id="blobb-shadow"
-          width={100}
-          height={100}
-          rx={smooth}
-          fill="#000"
-          x={14}
-          y={14}
-        />
-        <g id="blobb">
-          {/* <rect id="blobb-blur"
-            width={100}
-            height={100}
-            rx={smooth}
-            fill="url(#grad)"
-            x={12.5}
-            y={12.5}
-          /> */}
-          <rect
-            width={100}
-            height={100}
-            rx={smooth}
-            // ry="10%"
-            fill="url(#grad)"
-            x={12.5}
-            y={12.5}
-          />
-        </g>
-        <path id="path" d="M12.5,12.5 h100 v100 H12.5 Z" fill="black"></path>
-        
-        <a href={"https://mumbai.polygonscan.com/address/"+currAccount} target="_blank">
-          <text className="address_text" x={0} y={"100%"} dy="-5" fill={"#3f3f3f"} textAnchor="start">{currAccount.slice(0, 5) + "..." + currAccount.slice(38, 42)}</text>
-        </a>
-        
-      </g>
-      <defs>
-        <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" style={{stopColor: "rgb(255,0,0)", stopOpacity: 1}} />
-          <stop offset="100%" style={{stopColor: "rgb(255,255,0)", stopOpacity: 1}} />
-        </linearGradient>
-      </defs>
-    </svg>
+function EnemyBlobbSVG({ currAccount, fBlobb, show, setShow }) {
   const SVG_BLOBB = () => 
-    <svg className={classes.blobb_svg} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+    <svg className={show ? classes.blobb_svg_w_stats : classes.blobb_svg } xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
       <style type="text/css"> {`
         #b-path {
           transform: translate(100px, 100px);
@@ -99,7 +20,7 @@ function BlobbSVG({ currAccount, colors, mintFunc }) {
           transition: .25s ease;
         }
         #blobs:active {
-          scale: `+ 1.1 +`
+          scale: `+ 1.1 +`;
         }
         #blobs:hover {
           --b-value: 5px;
@@ -120,6 +41,9 @@ function BlobbSVG({ currAccount, colors, mintFunc }) {
           stroke-width: 4px;
           // fill: #000000
         }
+        stop {
+          transition: .25s ease;
+        }
         @keyframes t_anim {
           25% { d: path("M-65.17 26.34C-40.14 21.76-30.99 41.15-1.38 27.15 26.98 2 41.15 18.53 50.58 16.11") }
           50% { d: path("M-53.75 44.61C-48.66 9.51-7.22 26.3-.35-2.44 10.84-28.12 32.96-23.03 36.27-33.2") }
@@ -134,15 +58,15 @@ function BlobbSVG({ currAccount, colors, mintFunc }) {
       <g id="blobs">
         <use id="b-shad" href="#b-path" />
         <use id="b" href="#b-path" />
-        <use id="b-blur" href="#b-path" onClick={mintFunc}/>
-        <text fill="#ffffffef" filter="drop-shadow(0 1px 0 #000000bb)">
+        <use id="b-blur" href="#b-path" onClick={() => setShow(!show)} />
+        <text fill="white" filter="drop-shadow(0 1px 0 #000000bb)">
           <textPath textAnchor="middle" startOffset="50%" style={{fontFamily: "Titan One", pointerEvents: "none"}}>
-            {currAccount.slice(0, 5) + "..." + currAccount.slice(38, 42)}
+            {fBlobb.owner.slice(0, 5) + "..." + fBlobb.owner.toLowerCase().slice(38, 42)}
             <animate attributeName="href" repeatCount="indefinite" dur="1s" values="#t-path" />
           </textPath>
         </text>
       </g>
-      <g style={{opacity: 1}}>
+      <g style={{opacity: Number(fBlobb.creator === fBlobb.owner)}}>
         <circle r={10} cx={0.5} cy={0.5} x="100px" fill="url(#grad)" stroke="url(#s-grad)" strokeWidth={1} filter="drop-shadow(1 1 1 #000b)" transform="translate(150 50)" />
         <path d="M147,51 L150, 55 L154, 47" stroke="white" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round" filter="drop-shadow(1 0 1 #0009)" />
       </g>
@@ -155,12 +79,12 @@ function BlobbSVG({ currAccount, colors, mintFunc }) {
           d="M33.6-46C45.8-37.4 59.6-30.6 64-20.1 68.4-9.6 63.4 4.7 59.2 19.8 55.1 34.9 51.8 50.9 42.1 59.2 32.4 67.5 16.2 68.2-.6 69-17.4 69.9-34.9 71-46.4 63.2-57.8 55.5-63.4 38.9-69.3 22.2-75.2 5.4-81.5-11.5-78.2-26.6-75-41.7-62.3-55-47.6-62.8-33-70.7-16.5-73.2-2.9-69.2 10.7-65.1 21.4-54.6 33.6-46Z"
         />
         <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" style={{stopColor: colors.start, stopopacity: 0.5}} />
-          <stop offset="100%" style={{stopColor: colors.end, stopopacity: 0.5}} />
+          <stop offset="0%" style={{stopColor: "rgb("+fBlobb.colors.start+","+fBlobb.hp/10+")", stopopacity: 0.5}} />
+          <stop offset="100%" style={{stopColor: "rgb("+fBlobb.colors.end+","+fBlobb.hp/10+")", stopopacity: 0.5}} />
         </linearGradient>
         <linearGradient id="s-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" style={{stopColor: colors.start, stopopacity: 0.5}} />
-          <stop offset="100%" style={{stopColor: colors.end, stopopacity: 0.5}} />
+          <stop offset="0%" style={{stopColor: "rgb("+fBlobb.colors.start+")", stopopacity: 0.5}} />
+          <stop offset="100%" style={{stopColor: "rgb("+fBlobb.colors.end+")", stopopacity: 0.5}} />
         </linearGradient>
         <linearGradient id="t-grad" x1="25%" y1="0%" x2="50%" y2="0%">
           <stop offset="0%" style={{stopColor: "rgb(200,200,200)", stopopacity: 0.5}} />
@@ -175,4 +99,4 @@ function BlobbSVG({ currAccount, colors, mintFunc }) {
   return SVG_BLOBB()
 }
 
-export default BlobbSVG
+export default EnemyBlobbSVG

@@ -6,7 +6,7 @@
   align-items: center;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.75);
 }
 
 .pending_tx_div {
@@ -17,7 +17,6 @@
   border: 2px solid #5e5e5e;
   border-radius: 5px;
   
-
   box-shadow: 2px 2px 5px rgb(0, 0, 0, .75);
 }
 

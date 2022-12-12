@@ -3,106 +3,97 @@ pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "./OnChainSVG.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/utils/Base64.sol";
 
-contract Blobb is ERC721URIStorage, Ownable {
+contract Blobb is ERC721URIStorage, OnChainSVG {
   using Strings for uint256;
+  using Strings for address;
   using Counters for Counters.Counter;
 
   bool public isContractEnabled;
   Counters.Counter private _blobIDs;
 
-  uint256 public mintPrice;
-  uint256 public attackPrice;
-  uint256 public healPrice;
-  uint256 public revivalPrice;
+  uint256 constant public mintPrice = 0.01 ether;
+  uint256 constant public attackPrice = 0.02 ether;
+  uint256 constant public healPrice = 0.001 ether;
+  uint256 constant public revivalPrice = 0.05 ether;
 
-  event Attack(address indexed attacker, address indexed attackedOwner, uint256 toBlobID);
-  event Kill(address indexed killer, address indexed killedOwner, uint256 toBlobID);
-
+  event NewBlobb(uint256 indexed newBlobID, address indexed newOwner);
+  //Single event for Attack and Heal. In front-end if the newHP is greater than the one stored, the Action is an Heal an Attack instead.
+  event Action(uint256 indexed toBlobID, address indexed madeFrom, uint256 newHP);
+  
   struct Blob {
     uint256 blobID;
-    uint256 life;
+    uint256 birthday;
     uint256 hp;
+    uint256 totalActions;
+    uint256 kills;
+    uint256 deathDate;
     address creator;
+    address owner;
     address lastHit;
-    bool isDead;
-  }
-
-  struct BlobStats {
-    mapping(uint256 => uint256) birthDates;
-    mapping(uint256 => uint256) deathDates;
-
-    uint256 totalAttacks;
-    mapping(address => uint256) addressAttacks;
-    mapping(uint256 => address) attacksHistory;
-    uint256 totalKills;
-    mapping(address => uint256) addressKills;
-    mapping(uint256 => address) killsHistory;
-    uint256 totalHealings;
-    mapping(uint256 => uint256) lifeHealings;
-    uint256 revivals;
-  }
-
-  struct OwnerStats {
-    uint256 inflictedAttacks;
-    mapping(uint256 => uint256) blobAttacks;
-    uint256 inflictedKills;
-    mapping(uint256 => uint256) blobKills;  
+    mapping(uint => bytes) values;
   }
 
   mapping(uint256 => Blob) public blobs;
-  mapping(uint256 => BlobStats) public blobStats;
-  mapping(address => OwnerStats) public ownerStats;
   mapping(address => uint256) public ownedBlob;
 
-  modifier actionsRequires(uint256 _blobID) {
-    require(isContractEnabled, "Contract is stopped!");
-    require(_exists(_blobID), "Blobb doesn't exist!");
-    _;
-  }
+  uint public totalDeadBlobs;
+  mapping(uint => uint) public deadBlobs;
 
-  constructor() ERC721 ("BLOBB", "BLBB") {
-    mintPrice = 0.01 ether;
-    attackPrice = 0.02 ether;
-    healPrice = 0.001 ether;
-    revivalPrice = 0.05 ether;
-  }
+  mapping(uint256 => uint[6]) public blobbColors;
+  //MY ID => IDX => ACTOR ID: If ACTOR ID is equal to MY ID, it means that it is a heal, an attack instead.
+  mapping(uint256 => mapping(uint256 => uint256)) public blobbHistory;
+
+  constructor() ERC721 ("BLOBB", "BLBB") {}
 
   function setIsContractEnabled(bool _isContractEnabled) external onlyOwner { isContractEnabled = _isContractEnabled; }
-  function getCurrentBlobID() external view returns(uint256) { return _blobIDs.current(); }
-
-  function getImageURI(uint256 _blobID) public view returns(string memory) {
-    return string(abi.encodePacked("data:image/svg+xml;base64,", Base64.encode(abi.encodePacked(
-      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 125 125" fill="none">',
-        '<style type="text/css">',
-          '#pink-blob {',
-            'animation: spin infinite 10s linear;',
-            'transform-origin: center center;',
-          '}',
-          '@keyframes spin {',
-            'from {',
-              'transform: rotate(0deg) scale(', blobs[_blobID].hp == 10 ? "1" : string(abi.encodePacked(".", blobs[_blobID].hp.toString())), ');',
-            '}',
-            'to {',
-              'transform: rotate(360deg) scale(', blobs[_blobID].hp == 10 ? "1" : string(abi.encodePacked(".", blobs[_blobID].hp.toString())), ');',
-            '}',
-          '}',
-        '</style>',
-        '<g>',
-          '<rect width="100%" height="100%"/>',
-          '<g id="pink-blob">',
-            '<rect width="100" height="100" rx="20%" fill="', blobs[_blobID].hp == 10 ? "green" : "red", '" x="12.5" y="12.5"/>',
-          '</g>',
-        '</g>',
-      '</svg>'
-    ))));
+  function getTotalBlobbsNumber() public view returns(uint) { return _blobIDs.current(); }
+  function checkConditions() private view {
+    require(isContractEnabled, "Contract is stopped!");
+    ownerOf(ownedBlob[msg.sender]);
   }
 
-  function _newDefaultBlob(uint256 _blobID, address _creator) internal pure returns(Blob memory) {
-    return Blob(_blobID, 1, 10, _creator, address(0), false);
+  function getImageURI(uint256 _blobID) public view returns(string memory) {
+    bytes memory svg = _getSVGChunk(0);
+    for(uint i = 1; i < _getChunksNumber(); i++) {
+      svg = abi.encodePacked(svg, blobs[_blobID].values[i-1], _getSVGChunk(i));
+    }
+    return string(abi.encodePacked("data:image/svg+xml;base64,", Base64.encode(svg)));
+  }
+
+  function _newDefaultBlob(uint256 _blobID, uint[6] memory _colors) internal {
+    Blob storage blob = blobs[_blobID];
+    blob.blobID = _blobID;
+    blob.birthday = block.timestamp;
+    blob.hp = 10;
+    blob.creator = msg.sender;
+    blob.owner = msg.sender;
+    blobbColors[_blobID] = _colors;
+
+    bytes memory _startRGB = abi.encodePacked(_colors[0].toString(), ",", _colors[1].toString(), ",", _colors[2].toString());
+    bytes memory _endRGB = abi.encodePacked(_colors[3].toString(), ",", _colors[4].toString(), ",", _colors[5].toString());
+    bytes memory _b1 = bytes("1");
+    blob.values[0] = blob.owner == blob.creator ? _b1 : bytes("0");
+    blob.values[1] = abi.encodePacked(substring(msg.sender.toHexString(), 0, 5), "...", substring(msg.sender.toHexString(), 38, 42));
+    blob.values[2] = _startRGB;
+    blob.values[3] = _b1;
+    blob.values[4] = _endRGB;
+    blob.values[5] = _b1;
+    blob.values[6] = _startRGB;
+    blob.values[7] = _endRGB;
+  }
+
+  function _updateValue(uint256 _blobID) internal {
+    Blob storage blob = blobs[_blobID];
+    bytes memory dotHP = abi.encodePacked(".", blob.hp.toString());
+    bytes memory _b1 = bytes("1");
+    blob.values[0] = blob.owner == blob.creator ? _b1 : bytes("0");
+    blob.values[3] = blob.hp == 10 ? _b1 : dotHP;
+    blob.values[5] = blob.hp == 10 ? _b1 : dotHP;
   }
 
   function getBlobURI(uint256 _blobID) public view returns(string memory) {
@@ -116,91 +107,78 @@ contract Blobb is ERC721URIStorage, Ownable {
     ))));
   }
 
-  function mintBlob() public payable {
+  function mintBlob(uint[6] memory _colors) public payable {
     require(isContractEnabled, "Contract is stopped!");
+    for(uint256 i = 0; i < _colors.length; i++) { require(_colors[i] <= 255); }
     require(ownedBlob[msg.sender] == 0, "You already OWN a Blobb!");
-    require(msg.value == mintPrice, "Wrong MINT value!");
+    require(msg.value >= mintPrice, "Wrong MINT value!");
 
     _blobIDs.increment();
     uint256 newBlobID = _blobIDs.current();
     _safeMint(msg.sender, newBlobID);
 
-    blobs[newBlobID] = _newDefaultBlob(newBlobID, msg.sender);
+    _newDefaultBlob(newBlobID, _colors);
     ownedBlob[msg.sender] = newBlobID;
 
-    blobStats[newBlobID].birthDates[blobs[newBlobID].life] = block.timestamp;
-
     _setTokenURI(newBlobID, getBlobURI(newBlobID));
+    emit NewBlobb(newBlobID, msg.sender);
   }
 
-  function attackBlob(uint256 _blobID) public payable actionsRequires(_blobID) {
-    require(msg.sender != blobs[_blobID].creator, "You can't ATTACK your own Blobb!");
-    require(!blobs[_blobID].isDead, "Blobb is DEAD!");
-    require(blobs[_blobID].hp > 1, "Blobb is dying!");
-    require(msg.value == attackPrice, "Wrong ATTACK value!");
+  function attackBlob(uint256 _blobID) public payable {
+    checkConditions();
+    Blob storage blob = blobs[_blobID];
+    require(msg.sender != blob.owner, "You can't ATTACK your own Blobb!");
+    require(blob.hp != 0, "Blobb is dead!");
+    uint killing = blob.hp == 1 ? 1 : 0;
+    require(msg.value >= attackPrice * (killing == 1 ? 10 : 1), "Wrong ATTACK value!");
 
-    blobs[_blobID].hp -= 1;
-    blobs[_blobID].lastHit = msg.sender;
+    blob.hp -= 1;
+    blob.lastHit = msg.sender;
+    blob.totalActions += 1;
+    
+    if(killing == 1) {
+      blob.kills++;
+      totalDeadBlobs++;
+      deadBlobs[totalDeadBlobs] = _blobID;
+    }
 
-    blobStats[_blobID].totalAttacks += 1;
-    blobStats[_blobID].addressAttacks[msg.sender] += 1;
-    blobStats[_blobID].attacksHistory[blobStats[_blobID].totalAttacks] = msg.sender;
+    _updateValue(_blobID);
 
-    ownerStats[msg.sender].inflictedAttacks += 1;
-    ownerStats[msg.sender].blobAttacks[_blobID] += 1;
+    blobbHistory[_blobID][blob.totalActions] = ownedBlob[msg.sender];
 
     _setTokenURI(_blobID, getBlobURI(_blobID));
-    emit Attack(msg.sender, blobs[_blobID].creator, _blobID);
+
+    
+    emit Action(_blobID, msg.sender, blob.hp);
   }
 
-  function killBlob(uint256 _blobID) public payable actionsRequires(_blobID) {
-    require(msg.sender != blobs[_blobID].creator, "You can't KILL your own Blobb!");
-    require(!blobs[_blobID].isDead, "Blobb is DEAD!");
-    require(blobs[_blobID].hp == 1, "Blobb isn't dying!");
-    require(msg.value == attackPrice * 10, "Wrong KILL value!");
+  function healBlob(uint256 _blobID) public payable {
+    checkConditions();
+    Blob storage blob = blobs[_blobID];
+    require(msg.sender == blob.owner, "You can't HEAL Blobbs you don't own!");
+    require(blob.hp != 0, "Your Blobb is dead!");
+    require(blob.hp < 10, "Your Blobb has FULL HP!");
+    require(msg.value >= healPrice, "Wrong HEAL value!");
 
-    blobs[_blobID].hp -= 1;
-    blobs[_blobID].lastHit = msg.sender;
-    blobs[_blobID].isDead = true;
+    blob.hp += 1;
+    blob.totalActions += 1;
 
-    blobStats[_blobID].totalKills += 1;
-    blobStats[_blobID].addressKills[msg.sender] += 1;
-    blobStats[_blobID].killsHistory[blobStats[_blobID].totalKills] = msg.sender;
+    _updateValue(_blobID);
 
-    blobStats[_blobID].deathDates[blobs[_blobID].life] = block.timestamp;
-
-    ownerStats[msg.sender].inflictedKills += 1;
-    ownerStats[msg.sender].blobKills[_blobID] += 1;
+    blobbHistory[_blobID][blob.totalActions] = ownedBlob[msg.sender];
 
     _setTokenURI(_blobID, getBlobURI(_blobID));
-    emit Kill(msg.sender, blobs[_blobID].creator, _blobID);
+
+    emit Action(_blobID, msg.sender, blob.hp);
   }
 
-  function healBlob(uint256 _blobID) public payable actionsRequires(_blobID) {
-    require(msg.sender == blobs[_blobID].creator, "You can't HEAL Blobbs you don't own!");
-    require(!blobs[_blobID].isDead, "Your Blobb is DEAD!");
-    require(blobs[_blobID].hp < 10, "Your Blobb has FULL HP!");
-    require(msg.value == healPrice, "Wrong HEAL value!");
+  function _transfer(address from, address to, uint256 tokenId) internal virtual override {
+    super._transfer(from, to, tokenId);
 
-    blobs[_blobID].hp += 1;
-
-    blobStats[_blobID].totalHealings += 1;
-    blobStats[_blobID].lifeHealings[blobs[_blobID].life] += 1;
-
-    _setTokenURI(_blobID, getBlobURI(_blobID));
-  }
-
-  function reviveBlob(uint256 _blobID) public payable actionsRequires(_blobID) {
-    require(msg.sender == blobs[_blobID].creator, "You can't REVIVE Blobbs you don't own!");
-    require(blobs[_blobID].isDead, "Your Blobb is not DEAD!");
-    require(msg.value == revivalPrice, "Wrong REVIVAL value!");
-
-    blobs[_blobID].hp = 10;
-    blobs[_blobID].isDead = false;
-    blobs[_blobID].life += 1;
-
-    blobStats[_blobID].birthDates[blobs[_blobID].life] = block.timestamp;
-
-    _setTokenURI(_blobID, getBlobURI(_blobID));
+    delete ownedBlob[from];
+    ownedBlob[to] = tokenId;
+    blobs[tokenId].owner = to;
+    _updateValue(tokenId);
+    _setTokenURI(tokenId, getBlobURI(tokenId));
   }
 }

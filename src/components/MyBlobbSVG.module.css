@@ -1,8 +1,12 @@
-.blobb_svg {
+.blobb_svg, .blobb_svg_w_stats {
   width: 100%;
   max-height: 80%;
   overflow: visible;
 
   transition: 1s ease;
   /* min-width: 500px; */
+}
+
+.blobb_svg_w_stats {
+  translate: -50px;
 }

@@ -1,0 +1,22 @@
+.blobb_svg, .blobb_svg_w_stats {
+  width: 100%;
+  max-height: 80%;
+  overflow: visible;
+
+  transition: 1s ease;
+  /* min-width: 500px; */
+  opacity: 0;
+  transform: translate(100px);
+  animation: slide .75s ease .25s forwards;
+}
+
+@keyframes slide {
+  /* 0% {opacity: 0;} */
+  100% {
+    opacity: 1;
+    transform: translate(0);
+  }
+}
+.blobb_svg_w_stats {
+  translate: -50px;
+}

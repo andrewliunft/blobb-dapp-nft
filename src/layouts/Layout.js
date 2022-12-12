@@ -5,6 +5,7 @@ import Header from "../components/Header"
 
 import classes from "./Layout.module.css"
 import PendingTransaction from "../components/PendingTransaction"
+import Wallet from "../components/Wallet"
 
 function Layout({ children }) {
   const {state: { account, pending }} = useContext(EtherContext)
@@ -16,6 +17,7 @@ function Layout({ children }) {
         {account || location.pathname === "/" ? children : <div>CONNECT</div>}
       </main>
       <Header />
+      <Wallet currAccount={account}/>
       {pending && <PendingTransaction txName={pending.txName} txDesc={pending.txDesc} />}
     </div>
     

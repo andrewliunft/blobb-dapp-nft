@@ -1,16 +1,15 @@
 import { createContext, useEffect, useReducer, useCallback } from "react"
-import { useLocation, useNavigate } from "react-router-dom";
 
 import { ethers } from "ethers";
 import Blobb from "../../artifacts/contracts/Blobb.sol/Blobb.json"
 
-const CONTRACT_ADDRESS = "0xd5dE780a77495E81BF54e476540484b0f272116B" //OLD: 0x7995988461F28D587f330ba286A31ddE5380F7f8 - NEW: 0x38E6fb0F39Bde57944A8246fa6AA2BcEcBb514da 
+const CONTRACT_ADDRESS = "0xA51c1fc2f0D1a1b8494Ed1FE312d7C3a78Ed91C0" //"0xd5dE780a77495E81BF54e476540484b0f272116B" //OLD: 0x7995988461F28D587f330ba286A31ddE5380F7f8 - NEW: 0x38E6fb0F39Bde57944A8246fa6AA2BcEcBb514da 
 const CHAIN_ID = "0x13881"
 
 const EtherContext = createContext()
 
 const ACTIONS = {INIT: "init", TRANSACTION: "transaction", RESET: "reset"}
-const initialState = {account: null, provider: null, signer: null, contract: null, pending: null}
+const initialState = {account: null, provider: null, signer: null, contract: null, pending: null, init: false}
 const reducer = (state, action) => {
   const { type, data } = action
   switch (type) {
@@ -28,16 +27,17 @@ const reducer = (state, action) => {
 
 export function EtherProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState)
-  const navigate = useNavigate()
-  const location = useLocation()
   
   const init = useCallback(async () => {
     console.log("INIT", state)
     if(window.ethereum) {
       const provider = new ethers.providers.Web3Provider(window.ethereum)
+      // const provider = new ethers.providers.WebSocketProvider("ws://localhost:8545")
+      // const chain = await provider.getNetwork()
       const accounts = await window.ethereum.request({ method: "eth_accounts" })
-      const account = accounts[0]
+      const account = accounts[0] 
       const signer = provider.getSigner()
+      console.log("SIGNER", signer)
 
       let contract
       try {
@@ -45,11 +45,14 @@ export function EtherProvider({ children }) {
       } catch (err) {
         console.error(err)
       }
-      console.log(accounts, account)
       dispatch({type: ACTIONS.INIT, data: { account, provider, signer, contract }})
     }
     else 
       alert("Install MetaMask!")
+  }, [])
+
+  const contractEvents = useCallback(async () => {
+
   }, [])
 
   const connect = async () => {
@@ -84,7 +87,8 @@ export function EtherProvider({ children }) {
     //FIRST OPENING
     const tryInit = async () => {
       try {
-        init()
+        await init()
+        dispatch({type: ACTIONS.INIT, data: {init: true}})
       } catch (err) {
         console.error(err)
       }

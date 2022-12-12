@@ -38,7 +38,7 @@
   background-color: #c2c5c8;
 }
 
-.heal_button, .heal_button_off, .attack_button {
+.attack_button, .attack_button_off, .next_button {
   flex: 1;
   user-select: none;
   cursor: pointer;
@@ -56,20 +56,20 @@
   transition: .25s ease, background-color .1s ease;
 }
 
-.heal_button:hover, .attack_button:hover {
+.attack_button:hover, .next_button:hover {
   flex: 1.25;
   color: aliceblue;
   border: 2px solid aliceblue;
   border-radius: 20px;
 }
-.heal_button:active, .attack_button:active {
+.attack_button:active, .next_button:active {
   background-color: aliceblue;
   color: #323232;
   border: 2px solid aliceblue;
   translate: 0 3px;
 }
 
-.heal_button_off {
+.attack_button_off {
   cursor: default;
   pointer-events: none;
   opacity: .5;

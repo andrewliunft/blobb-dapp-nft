@@ -1,33 +1,42 @@
 import { useContext, useState } from "react"
 import MyBlobContext from "../contexts/MyBlobContext/MyBlobProvider"
 import EtherContext from "../contexts/EtherContext/EtherProvider"
+import MyBlobbSVG from "./MyBlobbSVG"
 import BlobbSVG from "./BlobbSVG"
 
 import classes from "./BlobbHome.module.css"
 import BlobbActions from "./BlobbActions"
 import BlobbStats from "./BlobbStats"
+import BlobbColorsPicker from "./BlobbColorsPicker"
 
 function BlobbHome() {
-  const {state: { account }} = useContext(EtherContext)
+  const {state: { account }, funcs: { newWalletRequest }} = useContext(EtherContext)
   const { blob, funcs: { mintBlob } } = useContext(MyBlobContext)
   const [showStats, setShowStats] = useState(false)
-  console.log("BLOB HOME", account, blob.blobID, showStats)
+  const [colors, setColors] = useState({start: "#" + Math.floor(Math.random()*16777215).toString(16), end: "#" + Math.floor(Math.random()*16777215).toString(16)})
+  console.log("BLOB HOME", account, blob.number, showStats, colors)
 
-  if(blob.blobID) {
+  const colorPicked = cPicker => {
+    console.log(cPicker, cPicker.target.value, cPicker.target.id)
+    cPicker.target.id === "c-start" ? setColors({start: cPicker.target.value, end: colors.end}) : setColors({start: colors.start, end: cPicker.target.value})
+  }
+
+  const callMintBlob = () => newWalletRequest("MINT", "MINTING YOUR BRAND NEW BLOBB!", () => mintBlob(colors.start, colors.end))
+
+  if(blob.number) {
     return(
       <div className={classes.home_div}>
-        <BlobbSVG currAccount={account} blobHP={blob.hp} show={showStats} setShow={setShowStats} />
+        <MyBlobbSVG currAccount={account} blobb={blob} show={showStats} setShow={setShowStats} />
         <BlobbActions currAccount={account} blobb={blob} />
-        <BlobbStats blobb={blob} show={showStats} setShow={setShowStats} />
+        <BlobbStats blobb={blob} show={showStats} setShow={setShowStats} mine={true} />
       </div>
     )
   }
   else {
     return(
       <div className={classes.home_div}>
-        HELLO {account} <br />
-        YOU DON'T OWN A BLOBB <br />
-        <button onClick={() => mintBlob()}>MINT ONE</button>
+        <BlobbSVG currAccount={account} colors={{start: colors.start, end: colors.end}} mintFunc={callMintBlob} />
+        <BlobbColorsPicker currAccount={account} bColors={colors} colorPickedFunc={colorPicked} />
       </div>
     )
   }

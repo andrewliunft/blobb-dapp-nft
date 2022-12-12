@@ -1,0 +1,110 @@
+.div_wallet_container {
+  display: flex;
+  margin: 30px 30px;
+  position: absolute;
+  right: 0;
+
+  width: 250px;
+  height: 75px;
+  
+  --startColor: #0000;
+  --endColor: #0000;
+}
+
+.div_wallet_text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: bold;
+  font-size: 18px;
+
+  margin: 10px 10px 0 0;
+  border: 2px solid #5e5e5e;
+  border-radius: 10px;
+
+  /* translate: 100px; */
+  box-shadow: 2px 2px 5px rgb(0, 0, 0, .75);
+  transition: .25s ease;
+}
+
+.wallet_text_title {
+  position: absolute;
+  top: 0px;
+  left: 20px;
+ 
+  padding: 0 5px;
+  
+  border-radius: 5px;
+  background-color: aliceblue;
+}
+
+.wallet_text {
+  margin-top: 3px;
+
+  transition: .25s ease;
+}
+.wallet_text:hover {
+  cursor: pointer;
+  scale: 1.1;
+  color: aliceblue;
+}
+
+.profile_circle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+
+  border: 3px solid #5e5e5e;
+  border-radius: 50%;
+
+  max-width: 69px;
+
+  background: linear-gradient(90deg, var(--startColor), var(--endColor));
+  box-shadow: 2px 2px 5px rgb(0, 0, 0, .75);
+
+  transition: .5s ease;
+}
+.profile_circle:hover {
+  cursor: pointer;
+
+  border: 3px solid aliceblue;
+  border-radius: 40% 60% 70% 30% / 40% 40% 60% 50%;
+/* 
+  animation: morph 4s ease infinite alternate forwards;
+  transition: 1s ease; */
+}
+
+.profile_circle::after {
+  content: attr(innertext);
+  padding: 0 0px;
+
+  border-radius: 5px;
+  font-size: 18px;
+  font-weight: bold;
+  color: aliceblue;
+  text-shadow: 2px 2px 4px #000;
+  /* background-color: aliceblue; */
+
+  opacity: 0;
+  transition: .5s ease;
+}
+.profile_circle:hover::after {
+  padding: 0 5px;
+  opacity: 1;
+}
+
+@keyframes morph{
+  0%, 100% {
+  border-radius: 40% 60% 70% 30% / 40% 40% 60% 50%;
+  }
+  34% {
+    border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%;
+  }
+  67% {
+    border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%;
+  }
+}
