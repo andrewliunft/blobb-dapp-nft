@@ -3,17 +3,20 @@ pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "./OnChainSVG.sol";
+import "./SVGChunksTool.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/utils/Base64.sol";
 
-contract Blobb is ERC721URIStorage, OnChainSVG {
+contract Blobb is ERC721URIStorage, Ownable {
   using Strings for uint256;
   using Strings for address;
+  using SVGChunksTool for SVGChunksTool.SVGChunks;
   using Counters for Counters.Counter;
 
   bool public isContractEnabled;
+
+  SVGChunksTool.SVGChunks private _svgChunks;
   Counters.Counter private _blobIDs;
 
   uint256 constant public mintPrice = 0.01 ether;
@@ -49,7 +52,9 @@ contract Blobb is ERC721URIStorage, OnChainSVG {
   //MY ID => IDX => ACTOR ID: If ACTOR ID is equal to MY ID, it means that it is a heal, an attack instead.
   mapping(uint256 => mapping(uint256 => uint256)) public blobbHistory;
 
-  constructor() ERC721 ("BLOBB", "BLBB") {}
+  constructor(bytes[] memory _svg) ERC721 ("BLOBB", "BLOBB") {
+    _svgChunks.uploadSVG(_svg);
+  }
 
   function setIsContractEnabled(bool _isContractEnabled) external onlyOwner { isContractEnabled = _isContractEnabled; }
   function getTotalBlobbsNumber() public view returns(uint) { return _blobIDs.current(); }
@@ -59,9 +64,9 @@ contract Blobb is ERC721URIStorage, OnChainSVG {
   }
 
   function getImageURI(uint256 _blobID) public view returns(string memory) {
-    bytes memory svg = _getSVGChunk(0);
-    for(uint i = 1; i < _getChunksNumber(); i++) {
-      svg = abi.encodePacked(svg, blobs[_blobID].values[i-1], _getSVGChunk(i));
+    bytes memory svg = _svgChunks.getSVGChunk(0); //_getSVGChunk(0);
+    for(uint i = 1; i < _svgChunks.getTotalChunksNumber(); i++) {
+      svg = abi.encodePacked(svg, blobs[_blobID].values[i-1], _svgChunks.getSVGChunk(i));
     }
     return string(abi.encodePacked("data:image/svg+xml;base64,", Base64.encode(svg)));
   }
@@ -84,7 +89,7 @@ contract Blobb is ERC721URIStorage, OnChainSVG {
     blob.values[1] = bytes("10"); //EXP CIRCLE BAR
     blob.values[2] = _b1; //LEVEL NUMBER
     blob.values[3] = bytes(_blobID.toString()); //BLOB ID
-    blob.values[4] = abi.encodePacked(substring(msg.sender.toHexString(), 0, 5), "...", substring(msg.sender.toHexString(), 38, 42)); //OWNER ADDRESS
+    blob.values[4] = abi.encodePacked(SVGChunksTool.substring(msg.sender.toHexString(), 0, 5), "...", SVGChunksTool.substring(msg.sender.toHexString(), 38, 42)); //OWNER ADDRESS
     blob.values[5] = _startRGB; //FIRST COLOR
     blob.values[6] = _b1; //ALPHA FIRST COLOR
     blob.values[7] = _endRGB; //SECOND COLOR
@@ -224,7 +229,7 @@ contract Blobb is ERC721URIStorage, OnChainSVG {
       //VERIFIED -> 0
     _updateValue(tokenId, 0, blob.owner == blob.creator ? bytes("1") : bytes("0"));
       //OWNER ADDRESS -> 4
-    _updateValue(tokenId, 4, abi.encodePacked(substring(to.toHexString(), 0, 5), "...", substring(to.toHexString(), 38, 42))); //OWNER ADDRESS
+    _updateValue(tokenId, 4, abi.encodePacked(SVGChunksTool.substring(to.toHexString(), 0, 5), "...", SVGChunksTool.substring(to.toHexString(), 38, 42))); //OWNER ADDRESS
     // _updateValues(tokenId);
 
     _setTokenURI(tokenId, getBlobURI(tokenId));
