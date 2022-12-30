@@ -3,7 +3,7 @@ import { createContext, useEffect, useReducer, useCallback } from "react"
 import { ethers } from "ethers";
 import Blobb from "../../artifacts/contracts/Blobb.sol/Blobb.json"
 
-const CONTRACT_ADDRESS = "0xA51c1fc2f0D1a1b8494Ed1FE312d7C3a78Ed91C0" //"0xd5dE780a77495E81BF54e476540484b0f272116B" //OLD: 0x7995988461F28D587f330ba286A31ddE5380F7f8 - NEW: 0x38E6fb0F39Bde57944A8246fa6AA2BcEcBb514da 
+const CONTRACT_ADDRESS = "0x5FbDB2315678afecb367f032d93F642f64180aa3" //"0xd5dE780a77495E81BF54e476540484b0f272116B" //OLD: 0x7995988461F28D587f330ba286A31ddE5380F7f8 - NEW: 0x38E6fb0F39Bde57944A8246fa6AA2BcEcBb514da 
 const CHAIN_ID = "0x13881"
 
 const EtherContext = createContext()
@@ -37,7 +37,7 @@ export function EtherProvider({ children }) {
       const accounts = await window.ethereum.request({ method: "eth_accounts" })
       const account = accounts[0] 
       const signer = provider.getSigner()
-      console.log("SIGNER", signer)
+      console.log("SIGNER", signer, typeof account, ethers.utils.formatEther(await provider.getBalance(CONTRACT_ADDRESS)))
 
       let contract
       try {

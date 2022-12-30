@@ -1,11 +1,302 @@
 .history_div_container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-
+  justify-content: flex-end;
+  align-items: center;
   height: 100%;
+  width: 100%;
+  /* width: 80%; */
+  /* max-width: 500px; */
+
+  opacity: 0;
+  animation: fade-in .25s ease .25s forwards;
 }
 
-.history_div {
+@keyframes fade-in {
+  /* 0% {opacity: 0;} */
+  100% {
+    opacity: 1;
+    /* translate: 0; */
+  }
+}
 
+/* Multiple class to handle the slide animation on class change */
+.history_div_FR1, .history_div_FR2, .history_div_FL1, .history_div_FL2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: .85;
+  
+  width: 80%;
+  max-width: 600px;
+  margin-bottom: 20px;
+
+  /* border: 2px solid #5e5e5e;
+  border-radius: 10px; */
+  opacity: 0;
+  translate: 50px;
+  /* box-shadow: 2px 2px 3px #000c; */
+  animation: slide-in-from-right-1 .5s ease .25s forwards;
+}
+.history_div_FR2 {
+  animation: slide-in-from-right-2 .5s ease .25s forwards;
+}
+.history_div_FL1 {
+  translate: -50px;
+  animation: slide-in-from-left-1 .5s ease .25s forwards;
+}
+.history_div_FL2 {
+  translate: -50px;
+  animation: slide-in-from-left-2 .5s ease .25s forwards;
+}
+/* Same animation decleared multiple times to handle the slide on each direction when the element gets a class */
+@keyframes slide-in-from-right-1 {
+  /* 0% {opacity: 0;} */
+  100% {
+    opacity: 1;
+    translate: 0;
+  }
+}
+@keyframes slide-in-from-right-2 {
+  /* 0% {opacity: 0;} */
+  100% {
+    opacity: 1;
+    translate: 0;
+  }
+}
+@keyframes slide-in-from-left-1 {
+  /* 0% {opacity: 0;} */
+  100% {
+    opacity: 1;
+    translate: 0;
+  }
+}
+@keyframes slide-in-from-left-2 {
+  /* 0% {opacity: 0;} */
+  100% {
+    opacity: 1;
+    translate: 0;
+  }
+}
+
+
+.history_element {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  cursor: default;
+
+  padding: 5px 5px 15px 5px;
+  margin: 5px 20px;
+
+  font-size: 20px;
+  font-weight: bold;
+  /* border-radius: 5px; */
+  border-bottom: 2px dashed #5e5e5e;
+
+  /* background: linear-gradient(90deg, aliceblue, #0000); */
+  /* background-color: aliceblue; */
+  /* box-shadow: 2px 2px 3px #000c; */
+  /* text-shadow: 2px 2px 5px #000a; */
+
+  transition: .25s ease;
+}
+.history_element:hover {
+  /* translate: -3px ; */
+  /* scale: 1.025; */
+  border-bottom: 2px dashed aliceblue;
+}
+
+.enemy_prfile_circle {
+  --start-color: #000;
+  --end-color: #000;
+
+  display: flex;
+  align-items: center;
+  flex: 1;
+
+  max-width: 50px;
+  height: 50px;
+  margin-right: 5px;
+  border: 2px solid #5e5e5e;
+  border-radius: 50%;
+
+  background: linear-gradient(90deg, var(--start-color), var(--end-color));
+
+  box-shadow: 2px 2px 5px rgb(0, 0, 0, .75);
+  text-shadow: 2px 2px 5px #000a;
+
+  transition: .5s ease;
+}
+.enemy_prfile_circle:hover {
+  cursor: pointer;
+
+  border: 2px solid aliceblue;
+  border-radius: 40% 60% 70% 30% / 40% 40% 60% 50%;
+/* 
+  animation: morph 4s ease infinite alternate forwards;
+  transition: 1s ease; */
+}
+.enemy_prfile_circle::after {
+  content: attr(innertext);
+  padding: 0 0px;
+
+  border-radius: 5px;
+  font-size: 18px;
+  font-weight: bold;
+  color: aliceblue;
+  text-shadow: 2px 2px 4px #000;
+  /* background-color: aliceblue; */
+
+  opacity: 0;
+  transition: .5s ease;
+}
+.enemy_prfile_circle:hover::after {
+  padding: 0 2px;
+  opacity: 1;
+}
+
+.action_text {
+  flex: 1;
+  margin: 0 20px;
+  padding: 0 5px;
+
+  border-radius: 5px;
+  background-color: aliceblue;
+  box-shadow: 2px 2px 3px #000a;
+  text-align: center;
+}
+.action_hp_div {
+  display: flex;
+  flex: .25;
+
+  min-width: 100px;
+
+  text-align: end;
+  text-shadow: 2px 2px 5px #000a;
+}
+.hp_span {
+  flex: 1;
+  text-align: center;
+}
+
+
+/* PAGES SECTION */
+.pages_div_container {
+  width: 80%;
+  max-width: 500px;
+
+  font-weight: bold;
+  text-align: center;
+  /* box-shadow: 2px 2px 5px rgb(0, 0, 0, .75); */
+}
+
+.title_span {
+  position: relative;
+  top: 12px;
+ 
+  padding: 0 5px;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 5px;
+  background-color: aliceblue;
+}
+
+.highlight {
+  padding: 0 3px;
+  border-radius: 5px;
+  color: #323232;
+  background-color: #c2c5c8;
+  text-shadow: none;
+}
+
+.pages_buttons_div {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  padding: 25px 0px 25px 0px;
+
+  border-top: 2px solid #5e5e5e;
+  border-radius: 5px;
+
+  text-align: center;
+}
+
+.page_button_div {
+  display: flex;
+  justify-content: center;
+  flex: 1;
+}
+
+.prev_button, .next_button, .page_button_off {
+  flex: .3;
+  user-select: none;
+  cursor: pointer;
+  
+  margin: 10px 0;
+  padding: 10px 20px;
+  font-size: 25px;
+
+  border: 2px solid #5e5e5e;
+  border-radius: 5px;
+
+  box-shadow: 2px 2px 5px rgb(0, 0, 0, .75);
+  text-shadow: 2px 2px 5px #000a;
+
+  transition: .25s ease, background-color .1s ease;
+}
+.prev_button:hover, .next_button:hover {
+  flex: .25;
+  color: aliceblue;
+  border: 2px solid aliceblue;
+  border-radius: 20px;
+}
+.prev_button:active, .next_button:active {
+  background-color: aliceblue;
+  color: #323232;
+  border: 2px solid aliceblue;
+  translate: 0 3px;
+}
+
+.page_button_off {
+  cursor: default;
+  pointer-events: none;
+  opacity: .4;
+}
+
+.page_number {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  user-select: none;
+  cursor: default;
+
+  width: 65px;
+  height: 65px;
+  min-width: 65px;
+  min-height: 65px;
+
+  border: 3px solid #5e5e5e;
+  border-radius: 50%;
+
+  font-size: 20px;
+  color: aliceblue;
+
+  box-shadow: 2px 2px 5px rgb(0, 0, 0, .75);
+  text-shadow: 2px 2px 5px #000a;
+
+  transition: .25s ease;
+}
+.page_number:hover {
+  border: 3px solid aliceblue;
+}
+
+.arrows {
+  --arrow-color: #5e5e5e;
+  color: var(--arrow-color);
+  text-shadow: 0 0 5px var(--arrow-color);
 }

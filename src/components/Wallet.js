@@ -4,7 +4,7 @@ import EtherContext from "../contexts/EtherContext/EtherProvider"
 import MyBlobContext from "../contexts/MyBlobContext/MyBlobProvider"
 import classes from "./Wallet.module.css"
 
-function Wallet({ currAccount }) {
+function Wallet({ currAccount, connectWalletFunc }) {
   // const {state: { chain }} = useContext(EtherContext)
   const {blob: { colors }} = useContext(MyBlobContext)
   const location = useLocation()
@@ -22,16 +22,23 @@ function Wallet({ currAccount }) {
     if(location.pathname !== "/bhome") navigate("/bhome") 
   }
 
+  function walletTextClickHandler() {
+    if(currAccount) window.open("https://mumbai.polygonscan.com/address/"+currAccount, "_blank")
+    else connectWalletFunc()
+  }
+
   return(
     <div className={classes.div_wallet_container} style={styleVars}>
       <div className={classes.div_wallet_text}>
         <span className={classes.wallet_text_title}>{"MUMBAI"}</span>
-        <span className={classes.wallet_text} onClick={() => window.open("https://mumbai.polygonscan.com/address/"+currAccount, "_blank")}>
+        <span className={classes.wallet_text} onClick={walletTextClickHandler}>
           {currAccount ? currAccount.slice(0, 5) + "..." + currAccount.slice(38, 42) : "CONNECT"}
         </span>
       </div>
-      <div className={classes.profile_circle} innertext={colors ? "MY BLOBB" : "MINT BLOBB"} onClick={handleProfileClick}>   
+      <div className={classes.profile_circle} innertext={colors ? "MY BLOBB" : "MINT BLOBB"} onClick={handleProfileClick}>
+        
       </div>
+      {/* {currAccount && <div className={classes.disconnect_x}>X</div>} */}
     </div>
   )
 }

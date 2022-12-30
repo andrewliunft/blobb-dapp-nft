@@ -16,10 +16,10 @@ function BlobbActions({ currAccount, blobb }) {
 
   return(
     <div className={classes.div_container}>
-      <span className={classes.title_span}>CLICK THE <span className={classes.highlight}>BLOBB</span> TO SHOW STATS</span>
+      <span className={classes.title_span}>CLICK THE <span className={classes.highlight}>BLOBB</span> FOR MORE INFO</span>
       <div className={classes.actions_div}>
-        <div className={blobb.hp < 10 ? classes.heal_button : classes.heal_button_off} onClick={healButtonHandler}>
-          heal
+        <div className={blobb.hp < 10 && blobb.hp >= 1 ? classes.heal_button : classes.heal_button_off} onClick={healButtonHandler}>
+          {blobb.hp === 0 ? "dead" : "heal"}
         </div>
         <div className={classes.attack_button} onClick={() => navigate("/benemy")}>
           attack <span className={classes.arrows}>{">>"}</span>

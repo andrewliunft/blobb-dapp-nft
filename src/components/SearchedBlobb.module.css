@@ -1,0 +1,20 @@
+.searched_blobb_div{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  
+  height: 100%;
+  max-height: 100%;
+  opacity: 0;
+  /* translate: 50px; */
+  animation: fade-in .25s ease .25s forwards;
+}
+
+@keyframes fade-in {
+  /* 0% {opacity: 0;} */
+  100% {
+    opacity: 1;
+    /* translate: 0; */
+  }
+}

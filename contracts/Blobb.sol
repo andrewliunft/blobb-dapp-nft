@@ -21,15 +21,16 @@ contract Blobb is ERC721URIStorage, OnChainSVG {
   uint256 constant public healPrice = 0.001 ether;
   uint256 constant public revivalPrice = 0.05 ether;
 
-  event NewBlobb(uint256 indexed newBlobID, address indexed newOwner);
+  event NewBlobb(uint indexed newBlobID, address indexed newOwner);
   //Single event for Attack and Heal. In front-end if the newHP is greater than the one stored, the Action is an Heal an Attack instead.
-  event Action(uint256 indexed toBlobID, address indexed madeFrom, uint256 newHP);
+  event Action(uint indexed toBlobID, uint indexed madeFrom, uint newHP, uint newTotAttks);
   
   struct Blob {
     uint256 blobID;
     uint256 birthday;
     uint256 hp;
     uint256 totalActions;
+    uint256 totalAttacks;
     uint256 kills;
     uint256 deathDate;
     address creator;
@@ -70,6 +71,7 @@ contract Blobb is ERC721URIStorage, OnChainSVG {
     blob.blobID = _blobID;
     blob.birthday = block.timestamp;
     blob.hp = 10;
+    blob.totalAttacks = 10;
     blob.creator = msg.sender;
     blob.owner = msg.sender;
     blobbColors[_blobID] = _colors;
@@ -77,23 +79,33 @@ contract Blobb is ERC721URIStorage, OnChainSVG {
     bytes memory _startRGB = abi.encodePacked(_colors[0].toString(), ",", _colors[1].toString(), ",", _colors[2].toString());
     bytes memory _endRGB = abi.encodePacked(_colors[3].toString(), ",", _colors[4].toString(), ",", _colors[5].toString());
     bytes memory _b1 = bytes("1");
-    blob.values[0] = blob.owner == blob.creator ? _b1 : bytes("0");
-    blob.values[1] = abi.encodePacked(substring(msg.sender.toHexString(), 0, 5), "...", substring(msg.sender.toHexString(), 38, 42));
-    blob.values[2] = _startRGB;
-    blob.values[3] = _b1;
-    blob.values[4] = _endRGB;
-    blob.values[5] = _b1;
-    blob.values[6] = _startRGB;
-    blob.values[7] = _endRGB;
+    
+    blob.values[0] = _b1; //VERIFIED
+    blob.values[1] = bytes("10"); //EXP CIRCLE BAR
+    blob.values[2] = _b1; //LEVEL NUMBER
+    blob.values[3] = bytes(_blobID.toString()); //BLOB ID
+    blob.values[4] = abi.encodePacked(substring(msg.sender.toHexString(), 0, 5), "...", substring(msg.sender.toHexString(), 38, 42)); //OWNER ADDRESS
+    blob.values[5] = _startRGB; //FIRST COLOR
+    blob.values[6] = _b1; //ALPHA FIRST COLOR
+    blob.values[7] = _endRGB; //SECOND COLOR
+    blob.values[8] = _b1; //ALPHA SECOND COLOR
+    blob.values[9] = _startRGB; //STROKE FIRST COLOR
+    blob.values[10] = _endRGB; //STROKE SECOND COLOR
   }
 
-  function _updateValue(uint256 _blobID) internal {
-    Blob storage blob = blobs[_blobID];
-    bytes memory dotHP = abi.encodePacked(".", blob.hp.toString());
-    bytes memory _b1 = bytes("1");
-    blob.values[0] = blob.owner == blob.creator ? _b1 : bytes("0");
-    blob.values[3] = blob.hp == 10 ? _b1 : dotHP;
-    blob.values[5] = blob.hp == 10 ? _b1 : dotHP;
+  // function _updateValues(uint256 _blobID) internal {
+  //   Blob storage blob = blobs[_blobID];
+  //   bytes memory dotHP = abi.encodePacked(".", blob.hp.toString());
+  //   bytes memory _b1 = bytes("1");
+  //   blob.values[0] = blob.owner == blob.creator ? _b1 : bytes("0"); //VERIFIED
+  //   blob.values[1] = abi.encodePacked((10 - blob.totalAttacks % 10).toString()); //EXP CIRCLE BAR
+  //   blob.values[2] = abi.encodePacked((blob.totalAttacks/10).toString()); //LEVEL NUMBER
+  //   blob.values[3] = abi.encodePacked(substring(blob.owner.toHexString(), 0, 5), "...", substring(blob.owner.toHexString(), 38, 42)); //OWNER ADDRESS
+  //   blob.values[5] = blob.hp == 10 ? _b1 : dotHP; //ALPHA FIRST COLOR
+  //   blob.values[7] = blob.hp == 10 ? _b1 : dotHP; //ALPHA SECOND COLOR
+  // }
+  function _updateValue(uint _blobID, uint _vIDX, bytes memory _value) internal {
+    blobs[_blobID].values[_vIDX] = _value;
   }
 
   function getBlobURI(uint256 _blobID) public view returns(string memory) {
@@ -127,29 +139,50 @@ contract Blobb is ERC721URIStorage, OnChainSVG {
   function attackBlob(uint256 _blobID) public payable {
     checkConditions();
     Blob storage blob = blobs[_blobID];
+    uint attackerBlobID = ownedBlob[msg.sender];
+    Blob storage attackerBlob = blobs[attackerBlobID];
+
     require(msg.sender != blob.owner, "You can't ATTACK your own Blobb!");
+    require(attackerBlob.hp != 0, "Your Blobb is dead!");
     require(blob.hp != 0, "Blobb is dead!");
     uint killing = blob.hp == 1 ? 1 : 0;
     require(msg.value >= attackPrice * (killing == 1 ? 10 : 1), "Wrong ATTACK value!");
 
     blob.hp -= 1;
     blob.lastHit = msg.sender;
-    blob.totalActions += 1;
+    blob.totalActions++;
+
     
+    attackerBlob.totalAttacks++;
+
     if(killing == 1) {
-      blob.kills++;
+      attackerBlob.kills++;
+      blob.deathDate = block.timestamp;
       totalDeadBlobs++;
       deadBlobs[totalDeadBlobs] = _blobID;
     }
 
-    _updateValue(_blobID);
+    //ATTACKED BLOBB METADATA UPDATE
+    bytes memory _hpToAlpha = blob.hp == 10 ? bytes("1") : abi.encodePacked(".", blob.hp.toString());
+      //ALPHA FIRST COLOR -> 6
+    _updateValue(_blobID, 6, _hpToAlpha);
+      //ALPHA SECOND COLOR -> 8
+    _updateValue(_blobID, 8, _hpToAlpha);
+    // _updateValues(_blobID);
 
-    blobbHistory[_blobID][blob.totalActions] = ownedBlob[msg.sender];
+    //ATTACKER BLOBB METADATA UPDATE
+      //EXP CIRCLE BAR -> 1
+    _updateValue(attackerBlobID, 1, abi.encodePacked((10 - attackerBlob.totalAttacks % 10).toString()));
+      //LEVEL NUMBER -> 2
+    _updateValue(attackerBlobID, 2, abi.encodePacked((attackerBlob.totalAttacks/10).toString()));
+    // _updateValues(attackerBlobID);
+
+    blobbHistory[_blobID][blob.totalActions] = attackerBlobID;
 
     _setTokenURI(_blobID, getBlobURI(_blobID));
+    _setTokenURI(attackerBlobID, getBlobURI(attackerBlobID));
 
-    
-    emit Action(_blobID, msg.sender, blob.hp);
+    emit Action(_blobID, attackerBlobID, blob.hp, attackerBlob.totalAttacks);
   }
 
   function healBlob(uint256 _blobID) public payable {
@@ -160,16 +193,22 @@ contract Blobb is ERC721URIStorage, OnChainSVG {
     require(blob.hp < 10, "Your Blobb has FULL HP!");
     require(msg.value >= healPrice, "Wrong HEAL value!");
 
-    blob.hp += 1;
-    blob.totalActions += 1;
+    blob.hp++;
+    blob.totalActions++;
 
-    _updateValue(_blobID);
+    //HEALED BLOBB METADATA UPDATE
+    bytes memory _hpToAlpha = blob.hp == 10 ? bytes("1") : abi.encodePacked(".", blob.hp.toString());
+      //ALPHA FIRST COLOR -> 6
+    _updateValue(_blobID, 6, _hpToAlpha);
+      //ALPHA SECOND COLOR -> 8
+    _updateValue(_blobID, 8, _hpToAlpha);
+    // _updateValues(_blobID);
 
     blobbHistory[_blobID][blob.totalActions] = ownedBlob[msg.sender];
 
     _setTokenURI(_blobID, getBlobURI(_blobID));
 
-    emit Action(_blobID, msg.sender, blob.hp);
+    emit Action(_blobID, 0, blob.hp, blob.totalAttacks);
   }
 
   function _transfer(address from, address to, uint256 tokenId) internal virtual override {
@@ -177,8 +216,17 @@ contract Blobb is ERC721URIStorage, OnChainSVG {
 
     delete ownedBlob[from];
     ownedBlob[to] = tokenId;
-    blobs[tokenId].owner = to;
-    _updateValue(tokenId);
+
+    Blob storage blob = blobs[tokenId];
+    blob.owner = to;
+
+    //TRANSFERED BLOBB METADATA UPDATE
+      //VERIFIED -> 0
+    _updateValue(tokenId, 0, blob.owner == blob.creator ? bytes("1") : bytes("0"));
+      //OWNER ADDRESS -> 4
+    _updateValue(tokenId, 4, abi.encodePacked(substring(to.toHexString(), 0, 5), "...", substring(to.toHexString(), 38, 42))); //OWNER ADDRESS
+    // _updateValues(tokenId);
+
     _setTokenURI(tokenId, getBlobURI(tokenId));
   }
 }

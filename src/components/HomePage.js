@@ -14,7 +14,7 @@ function HomePage() {
       <div className={classes.info_div_container}>
         <div className={classes.info_div}>
           <span className={classes.info_div_title}>JOIN THE <span className={classes.highlight}>BLOBB</span> COMMUNITY</span>
-          <p>Create your <span className={classes.highlight}>BLOBB</span> and take care of it.</p>
+          <p>Mint your <span className={classes.highlight}>BLOBB</span> and take care of it.</p>
           <p>You can <span className={classes.highlight}>HEAL</span> yours and <span className={classes.highlight}>ATTACK</span> the others.</p>
           <p>Don't let your BLOBB be defeated by other players. You have to defeat their BLOBBs.</p>
           <p>Be the last BLOBB standing and you'll be the...</p>
@@ -26,7 +26,7 @@ function HomePage() {
         <span className={classes.title_span}>EXPLORE THE <span className={classes.highlight}>BLOBB</span> COMMUNITY</span>
         {account ?
           <div className={classes.explore_div}>
-            <div className={classes.search_button} onClick={() => navigate("/")}>
+            <div className={classes.search_button} onClick={() => navigate("/bsearch")}>
               <span className={classes.arrows}>{"<<"}</span> search
             </div>
             <div className={classes.blobbs_button} onClick={() => navigate("/bhome")}>

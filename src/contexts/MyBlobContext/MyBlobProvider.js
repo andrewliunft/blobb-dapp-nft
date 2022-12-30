@@ -4,7 +4,7 @@ import EtherContext from "../EtherContext/EtherProvider";
 const MyBlobContext = createContext()
 
 const ACTIONS = {SET: "set", RESET: "reset"}
-const initBlob = {number: null, birthday: null, hp: null, totalActions: null, kills: null, death: null, creator: null, owner: null, lastHit: null, colors: null}
+const initBlob = {number: null, birthday: null, hp: null, totalActions: null, totalAttacks: null, kills: null, death: null, creator: null, owner: null, lastHit: null, colors: null}
 const reducer = (blob, action) => {
   const { type, data } = action
   switch (type) {
@@ -22,24 +22,38 @@ export function MyBlobProvider({ children }) {
   const [blob, blobDispatch] = useReducer(reducer, initBlob)
 
   //EVENTS HANDLER CALLBACK
-  const _actionEventsHandler = (toBlobID, madeFrom, newHP, event) => {
-    console.log("Action to MyBlobProvider EMITTED", toBlobID, madeFrom, newHP, event)
+  const _actionEventsHandler = (toBlobID, madeFrom, newHP, newTotAttks, event) => {
+    console.log("Action to MyBlobProvider EMITTED", toBlobID, madeFrom, newHP, newTotAttks, event)
     console.log("VALUE: ", blob)
     const eventBlobHP = parseInt(newHP._hex, 16)
     if(eventBlobHP === blob.hp) {
       console.log("FALSE EVENT - NOTHING TO FETCH")
       return
     }
-    blobDispatch({type: ACTIONS.SET, data: {hp: eventBlobHP, totalActions: blob.totalActions++}})
+    const death = eventBlobHP === 0 ? _getDateFromTimestamp(Date.now()/1000) : "ALIVE"
+    blobDispatch({type: ACTIONS.SET, data: {hp: eventBlobHP, totalActions: ++blob.totalActions, death}})
+  }
+  const _attackEventHandler = (toBlobID, madeFrom, newHP, newTotAttks, event) => {
+    console.log("MYBLOBB ATTACK EMITTED", toBlobID, madeFrom, newHP, newTotAttks, event)
+    const eventBlobTotAttks= parseInt(newTotAttks._hex, 16)
+    if(eventBlobTotAttks === blob.totalAttacks) {
+      console.log("FALSE EVENT - NOTHING TO FETCH")
+      return
+    }
+    blobDispatch({type: ACTIONS.SET, data: {totalAttacks: eventBlobTotAttks}})
   }
 
   //CONTRACT EVENTS LISTENER 
   useEffect(() => {
     if(!blob.number) return
     contract.on(contract.filters.Action(blob.number), _actionEventsHandler)
+    contract.on(contract.filters.Action(null, blob.number), _attackEventHandler)
 
     console.log("Action EVENT CONNECTED to MyBlobProvider", contract.listeners(), blob)
-    return () => contract.off(contract.filters.Action(blob.number), _actionEventsHandler)
+    return () => {
+      contract.off(contract.filters.Action(blob.number), _actionEventsHandler)
+      contract.off(contract.filters.Action(null, blob.number), _attackEventHandler)
+    }
   }, [blob])
 
   //INIT CONTEXT
@@ -60,11 +74,12 @@ export function MyBlobProvider({ children }) {
     const myBlob = await contract.blobs(myBlobID)
     const myBlobInfo = {
       number: parseInt(myBlob.blobID._hex, 16),
-      birthday: _getBlobbBirthday(myBlob.birthday._hex, 16),
+      birthday: _getDateFromTimestamp(parseInt(myBlob.birthday._hex, 16)),
       hp: parseInt(myBlob.hp._hex, 16),
       totalActions: parseInt(myBlob.totalActions._hex, 16),
+      totalAttacks: parseInt(myBlob.totalAttacks._hex, 16),
       kills: parseInt(myBlob.kills._hex, 16),
-      death: parseInt(myBlob.deathDate._hex, 16) || "ALIVE",
+      death: myBlob.deathDate._hex > 0 ? _getDateFromTimestamp(parseInt(myBlob.deathDate._hex, 16)) : "ALIVE",
       creator: myBlob.creator,
       owner: myBlob.owner,
       lastHit: myBlob.lastHit || "NONE",
@@ -74,9 +89,9 @@ export function MyBlobProvider({ children }) {
     blobDispatch({type: ACTIONS.SET, data: myBlobInfo})
   }
 
-  const _getBlobbBirthday = birthTimespamt => {
-    let birthday = new Date(parseInt(birthTimespamt, 16)*1000)
-    return birthday.getMonth()+1 + "/" + birthday.getDate() + "/" + birthday.getFullYear()
+  const _getDateFromTimestamp = ts => {
+    let dateInSecs = new Date(ts*1000)
+    return dateInSecs.getMonth()+1 + "/" + dateInSecs.getDate() + "/" + dateInSecs.getFullYear()
   }
 
   const _getBlobbColors = async (blobID) => {
@@ -117,22 +132,27 @@ export function MyBlobProvider({ children }) {
 
   const _getBlobbHistory = async (page, startingHP) => {
     if(!blob.number) return
-    const MAX_IN_PAGE = 10
+    const MAX_IN_PAGE = 5
     const startIDX = Math.max(blob.totalActions - ((page-1) * MAX_IN_PAGE), 0)
-    const endIDX = Math.max((blob.totalActions - (page * MAX_IN_PAGE)) - MAX_IN_PAGE, 0)
-    console.log("IDX HISTORY", startIDX, endIDX, blob.totalActions, contract)
-    let hpTracker = startingHP ? startingHP : blob.hp
+    const endIDX = Math.max(blob.totalActions - (page * MAX_IN_PAGE), 0)
+    
+    let isLastPage = endIDX === 0 ? true : false
+    let hpTracker = page === 1 ? blob.hp : startingHP 
     let history = []
+    console.log("IDX HISTORY", startIDX, endIDX, blob.totalActions, hpTracker)
     for(let i = startIDX; i > endIDX; i--) {
       const actorID = parseInt((await contract.blobbHistory(blob.number, i))._hex, 16)
+      const bColors = await _getBlobbColors(actorID)
       const action = actorID === blob.number ? "HEAL" : "ATTACK"
       const toHP = hpTracker
-      hpTracker += i === startIDX ? 0 : action === "HEAL" ? 1 : -1
+
+      hpTracker += action === "HEAL" ? -1 : 1
       const fromHP = hpTracker
-      history.push({ actorID, action, fromHP, toHP })
+      history.push({ actorID, action, fromHP, toHP, bColors })
     }
+    history = history.length === 0 ? null : history
     console.log("HISTORY", history)
-    return history
+    return { history, isLastPage }
   }
 
   const funcs = {

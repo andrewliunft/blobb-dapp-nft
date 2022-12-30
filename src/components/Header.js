@@ -14,6 +14,7 @@ function Header() {
   useEffect(() => {
     if(!account) setSubtitle("No Wallet")
     else if(location.pathname === "/bhome") number ? setSubtitle("My Blobb") : setSubtitle("Mint Blobb")
+    else if(location.pathname === "/bsearch" || location.pathname === "/bsearch/sblobb") setSubtitle("Search")
     else if(location.pathname === "/history") setSubtitle("My History")
     else if(location.pathname === "/benemy") setSubtitle("Enemy Blobbs")
     // else if(location.pathname === "/") setSubtitle("")
@@ -23,10 +24,10 @@ function Header() {
     return {
       "--fSize": location.pathname === "/" ? "10vmin" : "4vmin",
       "--cursor": location.pathname === "/" ? "default" : "pointer",
-      "--pointColor": location.pathname === "/" ? "#5e5e5e" : location.pathname === "/bhome" || location.pathname === "/history" ? "lime" : "red",
+      "--pointColor": !account || location.pathname === "/" || location.pathname === "/bsearch" ? "#5e5e5e" : location.pathname === "/bhome" || location.pathname === "/history" ? "lime" : "red",
       // "--tras": location.pathname === "/" ? "0" : location.pathname === "/bhome" ? "-25vw" : "25vw",
     }
-  }, [location.pathname])
+  }, [location.pathname, account])
   
   function handleTitleClick() {
     if(location.pathname !== "/") navigate("/") 

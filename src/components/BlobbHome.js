@@ -25,23 +25,19 @@ function BlobbHome() {
 
   if(blob.number) {
     return(
-      <div className={classes.home_div}>
+      <div className={classes.home_div_blobb}>
         <MyBlobbSVG currAccount={account} blobb={blob} show={showStats} setShow={setShowStats} />
         <BlobbActions currAccount={account} blobb={blob} />
         <BlobbStats blobb={blob} show={showStats} setShow={setShowStats} mine={true} />
       </div>
     )
   }
-  else {
-    return(
-      <div className={classes.home_div}>
-        <BlobbSVG currAccount={account} colors={{start: colors.start, end: colors.end}} mintFunc={callMintBlob} />
-        <BlobbColorsPicker currAccount={account} bColors={colors} colorPickedFunc={colorPicked} />
-      </div>
-    )
-  }
-  
-  
+  return(
+    <div className={classes.home_div_mint}>
+      <BlobbSVG currAccount={account} colors={{start: colors.start, end: colors.end}} mintFunc={callMintBlob} />
+      <BlobbColorsPicker currAccount={account} bColors={colors} colorPickedFunc={colorPicked} />
+    </div>
+  )  
 }
 
 export default BlobbHome

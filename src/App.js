@@ -3,6 +3,8 @@ import Layout from './layouts/Layout';
 
 import HomePage from './components/HomePage';
 import BlobbHome from './components/BlobbHome';
+import SearchBlobb from './components/SearchBlobb';
+import SearchedBlobb from './components/SearchedBlobb';
 import EnemyBlobbs from './components/EnemyBlobbs';
 import MyHistory from './components/MyHistory';
 
@@ -22,7 +24,9 @@ function App() {
             <Routes>
               <Route path="/" element={ <HomePage /> } />
               <Route path="/bhome" element={ <BlobbHome /> } />
-              <Route path="/benemy" element={ <EnemyBlobbs /> } />
+              <Route path="/bsearch" element={ <SearchBlobb /> } />
+              <Route path="/bsearch/sblobb" element={ <SearchedBlobb /> } />
+              <Route path="/benemy" element={ <EnemyBlobbs /> } /> 
               <Route path="/history" element={ <MyHistory /> } />
             </Routes>
           </Layout>

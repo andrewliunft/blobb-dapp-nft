@@ -24,3 +24,25 @@
   border: 2px solid #3f3f3f; */
   
 }
+
+@media all and (max-height: 700px), all and (max-width: 500px)
+{
+  .root_div {
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .main_layout {
+    opacity: 0;
+  }
+  
+  .root_div::after {
+    content: "SCREEN IS TOO SMALL";
+    position: absolute;
+    top: 50%;
+    left: calc(50% - 285px);
+
+    font-size: 50px;
+    text-shadow: 2px 2px 5px #000a;
+    margin: auto;
+  }
+}

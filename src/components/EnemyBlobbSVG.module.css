@@ -10,6 +10,18 @@
   animation: slide .75s ease .25s forwards;
 }
 
+.s_blobb_svg, .s_blobb_svg_w_stats {
+  width: 100%;
+  max-height: 80%;
+  overflow: visible;
+
+  transition: 1s ease;
+
+  opacity: 0;
+  scale: .9;
+  animation: pop-in .5s ease .25s forwards;
+}
+
 @keyframes slide {
   /* 0% {opacity: 0;} */
   100% {
@@ -17,6 +29,18 @@
     transform: translate(0);
   }
 }
-.blobb_svg_w_stats {
+@keyframes pop-in {
+  /* 0% {opacity: 0;} */
+  50% {
+    opacity: 1;
+    scale: 1.1;
+  }
+  100% {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+.blobb_svg_w_stats, .s_blobb_svg_w_stats {
   translate: -50px;
 }
