@@ -11,7 +11,7 @@ import BlobbColorsPicker from "./BlobbColorsPicker"
 
 function BlobbHome() {
   const {state: { account }, funcs: { newWalletRequest }} = useContext(EtherContext)
-  const { blob, funcs: { mintBlob } } = useContext(MyBlobContext)
+  const { blob, funcs: { mintBlob }, funcs: { transfer } } = useContext(MyBlobContext)
   const [showStats, setShowStats] = useState(false)
   const [colors, setColors] = useState({start: "#" + Math.floor(Math.random()*16777215).toString(16), end: "#" + Math.floor(Math.random()*16777215).toString(16)})
   console.log("BLOB HOME", account, blob.number, showStats, colors)
@@ -29,6 +29,7 @@ function BlobbHome() {
         <MyBlobbSVG currAccount={account} blobb={blob} show={showStats} setShow={setShowStats} />
         <BlobbActions currAccount={account} blobb={blob} />
         <BlobbStats blobb={blob} show={showStats} setShow={setShowStats} mine={true} />
+        {/* <div onClick={transfer}>TRANSFER</div> */}
       </div>
     )
   }

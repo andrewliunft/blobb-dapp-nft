@@ -43,14 +43,17 @@
 
 .wallet_text {
   margin-top: 3px;
-
+  font-size: 20px;
+  text-shadow: 2px 2px 5px #000a;
   transition: .25s ease;
 }
 .wallet_text:hover {
   cursor: pointer;
-  /* scale: 1.075; */
-  translate: -3px;
   color: aliceblue;
+}
+.wallet_text:active {
+  color: aliceblue;
+  translate: 0 2px;
 }
 
 .profile_circle {

@@ -13,6 +13,19 @@ function SearchedBlobbActions({ sBlobb }) {
     newWalletRequest("ATTACK", "ATTACKING THE BLOBB!", attackSearchedBlobb)
   }
 
+  function getInfoMessage() {
+    switch(sBlobb.hp) {
+      case 0:
+        return <span className={classes.info_comic_span_R}>
+          THE BLOBB IS <span className={classes.highlight}>DEAD</span>
+        </span>
+      default:
+        return <span className={classes.info_comic_span_R}>
+          <span className={classes.highlight}>{sBlobb.hp === 1 ? 0.045 : 0.025} ETH</span> + <span className={classes.highlight}>GAS</span>
+        </span>
+    }
+  }
+
   return(
     <div className={classes.div_container}>
       <span className={classes.title_span}>CLICK THE <span className={classes.highlight}>ENEMY BLOBB</span> FOR MORE INFO</span>
@@ -23,6 +36,11 @@ function SearchedBlobbActions({ sBlobb }) {
         <div className={sBlobb.hp === 0 ? classes.attack_button_off : classes.attack_button} onClick={attackButtonHandler}>
           {sBlobb.hp === 0 ? "dead" : sBlobb.hp > 1 ? "attack" : "kill"}
         </div>
+        <span>
+          <span className={classes.info_span_R}>
+            i {getInfoMessage()}
+          </span>
+        </span>
       </div>
     </div>
   )

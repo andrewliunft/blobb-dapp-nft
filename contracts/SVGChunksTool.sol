@@ -2,12 +2,17 @@
 pragma solidity ^0.8.9;
 
 library SVGChunksTool {
-
+  //STRUCT TO STORE THE SVG CHUNKS
   struct SVGChunks {
     uint totalChunks;
     mapping(uint => bytes) chunks;
   }
+  //STRUCT TO STORE THE SVG VALUES TO INSERT BETWEEN CHUNKS
+  // struct SVGValues {
+  //   bytes[] values;
+  // }
 
+  //SVG CHUNKS SECTION
   function getTotalChunksNumber(SVGChunks storage _svgChunks) internal view returns(uint) {
     return _svgChunks.totalChunks;
   }
@@ -27,30 +32,24 @@ library SVGChunksTool {
     return _svgChunks.chunks[_chunkIDX];
   }
 
-  // uint private _chunksNumber;
-  // mapping(uint => bytes) private _SVGchunks;
+  //SVG VALUES SECTION
+  // function defaultSVGValue(SVGValues storage _svgValues) internal {
 
-  // function _getChunksNumber() internal view virtual returns(uint) { return _chunksNumber; }
-
-  // function uploadSVGChunk(bytes[] memory _chunks) public virtual onlyOwner {
-  //   for(uint i = 0; i < _chunks.length; i++) { _SVGchunks[i] = _chunks[i]; }
-  //   _chunksNumber = _chunks.length;
-  // }
-  
-  // function updateSVGChunk(uint _nChunk, bytes memory _chunkSVG) public virtual onlyOwner {
-  //   _SVGchunks[_nChunk] = _chunkSVG;
   // }
 
-  // function _getSVGChunk(uint _chunkIDX) internal view virtual returns(bytes memory) {
-  //   return _SVGchunks[_chunkIDX];
+  // function getSVGValue(SVGValues storage _svgValues, uint _valueIDX) internal view returns(bytes memory) {
+  //   return _svgValues.values[_valueIDX];
   // }
 
+  //UTILS
   function substring(string memory str, uint beginIDX, uint endIDX) internal pure returns(string memory) {
     bytes memory strBytes = bytes(str);
     bytes memory result = new bytes(endIDX-beginIDX);
     for(uint i = beginIDX; i < endIDX; i++) {
       result[i-beginIDX] = strBytes[i];
     }
+    
     return string(result);
   }
+  
 }

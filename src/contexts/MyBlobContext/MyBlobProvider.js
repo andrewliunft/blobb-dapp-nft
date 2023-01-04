@@ -1,6 +1,8 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
 import EtherContext from "../EtherContext/EtherProvider";
 
+import { ethers } from "ethers";
+
 const MyBlobContext = createContext()
 
 const ACTIONS = {SET: "set", RESET: "reset"}
@@ -90,8 +92,14 @@ export function MyBlobProvider({ children }) {
   }
 
   const _getDateFromTimestamp = ts => {
-    let dateInSecs = new Date(ts*1000)
-    return dateInSecs.getMonth()+1 + "/" + dateInSecs.getDate() + "/" + dateInSecs.getFullYear()
+    const dateInSecs = new Date(ts*1000)
+    let month = dateInSecs.getMonth()+1
+    let day = dateInSecs.getDate()
+    
+    month = month.toString().length === 1 ? "0" + month : month
+    day = day.toString().length === 1 ? "0" + day : day
+    
+    return month + "/" + day + "/" + dateInSecs.getFullYear()
   }
 
   const _getBlobbColors = async (blobID) => {
@@ -155,10 +163,17 @@ export function MyBlobProvider({ children }) {
     return { history, isLastPage }
   }
 
+  const _transfer = async () => {
+    const transTX = await contract.transferFrom(account, ethers.utils.getAddress("0x70997970C51812dc3A010C7d01b50e0d17dc79C8"), blob.number)
+    await transTX.wait(1)
+    console.log(transTX)
+  }
+
   const funcs = {
     mintBlob: _mintBlob,
     healBlob: _healBlob,
     getBlobbHistory: _getBlobbHistory,
+    transfer: _transfer
   }
 
   return(

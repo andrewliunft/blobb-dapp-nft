@@ -160,8 +160,9 @@
 .action_text {
   flex: 1;
   margin: 0 20px;
-  padding: 0 5px;
+  padding: 5px;
 
+  border-bottom: 2px solid #5e5e5e;
   border-radius: 5px;
   background-color: aliceblue;
   box-shadow: 2px 2px 3px #000a;

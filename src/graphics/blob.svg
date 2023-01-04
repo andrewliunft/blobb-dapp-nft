@@ -5,7 +5,8 @@
       src: url(data:application/octet-stream;base64,d09GMgABAAAAAAy4AA8AAAAAFLQAAAxjAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGhYbVhwoBmAARBEICp1wl0kLUgABNgIkA4EgBCAFg2wHIAwHGzUQI5KT1h6SqSN14c+ff78fvy17GSjHJqwYVTNgaiJJ9y+pGLAq3pETkX9lCLd1JmMhEoMRLSL4pI0JzAKzPrECjH/xI7vgeX5/1Hl3xAopTQIQBTbJEdqOvJvK9/m/X+lEaR6PAsCZ+ybf+9OxkUkTIBuADRqd4OtLexZkQWFFYBfprJky+YWCOao7IACwwDohAVqyiY/jAGAYB3NAWrdhmw18Lh2/dYUFwSjiaCs6XTx94wqY38gtZQRp7zYDs0ilEATYcY+dZXw8v1tUT4AJ4gAsHFZxbi9Jo9FrGAAVUqXEkXv+0gl9AXPg7xDHn4vGfrrQtfs3bsIqGDUmwNDu2Q1gaIccahqQ1knNbJQqbnyDOwgZQrkRZqXMYP67aRQshgdE1h8FM+C4x+P5xqN4sqyQc1cEyOMB3w82ac7fxVsgM34TMS3YFJll7Wlre8HNbUCP9MXx0ydJ+BBnssuzmi0B3oHjZwQYRow0WQPMpmGmqV5DTKMmkGHmCTPJOMtHfuaRljljAnwmeQ1hn23q2FGDx4+dOljv5N2sR3QRns6OJhAB9FDkN1xboSEm1+hCXa4CtVU6nCJCZ1o4D8oE+p3Ci5EBczY3QhdFScFOMB7kGmI9OnkBVOldVDqPCGccjQ0KDQqycMTkHh1egyt3qc1ZNTgPqIK51o6YnkOEKhBzFFuT2UQ30QVWwVxDbGsHefGXBx7aFbHPZkboRIDxjGyTmS5PM5aVIcRb2GmygLCr9lb7SRdq1fA8Gqt0fqYhcsTTmhM0ngtuO6dEMOLHZwcxHxHOdOItBodR5WPbVfoSsbUuDYL6C/ndg+q+DhMRLJpHyoJhTuWQgnKONe4ZvXV0IsarogC9V7jnsPMd6RrTexbqhLApLq6UitxaF2pbXdbgKJCowpNd1jFYkRHPBEqEW25GA4ysCmAj7oqJFaKtanjarKk8l4kIwVhO7p6iT5c6JfFr4Zk0T0RqKLfz9vL8+BHxRJqWO4OJ4612shOMjo6OnFQqi6EGlow5UPUkJYpdNK0/f0h0FiPLV7E4QNQghvnZIJG3qyBWQAjTPyzs4FUqmDfr0+BPt87FJxF+n6hwrXpEPmJ7M3TRFpw2OJiMjCFisDMsorWYb0lOIn+FA9IIhftvNjAN86SwRT042YnJiIkdpMhf9OIjWYwMHOoIdZ3n7BuFd7OJJRm/rAHSZ88R04UKeWlLwYhE4sUty/K+mmMSXDTSf70PLdZi/h4+IkNcgRBXq4jhw0mBnEKEvbxF1Zu/zh5uDReJqMfrCSSDap/PvTSncOssPtzq4u8VasdtioKdo4k7p6JDqHVqFNtFyZ1Ui3m7NX2IFdths8tPGh8kUSLQd41cq09QWAuNb8rFbyMkY5p6gD8jIgUZXGcpVMToomqGctGcepw7yrXOIFJYebPWrrEYvUcXatP4pPxG6q/WpKoq0G+4tkSrXDQ6i4lCGCBfN8JAy0QUUDvXUroJqEqEM0JlkNWBIye9bz1Y3e8ihu8nByN00RZGlX2hmCdbtU8fhvIhDmz7Ev6U8QVyaLBdruv4MqAfn4ysG1S+DxFtwXYiuytKYVyxqVCH+QhHAaupH6Ehcl5KYapELYWrOeMmVWxFlLOYRNlF3f4D/Dvm4PmDd86cc8Aa65QRcfIPYt5YU8r1CqgyJ18bph3Y9vXHR7b9cHV41LXhPxzZ9vHXB7ZpHz9/NPRvr4PpXkf+H/pkdnwcRFruWx5M8c494/8Wr2kbeWnhkA0XMIMT9cMmhSz36X88dMvIth+K1HWfVX16/AnfW18yp9S92piwLf4oe2APr+x8vqikhwZE4RWZhiWKTQ+sjXOrRpHt7D9oBCf3kp93d3lXkarc06lPWpRsCCr3UIoKa1Q+HMVQAW/Wnz4SYHb8z9fev2TLmIvEbzbMFtr66wb6sMHNxJtAaDHLq9m+LfrIh7SIU1TpCukuXpae0cwhNAdzYi3GY5Pdi2uH6kDsnnSugxTULcCdI2SJ6+slqXPnrxk8ddXMmlkinBc40N9niBVzfgsLFeUIrwvF18EwtB/ah4fhw1ac9esfnsbqwplkOLogQnMxxUBLB633Xxa+rPlyDrcpWiZ2IyZ1a1HgtnNf7Av/Sd+VP5B+kOwR9xJLe4EzvwuK+lQWRCRda9Nmz5+7eNzkFbPrp/NwbuBAf5/BKdS6H7pbXVipvYVnheKz4AFUajKLErt0Svy6OsE/Q6rasM1Acm9BjNguSixVNUw2oIy1dmByZnm4BqlFa54Wctshohhf2sb7LbCIsDegmNog6GC3qcxFWhdMQkVUYlvtKduCoPyx8VPHx/qOmCSWhEhFYLF/R51QldyaonGaYxeT4sTWEnmBqBsXypJGvxu+IbpQ6cOUFcvDm9T7wT1I8XX81Q8heeToignFpaNGpkMI2ZfdpDKTqhr4GNKIVh2rgtqhQctF6on+LQhsg2RzchkkUD00xwW06L2YsS6+cr5yZiUnIcDH2TBbt60L+aiFn/l3w26BbKJFmC6NEctBRaoRaUAXEMYQfmnAOJbUGugob5pu2xVr4eayqSjbFATbh/KLlI1M4DSboNC4DK7DKixbCle0YkE2WUHznd2hEDRs5hTL5d6h+OKeM3tPnTduLI0IdNG9e9qZXSnK6ch9+FwoI7CviZEIqjhsO2LlsPijkBa04xe2FW9RJViJQupkmKRcud/X0tXSPiIUaUXdv0CY91ukGXWrsdtsp9paOvy6xRYYUkJsAVWSRveh8oGDAk7KF7OdakuZbrX3X6I0xKYYliQLBXq0Ce0wYVvYTpW5TNsT0z3hmBaHSYnM4avGrZKItuYrGMoCdsE8B9DfPYa4ULca28J2qsxlIFpqMyJO1G3C8PFCym3aSMSJdqgxvOlqDcLkj0RcqFuNvcWbVQNaR1NOWDg7OhUpi89WRcc7yA7Q1x6KuFC3GovT1Kl7MAT8UYgTdZuwt3izakDraMrJJPYJeUVSOyiA7HXcDSXmLQvKyIL4UdG5cIE8XVpvn7F6xpp5b7lv0eQGW1PRGO4/LGUYkLX3wZuCzSJhePgSiPhKuZRrDQAMW6d8nxxa/t3qi8USzz2jQqkQVuxCmlF3h/0/3RrQ4svjy2eDKN+MArtk4rHg0rXzpm1y5GNT64UjkEZ0AeFCSAiKRhdJjDIoisp3AH10AOJE3SbsLbMxeHDLXMrVmtDahWGUbFFXLlwjTPQCRmhZmribv0rXwICbgzNHCp1bSfpuZYI9VGBJbZSOKoPSoXMMZUSFtEHGUxO0cZm0LEGk3XQEzKQMyPUvStHPnmNE/maNYUnc4naFqVQz0cazGxoZ0dv51+QumRW8hpxFLRP8WW0B5kLNvzSEJCT8ary3fJLSy68v0kGjJkCDl93uAbz/wBMcfH13LRGL4RpiqKJSeskvb3+/yOkz9bfSyLVjjcCwgDj+NVm61U+8VblG/6ps5wn9BKO1QCOlo8gdyKGoDPKAPyASoBwQ2GPvVZHXlofAoGhbNIjBQnP75rnm34SZo1XdkjTBM6i08T5H7Az5EI1f+oD05qUPMKVrfVvgIApoSYiGyPhUbikpcK5gJPQahbcFmQs1/U5ImHwe3jdogvLmfe38cWNphNJJ925LZTqeAsZqv5z2nJqF3CQtN4m5ns/uEoGWtZc1zOQmaYkk1lQ9AAAAAAAAHgAAD2Ah70spXWkxXyHE6wUAAJzWUE8DAMBpDfX0/13/s32qvU4BACAPCAAKdH5pGaA3pr1op3oV0wPbOeGpfIH37wOVG55qByv5g736wELKsJdC7KUKCynGXhawFxuMZfZjpSXsZQ0XcceKdbWSAawkgGeBlZdxUXm4qCmQHsbLNtP5jYtsB+Qc3Iuw8yJWkoiLFGOl/mMsB6zzIXo6f9F7GSLzuEg4VmR1nhRiYJvA4acvnH7SkLJJUkDXCDPvvH5gaue5AoNgzo5Bh2jyCnX5Bj2siTboY0noTc0JBSpooYUGwggggGaKaaKSBlpA7k/zW9XgTz1NlBNAGrEkk00lLRRSRxp1lJJLKU1yZ6unDkeC8CeQQILIpJ4Sa79ZTj2xtFJKHV0UUkMlJRQShuPK4wj4gwVrA7+qlHJaqaGQJrmeUdTTQKcHxGV5RzwpxmteypFEeUeEzk9VUEoNNdQTThNlEnv5U0w9tXjhiyPtVFiF9VQpzanQ1EYpJQekBah0TKWQWkqxnDN55jwhtm7m0u4J5tz5SWmjV7rjAA==);
     }
     svg{
-      background-color: #1e1e1e;
+      background: linear-gradient(90deg, #1e1e1e, #1e1e1ea0);
+      /* background: linear-gradient(90deg, #ff00c8, #ff0); */
       border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%;
     }
     #b-path {
@@ -82,7 +83,7 @@
   <g id="b-id">
     <text fill="url(#t-grad)" font-family="Titan One" font-size="12px" filter="drop-shadow(0 1 0 #000d)">
       <textPath text-anchor="middle" startOffset="80%">
-        10 / 1000
+        1 / 1000
         <animate attributeName="href" repeatCount="indefinite" dur="1s" values="#b-path" />
       </textPath>
     </text>
@@ -98,12 +99,12 @@
   <defs>
     <path id="b-path" d="M33.6-46C45.8-37.4 59.6-30.6 64-20.1 68.4-9.6 63.4 4.7 59.2 19.8 55.1 34.9 51.8 50.9 42.1 59.2 32.4 67.5 16.2 68.2-.6 69-17.4 69.9-34.9 71-46.4 63.2-57.8 55.5-63.4 38.9-69.3 22.2-75.2 5.4-81.5-11.5-78.2-26.6-75-41.7-62.3-55-47.6-62.8-33-70.7-16.5-73.2-2.9-69.2 10.7-65.1 21.4-54.6 33.6-46Z" transform="translate(100 100)"/>
     <path id="t-path" d="M-60.38 7.8C-47.55-6.28-41.34-19.94-5.32-3.79 26.98 2 27.9433-15.1133 45.61-15.39" transform="translate(100 100)"/>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="rgb(255,0,0,0)" />
-      <stop offset="100%" stop-color="rgb(255,255,0,0)" />
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff00c8" />
+      <stop offset="100%" stop-color="rgb(255,255,0)" />
     </linearGradient>
     <linearGradient id="s-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="rgb(255,0,0)" />
+      <stop offset="0%" stop-color="#ff00c8" />
       <stop offset="100%" stop-color="rgb(255,255,0)" />
     </linearGradient>
     <linearGradient id="t-grad" x1="0%" y1="0%" x2="100%" y2="100%">
