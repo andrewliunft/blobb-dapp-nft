@@ -22,13 +22,18 @@
 
 .title_span {
   position: relative;
-  top: 12px;
+  top: 10px;
  
-  padding: 0 5px;
+  padding: 3px 5px;
+
   font-size: 18px;
   font-weight: bold;
+  
   border-radius: 5px;
+  border-bottom: 2px solid #5e5e5e;
+
   background-color: aliceblue;
+  box-shadow: 0 2px 3px #000a;
 }
 
 .highlight {
@@ -53,6 +58,7 @@
   box-shadow: 2px 2px 5px rgb(0, 0, 0, .75);
   text-shadow: 2px 2px 5px #000a;
 
+  z-index: 5;
   transition: .25s ease, background-color .1s ease;
 }
 
@@ -60,7 +66,7 @@
   flex: 1.25;
   color: aliceblue;
   border: 2px solid aliceblue;
-  border-radius: 20px;
+  border-radius: 15px;
 }
 .attack_button:active, .next_button:active {
   background-color: aliceblue;
@@ -68,11 +74,78 @@
   border: 2px solid aliceblue;
   translate: 0 3px;
 }
+.next_button:active {
+  animation: deny-anim .5s ease forwards;
+}
+@keyframes deny-anim {
+  /* 0% {opacity: 0;} */
+  100% {
+    opacity: .5;
+  }
+}
 
 .attack_button_off {
   cursor: default;
   pointer-events: none;
   opacity: .5;
+}
+
+.info_span {
+  --popup-alpha: 0;
+  --popup-x: -15px;
+  --popup-delay: 0s;
+
+  position: absolute;
+  user-select: none;
+  cursor: pointer;
+
+  translate: -26px 10px;
+  padding: 3px 12px;
+  
+  color: aliceblue;
+  background-color: #323232;
+  
+  border-left: 4px solid #5e5e5e;
+  border-radius: 5px 0 2px 5px;
+
+  text-shadow: 0 0 4px aliceblue;
+  box-shadow: 0 2px 2px #0005;
+
+  transition: .5s ease;
+}
+.info_span:hover {
+  --popup-alpha: 1;
+  --popup-x: -5px;
+  --popup-delay: .5s;
+
+  text-shadow: 0 0 2px black;
+  border-left: 4px solid aliceblue;
+  /* color: #323232;
+  background-color: aliceblue;
+  text-shadow: 0 0 4px #5e5e5e; */
+}
+
+.info_comic_span {
+  pointer-events: none;
+  position: absolute;
+
+  top: 40px;
+  width: max-content;
+
+  padding: 5px;
+  border-radius: 0 10px 10px 10px;
+  border-bottom: 2px solid #5e5e5e;
+
+  font-size: 18px;
+  background-color: aliceblue;
+
+  translate: var(--popup-x);
+  opacity: var(--popup-alpha);
+
+  box-shadow: 2px 2px 3px #000a;
+  text-shadow: none;
+
+  transition: .5s ease var(--popup-delay);
 }
 
 .arrows {

@@ -117,8 +117,14 @@ export function BlobbsProvider({ children }) {
   }
 
   const _getDateFromTimestamp = ts => {
-    let dateInSecs = new Date(ts*1000)
-    return dateInSecs.getMonth()+1 + "/" + dateInSecs.getDate() + "/" + dateInSecs.getFullYear()
+    const dateInSecs = new Date(ts*1000)
+    let month = dateInSecs.getMonth()+1
+    let day = dateInSecs.getDate()
+    
+    month = month.toString().length === 1 ? "0" + month : month
+    day = day.toString().length === 1 ? "0" + day : day
+    
+    return month + "/" + day + "/" + dateInSecs.getFullYear()
   }
 
   const _getBlobbColors = async (blobID) => {
@@ -185,7 +191,7 @@ export function BlobbsProvider({ children }) {
     console.log("ATTACK FOCUSED")
     if(blobbs.focusedBlobb) {
       // const price = await contract.attackPrice()
-      const price = ethers.utils.parseEther(blobbs.focusedBlobb.hp === 1 ? "0.2" : "0.02")
+      const price = ethers.utils.parseEther(blobbs.focusedBlobb.hp === 1 ? "0.04" : "0.02")
       console.log("ATTACK PRICE", price)
       const transaction = await contract.attackBlob(blobbs.focusedBlobb.number, {value: price})
       await transaction.wait()
@@ -195,7 +201,7 @@ export function BlobbsProvider({ children }) {
     console.log("ATTACK SEARCHED")
     if(blobbs.searchedBlobb) {
       // const price = await contract.attackPrice()
-      const price = ethers.utils.parseEther(blobbs.searchedBlobb.hp === 1 ? "0.2" : "0.02")
+      const price = ethers.utils.parseEther(blobbs.searchedBlobb.hp === 1 ? "0.045" : "0.025")
       console.log("ATTACK PRICE", price)
       const transaction = await contract.attackBlob(blobbs.searchedBlobb.number, {value: price})
       await transaction.wait()

@@ -21,15 +21,74 @@
   /* box-shadow: 2px 2px 5px rgb(0, 0, 0, .75); */
 }
 
-.title_span {
+.title_span, .info_price_span {
   position: relative;
-  top: 12px;
+  top: 10px;
  
-  padding: 0 5px;
+  padding: 3px 5px;
+
   font-size: 18px;
   font-weight: bold;
-  border-radius: 5px;
+  
+  border-radius: 5px 0 0 5px;
+  border-bottom: 2px solid #5e5e5e;
+
   background-color: aliceblue;
+  box-shadow: 0 2px 3px #000a;
+}
+
+.info_price_span {
+  --popup-alpha: 0;
+  --popup-x: 0;
+  --popup-delay: 0s;
+
+  user-select: none;
+  cursor: pointer;
+
+  padding: 3px 12px;
+  
+  color: aliceblue;
+  background-color: #323232;
+  
+  border-left: 4px solid #5e5e5e;
+  border-radius: 0 5px 5px 0;
+
+  text-shadow: 0 0 4px aliceblue;
+
+  transition: .5s ease;
+}
+.info_price_span:hover {
+  --popup-alpha: 1;
+  --popup-x: -10px;
+  --popup-delay: .5s;
+
+  text-shadow: 0 0 1px black;
+
+  /* color: #323232;
+  background-color: aliceblue;
+  text-shadow: 0 0 4px #5e5e5e; */
+}
+
+.price_span {
+  pointer-events: none;
+  position: absolute;
+
+  bottom: 35px;
+  width: max-content;
+
+  padding: 5px;
+  border-radius: 10px 10px 10px 0;
+  border-bottom: 2px solid #5e5e5e;
+
+  background-color: aliceblue;
+
+  translate: var(--popup-x);
+  opacity: var(--popup-alpha);
+
+  box-shadow: 2px 2px 3px #000a;
+  text-shadow: none;
+
+  transition: .5s ease var(--popup-delay);
 }
 
 .center_text {

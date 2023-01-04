@@ -196,13 +196,13 @@ function BlobbSVG({ currAccount, colors, mintFunc }) {
         <path id="b-path" 
           d="M33.6-46C45.8-37.4 59.6-30.6 64-20.1 68.4-9.6 63.4 4.7 59.2 19.8 55.1 34.9 51.8 50.9 42.1 59.2 32.4 67.5 16.2 68.2-.6 69-17.4 69.9-34.9 71-46.4 63.2-57.8 55.5-63.4 38.9-69.3 22.2-75.2 5.4-81.5-11.5-78.2-26.6-75-41.7-62.3-55-47.6-62.8-33-70.7-16.5-73.2-2.9-69.2 10.7-65.1 21.4-54.6 33.6-46Z"
         />
-        <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" style={{stopColor: colors.start, stopopacity: 0.5}} />
-          <stop offset="100%" style={{stopColor: colors.end, stopopacity: 0.5}} />
+        <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style={{stopColor: colors.start}} />
+          <stop offset="100%" style={{stopColor: colors.end}} />
         </linearGradient>
         <linearGradient id="s-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" style={{stopColor: colors.start, stopopacity: 0.5}} />
-          <stop offset="100%" style={{stopColor: colors.end, stopopacity: 0.5}} />
+          <stop offset="0%" style={{stopColor: colors.start}} />
+          <stop offset="100%" style={{stopColor: colors.end}} />
         </linearGradient>
         <linearGradient id="t-grad" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" style={{stopColor: "#fffd"}} />

@@ -30,7 +30,7 @@ function Wallet({ currAccount, connectWalletFunc }) {
   return(
     <div className={classes.div_wallet_container} style={styleVars}>
       <div className={classes.div_wallet_text}>
-        <span className={classes.wallet_text_title}>{"MUMBAI"}</span>
+        <span className={classes.wallet_text_title}>{"LOCALHOST"}</span>
         <span className={classes.wallet_text} onClick={walletTextClickHandler}>
           {currAccount ? currAccount.slice(0, 5) + "..." + currAccount.slice(38, 42) : "CONNECT"}
         </span>

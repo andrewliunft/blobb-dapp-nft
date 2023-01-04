@@ -38,13 +38,18 @@
 
 .info_div_title {
   position: relative;
-  bottom: 12px;
+  bottom: 13px;
  
-  padding: 0 5px;
+  padding: 3px 5px;
+
   font-size: 18px;
   font-weight: bold;
+  
   border-radius: 5px;
+  border-bottom: 2px solid #5e5e5e;
+
   background-color: aliceblue;
+  box-shadow: 0 2px 3px #000a;
 }
 
 .highlight {
@@ -121,13 +126,18 @@ p span {
 
 .title_span {
   position: relative;
-  top: 12px;
+  top: 10px;
  
-  padding: 0 5px;
+  padding: 3px 5px;
+
   font-size: 18px;
   font-weight: bold;
+  
   border-radius: 5px;
+  border-bottom: 2px solid #5e5e5e;
+
   background-color: aliceblue;
+  box-shadow: 0 2px 3px #000a;
 }
 
 .search_button, .blobbs_button, .connect_button {
@@ -152,7 +162,7 @@ p span {
   flex: 1.25;
   color: aliceblue;
   border: 2px solid aliceblue;
-  border-radius: 20px;
+  border-radius: 15px;
 }
 .search_button:active, .blobbs_button:active, .connect_button:active {
   background-color: aliceblue;

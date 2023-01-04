@@ -3,23 +3,27 @@ pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "./OnChainSVG.sol";
+import "./SVGChunksTool.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/utils/Base64.sol";
 
-contract Blobb is ERC721URIStorage, OnChainSVG {
+contract Blobb is ERC721URIStorage, Ownable {
   using Strings for uint256;
   using Strings for address;
+  using SVGChunksTool for SVGChunksTool.SVGChunks;
   using Counters for Counters.Counter;
 
   bool public isContractEnabled;
+
+  SVGChunksTool.SVGChunks private _svgChunks;
   Counters.Counter private _blobIDs;
 
   uint256 constant public mintPrice = 0.01 ether;
   uint256 constant public attackPrice = 0.02 ether;
   uint256 constant public healPrice = 0.001 ether;
   uint256 constant public revivalPrice = 0.05 ether;
+  uint256 constant public maxSupply = 1000;
 
   event NewBlobb(uint indexed newBlobID, address indexed newOwner);
   //Single event for Attack and Heal. In front-end if the newHP is greater than the one stored, the Action is an Heal an Attack instead.
@@ -32,7 +36,7 @@ contract Blobb is ERC721URIStorage, OnChainSVG {
     uint256 totalActions;
     uint256 totalAttacks;
     uint256 kills;
-    uint256 deathDate;
+    uint256 deathDate; 
     address creator;
     address owner;
     address lastHit;
@@ -49,19 +53,24 @@ contract Blobb is ERC721URIStorage, OnChainSVG {
   //MY ID => IDX => ACTOR ID: If ACTOR ID is equal to MY ID, it means that it is a heal, an attack instead.
   mapping(uint256 => mapping(uint256 => uint256)) public blobbHistory;
 
-  constructor() ERC721 ("BLOBB", "BLBB") {}
+  uint theKingOfBlobb = 0;
 
+  constructor() ERC721 ("BLOBB", "BLOBB") {} //LESS IN DEPLOY COSTS
+  // constructor(bytes[] memory _svg) ERC721 ("BLOBB", "BLOBB") { _svgChunks.uploadSVG(_svg); } //LESS IN CONTRACT SIZE
+
+  function uploadSVG(bytes[] memory _svg) external onlyOwner { _svgChunks.uploadSVG(_svg); }
   function setIsContractEnabled(bool _isContractEnabled) external onlyOwner { isContractEnabled = _isContractEnabled; }
   function getTotalBlobbsNumber() public view returns(uint) { return _blobIDs.current(); }
   function checkConditions() private view {
     require(isContractEnabled, "Contract is stopped!");
+    require(theKingOfBlobb == 0, "The Battle is over!");
     ownerOf(ownedBlob[msg.sender]);
   }
 
   function getImageURI(uint256 _blobID) public view returns(string memory) {
-    bytes memory svg = _getSVGChunk(0);
-    for(uint i = 1; i < _getChunksNumber(); i++) {
-      svg = abi.encodePacked(svg, blobs[_blobID].values[i-1], _getSVGChunk(i));
+    bytes memory svg = _svgChunks.getSVGChunk(0);
+    for(uint i = 1; i < _svgChunks.getTotalChunksNumber(); i++) {
+      svg = abi.encodePacked(svg, blobs[_blobID].values[i-1], _svgChunks.getSVGChunk(i));
     }
     return string(abi.encodePacked("data:image/svg+xml;base64,", Base64.encode(svg)));
   }
@@ -84,7 +93,7 @@ contract Blobb is ERC721URIStorage, OnChainSVG {
     blob.values[1] = bytes("10"); //EXP CIRCLE BAR
     blob.values[2] = _b1; //LEVEL NUMBER
     blob.values[3] = bytes(_blobID.toString()); //BLOB ID
-    blob.values[4] = abi.encodePacked(substring(msg.sender.toHexString(), 0, 5), "...", substring(msg.sender.toHexString(), 38, 42)); //OWNER ADDRESS
+    blob.values[4] = abi.encodePacked(SVGChunksTool.substring(msg.sender.toHexString(), 0, 5), "...", SVGChunksTool.substring(msg.sender.toHexString(), 38, 42)); //OWNER ADDRESS
     blob.values[5] = _startRGB; //FIRST COLOR
     blob.values[6] = _b1; //ALPHA FIRST COLOR
     blob.values[7] = _endRGB; //SECOND COLOR
@@ -121,6 +130,7 @@ contract Blobb is ERC721URIStorage, OnChainSVG {
 
   function mintBlob(uint[6] memory _colors) public payable {
     require(isContractEnabled, "Contract is stopped!");
+    require(_blobIDs.current() < maxSupply, "Max exceeded!");
     for(uint256 i = 0; i < _colors.length; i++) { require(_colors[i] <= 255); }
     require(ownedBlob[msg.sender] == 0, "You already OWN a Blobb!");
     require(msg.value >= mintPrice, "Wrong MINT value!");
@@ -146,7 +156,7 @@ contract Blobb is ERC721URIStorage, OnChainSVG {
     require(attackerBlob.hp != 0, "Your Blobb is dead!");
     require(blob.hp != 0, "Blobb is dead!");
     uint killing = blob.hp == 1 ? 1 : 0;
-    require(msg.value >= attackPrice * (killing == 1 ? 10 : 1), "Wrong ATTACK value!");
+    require(msg.value >= attackPrice * (killing == 1 ? 2 : 1), "Wrong ATTACK value!");
 
     blob.hp -= 1;
     blob.lastHit = msg.sender;
@@ -162,20 +172,24 @@ contract Blobb is ERC721URIStorage, OnChainSVG {
       deadBlobs[totalDeadBlobs] = _blobID;
     }
 
+    if(totalDeadBlobs == 999) {
+      // kingOfBlobb(attackerBlobID);
+      theKingOfBlobb = _blobID;
+      _updateValue(_blobID, 8, bytes("1"));
+    }
+
     //ATTACKED BLOBB METADATA UPDATE
     bytes memory _hpToAlpha = blob.hp == 10 ? bytes("1") : abi.encodePacked(".", blob.hp.toString());
       //ALPHA FIRST COLOR -> 6
     _updateValue(_blobID, 6, _hpToAlpha);
       //ALPHA SECOND COLOR -> 8
     _updateValue(_blobID, 8, _hpToAlpha);
-    // _updateValues(_blobID);
 
     //ATTACKER BLOBB METADATA UPDATE
       //EXP CIRCLE BAR -> 1
-    _updateValue(attackerBlobID, 1, abi.encodePacked((10 - attackerBlob.totalAttacks % 10).toString()));
+    _updateValue(attackerBlobID, 1, attackerBlob.totalAttacks < 1000 ? abi.encodePacked((10 - attackerBlob.totalAttacks % 10).toString()) : bytes("0"));
       //LEVEL NUMBER -> 2
-    _updateValue(attackerBlobID, 2, abi.encodePacked((attackerBlob.totalAttacks/10).toString()));
-    // _updateValues(attackerBlobID);
+    _updateValue(attackerBlobID, 2, attackerBlob.totalAttacks < 1000 ? abi.encodePacked((attackerBlob.totalAttacks/10).toString()) : bytes("99"));
 
     blobbHistory[_blobID][blob.totalActions] = attackerBlobID;
 
@@ -212,6 +226,7 @@ contract Blobb is ERC721URIStorage, OnChainSVG {
   }
 
   function _transfer(address from, address to, uint256 tokenId) internal virtual override {
+    require(balanceOf(to) == 0, "Blobb Owner!");
     super._transfer(from, to, tokenId);
 
     delete ownedBlob[from];
@@ -224,9 +239,13 @@ contract Blobb is ERC721URIStorage, OnChainSVG {
       //VERIFIED -> 0
     _updateValue(tokenId, 0, blob.owner == blob.creator ? bytes("1") : bytes("0"));
       //OWNER ADDRESS -> 4
-    _updateValue(tokenId, 4, abi.encodePacked(substring(to.toHexString(), 0, 5), "...", substring(to.toHexString(), 38, 42))); //OWNER ADDRESS
+    _updateValue(tokenId, 4, abi.encodePacked(SVGChunksTool.substring(to.toHexString(), 0, 5), "...", SVGChunksTool.substring(to.toHexString(), 38, 42))); //OWNER ADDRESS
     // _updateValues(tokenId);
 
     _setTokenURI(tokenId, getBlobURI(tokenId));
+  }
+
+  function withdraw() external onlyOwner {
+    require(payable(owner()).send(address(this).balance));
   }
 }
