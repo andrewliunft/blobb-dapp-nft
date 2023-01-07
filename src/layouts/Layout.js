@@ -8,8 +8,6 @@ import PendingTransaction from "../components/PendingTransaction"
 import Wallet from "../components/Wallet"
 import Problem from "../components/Problem"
 
-let { gitURL } = require("../helper-data.js")
-
 function Layout({ children }) {
   const {state: { account, pending }, funcs: { connectWallet }} = useContext(EtherContext)
   const location = useLocation()
@@ -17,7 +15,7 @@ function Layout({ children }) {
   return(
     <div className={classes.root_div}>
       <main className={classes.main_layout}>
-        {account || location.pathname === gitURL.base+"/" ? children : <Problem problem="wallet" />}
+        {account || location.pathname === "/blobb-dapp-nft" ? children : <Problem problem="wallet" />}
       </main>
       <Header />
       <Wallet currAccount={account} connectWalletFunc={connectWallet} />

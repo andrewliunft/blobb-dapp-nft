@@ -4,8 +4,6 @@ import BlobbsContext from "../contexts/BlobbsContext/BlobbsProvider"
 
 import classes from "./SearchBlobb.module.css"
 
-let { gitURL } = require("../helper-data.js")
-
 const ACTIONS = {INIT: "init", SET: "set", RESET: "reset"}
 const initialData = {textValue: "", isBarFocused: false, errMsg: {errDiv: null, change: false}}
 const reducer = (searchBarData, action) => {
@@ -46,7 +44,7 @@ function SearchBlobb() {
       return
     }
     const result = await searchNewBlobb(searchBarData.textValue)
-    if(result === 1) navigate(gitURL.base+"/bsearch/sblobb")
+    if(result === 1) navigate("/blobb-dapp-nft/bsearch/sblobb")
     else serachBarDispatch({
       type: ACTIONS.SET, 
       data: {errMsg: {
