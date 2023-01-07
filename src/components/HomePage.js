@@ -4,6 +4,8 @@ import EtherContext from "../contexts/EtherContext/EtherProvider";
 
 import classes from "./HomePage.module.css"
 
+let { gitURL } = require("../helper-data.js")
+
 function HomePage() {
   const {state: { account }, funcs: { connectWallet }} = useContext(EtherContext)
   const navigate = useNavigate()
@@ -26,10 +28,10 @@ function HomePage() {
         <span className={classes.title_span}>EXPLORE THE <span className={classes.highlight}>BLOBB</span> COMMUNITY</span>
         {account ?
           <div className={classes.explore_div}>
-            <div className={classes.search_button} onClick={() => navigate("/bsearch")}>
+            <div className={classes.search_button} onClick={() => navigate(gitURL.base+"/bsearch")}>
               <span className={classes.arrows}>{"<<"}</span> search
             </div>
-            <div className={classes.blobbs_button} onClick={() => navigate("/bhome")}>
+            <div className={classes.blobbs_button} onClick={() => navigate(gitURL.base+"/bhome")}>
               blobb <span className={classes.arrows} style={{"--arrow-color": "lime"}}>{">>"}</span>
             </div>
           </div> :

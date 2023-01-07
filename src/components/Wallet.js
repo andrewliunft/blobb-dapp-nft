@@ -4,6 +4,8 @@ import EtherContext from "../contexts/EtherContext/EtherProvider"
 import MyBlobContext from "../contexts/MyBlobContext/MyBlobProvider"
 import classes from "./Wallet.module.css"
 
+let { gitURL } = require("../helper-data.js")
+
 function Wallet({ currAccount, connectWalletFunc }) {
   // const {state: { chain }} = useContext(EtherContext)
   const {blob: { colors }} = useContext(MyBlobContext)
@@ -19,7 +21,7 @@ function Wallet({ currAccount, connectWalletFunc }) {
   }, [colors])
 
   function handleProfileClick() {
-    if(location.pathname !== "/bhome") navigate("/bhome") 
+    if(location.pathname !== gitURL.base+"/bhome") navigate(gitURL.base+"/bhome") 
   }
 
   function walletTextClickHandler() {

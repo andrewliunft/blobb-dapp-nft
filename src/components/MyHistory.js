@@ -7,6 +7,8 @@ import classes from "./MyHistory.module.css"
 import Problem from "./Problem"
 import { useNavigate } from "react-router-dom"
 
+let { gitURL } = require("../helper-data.js")
+
 const ACTIONS = {INIT: "init", SET: "set", RESET: "reset"}
 const initialData = {history: null, page: null, prevsHP: [], isLastPage: false, hClass: classes.history_div_FR1}
 const reducer = (historyData, action) => {
@@ -76,7 +78,7 @@ function MyHistory() {
   async function profileClickHandler(aID) {
     if(aID === number) return
     const result = await searchNewBlobb(aID.toString())
-    if(result) navigate("/bsearch/sblobb")
+    if(result) navigate(gitURL.base+"/bsearch/sblobb")
     else console.log("NOT OK")
   }
 
