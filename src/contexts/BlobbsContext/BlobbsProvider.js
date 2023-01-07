@@ -101,7 +101,7 @@ export function BlobbsProvider({ children }) {
     blobbsDispatch({type: ACTIONS.RESET})
     if(contract && number) setBlobbs()
     else if(contract && !number) getTotalBlobsNumber()
-  }, [number])
+  }, [number, contract])
 
   const setBlobbs = async () => {
     const {totalBlobs, aliveIDs} = await _getAliveIDs()

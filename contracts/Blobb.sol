@@ -22,7 +22,6 @@ contract Blobb is ERC721URIStorage, Ownable {
   uint256 constant public mintPrice = 0.01 ether;
   uint256 constant public attackPrice = 0.02 ether;
   uint256 constant public healPrice = 0.001 ether;
-  uint256 constant public revivalPrice = 0.05 ether;
   uint256 constant public maxSupply = 1000;
 
   event NewBlobb(uint indexed newBlobID, address indexed newOwner);
@@ -102,17 +101,6 @@ contract Blobb is ERC721URIStorage, Ownable {
     blob.values[10] = _endRGB; //STROKE SECOND COLOR
   }
 
-  // function _updateValues(uint256 _blobID) internal {
-  //   Blob storage blob = blobs[_blobID];
-  //   bytes memory dotHP = abi.encodePacked(".", blob.hp.toString());
-  //   bytes memory _b1 = bytes("1");
-  //   blob.values[0] = blob.owner == blob.creator ? _b1 : bytes("0"); //VERIFIED
-  //   blob.values[1] = abi.encodePacked((10 - blob.totalAttacks % 10).toString()); //EXP CIRCLE BAR
-  //   blob.values[2] = abi.encodePacked((blob.totalAttacks/10).toString()); //LEVEL NUMBER
-  //   blob.values[3] = abi.encodePacked(substring(blob.owner.toHexString(), 0, 5), "...", substring(blob.owner.toHexString(), 38, 42)); //OWNER ADDRESS
-  //   blob.values[5] = blob.hp == 10 ? _b1 : dotHP; //ALPHA FIRST COLOR
-  //   blob.values[7] = blob.hp == 10 ? _b1 : dotHP; //ALPHA SECOND COLOR
-  // }
   function _updateValue(uint _blobID, uint _vIDX, bytes memory _value) internal {
     blobs[_blobID].values[_vIDX] = _value;
   }
@@ -161,12 +149,12 @@ contract Blobb is ERC721URIStorage, Ownable {
     blob.hp -= 1;
     blob.lastHit = msg.sender;
     blob.totalActions++;
-
     
     attackerBlob.totalAttacks++;
 
     if(killing == 1) {
       attackerBlob.kills++;
+      attackerBlob.totalAttacks += 9;
       blob.deathDate = block.timestamp;
       totalDeadBlobs++;
       deadBlobs[totalDeadBlobs] = _blobID;
@@ -186,6 +174,7 @@ contract Blobb is ERC721URIStorage, Ownable {
     _updateValue(_blobID, 8, _hpToAlpha);
 
     //ATTACKER BLOBB METADATA UPDATE
+    
       //EXP CIRCLE BAR -> 1
     _updateValue(attackerBlobID, 1, attackerBlob.totalAttacks < 1000 ? abi.encodePacked((10 - attackerBlob.totalAttacks % 10).toString()) : bytes("0"));
       //LEVEL NUMBER -> 2
@@ -216,7 +205,6 @@ contract Blobb is ERC721URIStorage, Ownable {
     _updateValue(_blobID, 6, _hpToAlpha);
       //ALPHA SECOND COLOR -> 8
     _updateValue(_blobID, 8, _hpToAlpha);
-    // _updateValues(_blobID);
 
     blobbHistory[_blobID][blob.totalActions] = ownedBlob[msg.sender];
 
@@ -240,7 +228,6 @@ contract Blobb is ERC721URIStorage, Ownable {
     _updateValue(tokenId, 0, blob.owner == blob.creator ? bytes("1") : bytes("0"));
       //OWNER ADDRESS -> 4
     _updateValue(tokenId, 4, abi.encodePacked(SVGChunksTool.substring(to.toHexString(), 0, 5), "...", SVGChunksTool.substring(to.toHexString(), 38, 42))); //OWNER ADDRESS
-    // _updateValues(tokenId);
 
     _setTokenURI(tokenId, getBlobURI(tokenId));
   }

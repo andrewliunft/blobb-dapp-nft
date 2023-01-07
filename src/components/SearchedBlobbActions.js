@@ -2,18 +2,25 @@ import { useContext } from "react"
 import { useNavigate } from "react-router-dom"
 import BlobbsContext from "../contexts/BlobbsContext/BlobbsProvider"
 import EtherContext from "../contexts/EtherContext/EtherProvider"
+import MyBlobContext from "../contexts/MyBlobContext/MyBlobProvider"
 import classes from "./SearchedBlobbActions.module.css"
 
 function SearchedBlobbActions({ sBlobb }) {
   const {funcs: { newWalletRequest }} = useContext(EtherContext)
+  const {blob: { hp }} = useContext(MyBlobContext)
   const {funcs: { attackSearchedBlobb }} = useContext(BlobbsContext)
   const navigate = useNavigate()
 
   function attackButtonHandler() {
-    newWalletRequest("ATTACK", "ATTACKING THE BLOBB!", attackSearchedBlobb)
+    if(sBlobb.hp === 1) newWalletRequest("KILL", "KILLING THE BLOBB!", attackSearchedBlobb)
+    else newWalletRequest("ATTACK", "ATTACKING THE BLOBB!", attackSearchedBlobb)
   }
 
   function getInfoMessage() {
+    if(hp === 0) return <span className={classes.info_comic_span_R}>
+      YOUR BLOBB IS <span className={classes.highlight}>DEAD</span>
+    </span>
+
     switch(sBlobb.hp) {
       case 0:
         return <span className={classes.info_comic_span_R}>
@@ -33,7 +40,7 @@ function SearchedBlobbActions({ sBlobb }) {
         <div className={classes.back_button} onClick={() => navigate("/bsearch")}>
           <span className={classes.arrows}>{"<<"}</span> search
         </div>
-        <div className={sBlobb.hp === 0 ? classes.attack_button_off : classes.attack_button} onClick={attackButtonHandler}>
+        <div className={sBlobb.hp === 0 || hp === 0 ? classes.attack_button_off : classes.attack_button} onClick={attackButtonHandler}>
           {sBlobb.hp === 0 ? "dead" : sBlobb.hp > 1 ? "attack" : "kill"}
         </div>
         <span>

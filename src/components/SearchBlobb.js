@@ -63,9 +63,26 @@ function SearchBlobb() {
           <p>You can do it from here!</p>
           <p>Enter the <span className={classes.highlight}>NUMBER</span> or the <span className={classes.highlight}>OWNER ADDRESS</span> of the BLOBB you want and go visit it.</p>
           <p>Attacking a specific BLOBB will cost a little more.</p>
-          <p><span className={classes.highlight} style={{"fontSize": "18px"}}>EXISTING BLOBBS: {totalBlobs}</span></p>
+          {/* <p><span className={classes.highlight} style={{"fontSize": "18px"}}>EXISTING BLOBBS: {totalBlobs}</span></p> */}
+          {/* <p><span className={classes.highlight} style={{"fontSize": "18px"}}>ALIVE BLOBBS: {totalBlobs}</span></p> */}
+          <div className={classes.blobb_numbers_div}>
+            <span className={classes.blobb_number_span}>
+              EXISTING BLOBBS: <span className={classes.highlight}>{totalBlobs}</span>
+            </span>
+            {/* <span className={classes.blobb_number_span}>
+              ALIVE BLOBBS: <span className={classes.highlight}>{totalBlobs}</span>
+            </span> */}
+          </div>
         </div>
       </div>
+      {/* <div className={classes.blobb_numbers_div}>
+        <span className={classes.blobb_number_span}>
+          EXISTING BLOBBS: <span className={classes.highlight}>{totalBlobs}</span>
+        </span>
+        <span className={classes.blobb_number_span}>
+          ALIVE BLOBBS: <span className={classes.highlight}>{totalBlobs}</span>
+        </span>
+      </div> */}
       <div className={classes.search_bar}>
         <input type="text" 
           value={searchBarData.textValue} 

@@ -164,9 +164,12 @@ export function MyBlobProvider({ children }) {
   }
 
   const _transfer = async () => {
-    const transTX = await contract.transferFrom(account, ethers.utils.getAddress("0x70997970C51812dc3A010C7d01b50e0d17dc79C8"), blob.number)
-    await transTX.wait(1)
-    console.log(transTX)
+    // const transTX1 = await contract.transferFrom(account, ethers.utils.getAddress("0x70997970C51812dc3A010C7d01b50e0d17dc79C8"), blob.number)
+    // await transTX1.wait(1)
+
+    const transTX2 = await contract.withdraw()
+    await transTX2.wait(1)
+    console.log(transTX2)
   }
 
   const funcs = {

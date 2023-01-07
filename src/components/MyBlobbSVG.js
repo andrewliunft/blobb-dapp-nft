@@ -1,5 +1,7 @@
 import classes from "./MyBlobbSVG.module.css"
 
+const MAX_ATTACKS_LVL = 1000
+
 function MyBlobbSVG({ currAccount, blobb, show, setShow }) {
   const SVG_SQWARE = (bHP, smooth) => 
     <svg className={classes.blobb_svg} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 125 125" fill="none">
@@ -181,9 +183,9 @@ function MyBlobbSVG({ currAccount, blobb, show, setShow }) {
       <g id="b-lvl">
         <circle r={10} fill="url(#grad)" stroke="url(#s-grad)" strokeWidth={1} filter="drop-shadow(1 1 1 #000b)" />
         <circle r={10} stroke="url(#s-grad)" strokeWidth={2} filter="blur(1px)" />
-        <circle id="exp" r="15" stroke="url(#t-grad)" strokeDasharray="10" strokeDashoffset={(10 - blobb.totalAttacks%10)} pathLength="10" strokeWidth="2" strokeLinecap="round" filter="drop-shadow(0 0 1 #000b)" transform="rotate(-90)" />
+        <circle id="exp" r="15" stroke="url(#t-grad)" strokeDasharray="10" strokeDashoffset={(blobb.totalAttacks < MAX_ATTACKS_LVL ? 10 - blobb.totalAttacks%10 : 0)} pathLength="10" strokeWidth="2" strokeLinecap="round" filter="drop-shadow(0 0 1 #000b)" transform="rotate(-90)" />
         <text fill="url(#t-grad)" filter="drop-shadow(0 1px 0 #000d)" textAnchor="middle" style={{fontFamily: "Titan One", pointerEvents: "none", fontSize: "12px"}} transform="translate(0 4)">
-          {Math.floor(blobb.totalAttacks/10)}
+          {blobb.totalAttacks < MAX_ATTACKS_LVL ? Math.floor(blobb.totalAttacks/10) : 99}
         </text>
         {/* <path d="M147,51 L150, 55 L154, 47" stroke="white" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round" filter="drop-shadow(1 0 1 #0009)" /> */}
       </g>
