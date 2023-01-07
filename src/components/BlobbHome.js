@@ -29,7 +29,7 @@ function BlobbHome() {
         <MyBlobbSVG currAccount={account} blobb={blob} show={showStats} setShow={setShowStats} />
         <BlobbActions currAccount={account} blobb={blob} />
         <BlobbStats blobb={blob} show={showStats} setShow={setShowStats} mine={true} />
-        <div onClick={transfer}>TRANSFER</div>
+        {/* <div onClick={transfer}>TRANSFER</div> */}
       </div>
     )
   }
