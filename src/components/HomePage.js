@@ -26,10 +26,10 @@ function HomePage() {
         <span className={classes.title_span}>EXPLORE THE <span className={classes.highlight}>BLOBB</span> COMMUNITY</span>
         {account ?
           <div className={classes.explore_div}>
-            <div className={classes.search_button} onClick={() => navigate("/blobb-dapp-nft/bsearch")}>
+            <div className={classes.search_button} onClick={() => navigate("/gh-pages-url/bsearch")}>
               <span className={classes.arrows}>{"<<"}</span> search
             </div>
-            <div className={classes.blobbs_button} onClick={() => navigate("/blobb-dapp-nft/bhome")}>
+            <div className={classes.blobbs_button} onClick={() => navigate("/gh-pages-url/bhome")}>
               blobb <span className={classes.arrows} style={{"--arrow-color": "lime"}}>{">>"}</span>
             </div>
           </div> :

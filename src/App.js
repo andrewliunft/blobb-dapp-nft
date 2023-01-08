@@ -23,12 +23,12 @@ function App() {
         <BlobbsProvider>
           <Layout>
             <Routes>
-              <Route path="/blobb-dapp-nft" element={ <HomePage /> } />
-              <Route path="/blobb-dapp-nft/bhome" element={ <BlobbHome /> } />
-              <Route path="/blobb-dapp-nft/bsearch" element={ <SearchBlobb /> } />
-              <Route path="/blobb-dapp-nft/bsearch/sblobb" element={ <SearchedBlobb /> } />
-              <Route path="/blobb-dapp-nft/benemy" element={ <EnemyBlobbs /> } /> 
-              <Route path="/blobb-dapp-nft/history" element={ <MyHistory /> } />
+              <Route path="/gh-pages-url/" element={ <HomePage /> } />
+              <Route path="/gh-pages-url/bhome" element={ <BlobbHome /> } />
+              <Route path="/gh-pages-url/bsearch" element={ <SearchBlobb /> } />
+              <Route path="/gh-pages-url/bsearch/sblobb" element={ <SearchedBlobb /> } />
+              <Route path="/gh-pages-url/benemy" element={ <EnemyBlobbs /> } /> 
+              <Route path="/gh-pages-url/history" element={ <MyHistory /> } />
             </Routes>
           </Layout>
         </BlobbsProvider>

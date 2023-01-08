@@ -37,7 +37,7 @@ function SearchedBlobbActions({ sBlobb }) {
     <div className={classes.div_container}>
       <span className={classes.title_span}>CLICK THE <span className={classes.highlight}>ENEMY BLOBB</span> FOR MORE INFO</span>
       <div className={classes.actions_div}>
-        <div className={classes.back_button} onClick={() => navigate("/blobb-dapp-nft/bsearch")}>
+        <div className={classes.back_button} onClick={() => navigate("/gh-pages-url/bsearch")}>
           <span className={classes.arrows}>{"<<"}</span> search
         </div>
         <div className={sBlobb.hp === 0 || hp === 0 ? classes.attack_button_off : classes.attack_button} onClick={attackButtonHandler}>
