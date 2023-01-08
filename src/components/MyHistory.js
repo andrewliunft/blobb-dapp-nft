@@ -76,7 +76,7 @@ function MyHistory() {
   async function profileClickHandler(aID) {
     if(aID === number) return
     const result = await searchNewBlobb(aID.toString())
-    if(result) navigate("/blobb-dapp-nft/bsearch/sblobb")
+    if(result) navigate("/bsearch/sblobb")
     else console.log("NOT OK")
   }
 

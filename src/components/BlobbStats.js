@@ -21,7 +21,7 @@ function BlobbStats({ blobb, show, setShow, mine }) {
           </div>
         })
       }
-      {mine && <div className={classes.history_button} onClick={() => navigate("/blobb-dapp-nft/history")}>FULL HISTORY</div>}
+      {mine && <div className={classes.history_button} onClick={() => navigate("/history")}>FULL HISTORY</div>}
     </div>
   )
 }

@@ -44,7 +44,7 @@ function SearchBlobb() {
       return
     }
     const result = await searchNewBlobb(searchBarData.textValue)
-    if(result === 1) navigate("/blobb-dapp-nft/bsearch/sblobb")
+    if(result === 1) navigate("/bsearch/sblobb")
     else serachBarDispatch({
       type: ACTIONS.SET, 
       data: {errMsg: {

@@ -19,7 +19,7 @@ function Wallet({ currAccount, connectWalletFunc }) {
   }, [colors])
 
   function handleProfileClick() {
-    if(location.pathname !== "/blobb-dapp-nft/bhome") navigate("/blobb-dapp-nft/bhome") 
+    if(location.pathname !== "/bhome") navigate("/bhome") 
   }
 
   function walletTextClickHandler() {
