@@ -1,8 +1,6 @@
 import { useNavigate } from "react-router-dom"
 import classes from "./BlobbStats.module.css"
 
-let { gitURL } = require("../helper-data.js")
-
 function BlobbStats({ blobb, show, setShow, mine }) {
   const navigate = useNavigate()
   return(
@@ -23,7 +21,7 @@ function BlobbStats({ blobb, show, setShow, mine }) {
           </div>
         })
       }
-      {mine && <div className={classes.history_button} onClick={() => navigate(gitURL.base+"/history")}>FULL HISTORY</div>}
+      {mine && <div className={classes.history_button} onClick={() => navigate("/blobb-dapp-nft/history")}>FULL HISTORY</div>}
     </div>
   )
 }
