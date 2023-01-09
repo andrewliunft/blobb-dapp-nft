@@ -52,7 +52,7 @@ contract Blobb is ERC721URIStorage, Ownable {
   //MY ID => IDX => ACTOR ID: If ACTOR ID is equal to MY ID, it means that it is a heal, an attack instead.
   mapping(uint256 => mapping(uint256 => uint256)) public blobbHistory;
 
-  uint theKingOfBlobb = 0;
+  uint theKingOfBlobb;
 
   constructor() ERC721 ("BLOBB", "BLOBB") {} //LESS IN DEPLOY COSTS
   // constructor(bytes[] memory _svg) ERC721 ("BLOBB", "BLOBB") { _svgChunks.uploadSVG(_svg); } //LESS IN CONTRACT SIZE
@@ -121,7 +121,7 @@ contract Blobb is ERC721URIStorage, Ownable {
     require(_blobIDs.current() < maxSupply, "Max exceeded!");
     for(uint256 i = 0; i < _colors.length; i++) { require(_colors[i] <= 255); }
     require(ownedBlob[msg.sender] == 0, "You already OWN a Blobb!");
-    require(msg.value >= mintPrice, "Wrong MINT value!");
+    require(msg.value == mintPrice, "Wrong MINT value!");
 
     _blobIDs.increment();
     uint256 newBlobID = _blobIDs.current();
@@ -144,7 +144,7 @@ contract Blobb is ERC721URIStorage, Ownable {
     require(attackerBlob.hp != 0, "Your Blobb is dead!");
     require(blob.hp != 0, "Blobb is dead!");
     uint killing = blob.hp == 1 ? 1 : 0;
-    require(msg.value >= attackPrice * (killing == 1 ? 2 : 1), "Wrong ATTACK value!");
+    require(msg.value == attackPrice * (killing == 1 ? 2 : 1), "Wrong ATTACK value!");
 
     blob.hp -= 1;
     blob.lastHit = msg.sender;
@@ -162,8 +162,8 @@ contract Blobb is ERC721URIStorage, Ownable {
 
     if(totalDeadBlobs == 999) {
       // kingOfBlobb(attackerBlobID);
-      theKingOfBlobb = _blobID;
-      _updateValue(_blobID, 8, bytes("1"));
+      theKingOfBlobb = attackerBlobID;
+      _updateValue(attackerBlobID, 8, bytes("1"));
     }
 
     //ATTACKED BLOBB METADATA UPDATE
@@ -194,7 +194,7 @@ contract Blobb is ERC721URIStorage, Ownable {
     require(msg.sender == blob.owner, "You can't HEAL Blobbs you don't own!");
     require(blob.hp != 0, "Your Blobb is dead!");
     require(blob.hp < 10, "Your Blobb has FULL HP!");
-    require(msg.value >= healPrice, "Wrong HEAL value!");
+    require(msg.value == healPrice, "Wrong HEAL value!");
 
     blob.hp++;
     blob.totalActions++;
@@ -233,6 +233,8 @@ contract Blobb is ERC721URIStorage, Ownable {
   }
 
   function withdraw() external onlyOwner {
-    require(payable(owner()).send(address(this).balance));
+    (bool success, ) = payable(owner()).call{value: address(this).balance}("");
+    require(success);
+    // require(payable(owner()).send(address(this).balance));
   }
 }

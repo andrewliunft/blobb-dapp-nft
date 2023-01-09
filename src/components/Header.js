@@ -12,9 +12,7 @@ function Header() {
   const [subtitle, setSubtitle] = useState()
   console.log(provider)
   useEffect(() => {
-    console.log(location.pathname)
     if(!account) setSubtitle("No Wallet")
-    
     else if(location.pathname === "/bhome") number ? setSubtitle("My Blobb") : setSubtitle("Mint Blobb")
     else if(location.pathname === "/bsearch" || location.pathname === "/bsearch/sblobb") setSubtitle("Search")
     else if(location.pathname === "/history") setSubtitle("My History")

@@ -7,11 +7,6 @@ const newtworkConfig = {
   }
 }
 
-const gitURL = {
-  base: "/https://sawyheart.github.io/blobb-dapp-nft"
-}
-
 module.exports = {
   newtworkConfig,
-  gitURL
 }

@@ -69,7 +69,7 @@
   <g id="b-lvl">
     <circle r="10" fill="url(#grad)" stroke="url(#s-grad)" stroke-width="1" filter="drop-shadow(1 1 1 #000b)" />
     <circle r="10" stroke="url(#s-grad)" stroke-width="2" filter="blur(1px)" />
-    <circle r="15" stroke="url(#t-grad)" stroke-dasharray="10" stroke-dashoffset="4" pathLength="10" stroke-width="2" stroke-linecap="round" filter="drop-shadow(0 0 1 #000b)" transform="rotate(-90)" />
+    <circle r="15" stroke="url(#t-grad)" stroke-dasharray="10" stroke-dashoffset="10" pathLength="10" stroke-width="2" stroke-linecap="round" filter="drop-shadow(0 0 1 #000b)" transform="rotate(-90)" />
     <text fill="url(#t-grad)" text-anchor="middle" font-family="Titan One" font-size="12px" filter="drop-shadow(0 1 0 #000d)" transform="translate(0 4)">
       1
     </text>
@@ -87,8 +87,8 @@
         <animate attributeName="href" repeatCount="indefinite" dur="1s" values="#b-path" />
       </textPath>
     </text>
-    
   </g>
+  
   <text fill="url(#t-grad)" font-family="Titan One" filter="drop-shadow(0 1px 0 #000b)" >
     <textPath text-anchor="middle" startOffset="50%">
       0x313...52af

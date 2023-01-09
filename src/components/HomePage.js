@@ -7,7 +7,7 @@ import classes from "./HomePage.module.css"
 function HomePage() {
   const {state: { account }, funcs: { connectWallet }} = useContext(EtherContext)
   const navigate = useNavigate()
-  console.log("HOME PAGE", account, Boolean(account), "AAAss")
+  console.log("HOME PAGE", account, Boolean(account))
 
   return(
     <div className={classes.home_page_div}>
@@ -19,7 +19,7 @@ function HomePage() {
           <p>Don't let your BLOBB be defeated by other players. You have to defeat their BLOBBs.</p>
           <p>Be the last BLOBB standing and you'll be the...</p>
           <p><span className={classes.highlight} style={{"fontSize": "18px"}}>KING OF BLOBBS</span></p>
-          <div className={classes.read_more_button}>READ MORE...</div>
+          <div className={classes.read_more_button} onClick={() => window.open("https://sawyheart.notion.site/BLOBB-Wiki-56f0f4d921df44a791cbf2830f7f2d20", "_blank")}>READ MORE...</div>
         </div>
       </div>
       <div className={classes.div_container}>
