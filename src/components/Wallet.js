@@ -4,12 +4,14 @@ import EtherContext from "../contexts/EtherContext/EtherProvider"
 import MyBlobContext from "../contexts/MyBlobContext/MyBlobProvider"
 import classes from "./Wallet.module.css"
 
+let { networkConfig } = require("../helper-data.js")
+
 function Wallet({ currAccount, connectWalletFunc }) {
-  // const {state: { chain }} = useContext(EtherContext)
+  const {state: { chain }} = useContext(EtherContext)
   const {blob: { colors }} = useContext(MyBlobContext)
   const location = useLocation()
   const navigate = useNavigate()
-  // console.log(chain)
+
   const styleVars = useMemo(() => {
     console.log(colors)
     return {
@@ -29,8 +31,12 @@ function Wallet({ currAccount, connectWalletFunc }) {
 
   return(
     <div className={classes.div_wallet_container} style={styleVars}>
-      <div className={classes.div_wallet_text}>
-        <span className={classes.wallet_text_title}>{"LOCALHOST"}</span>
+      <div className={classes.div_wallet_text} style={{"--chain-color": networkConfig.networks.includes(chain) ? "#5e5e5e" : "red"}}>
+        <span className={classes.wallet_text_title}>
+          <span className={classes.highlight}>
+            {chain ? networkConfig[chain] ? networkConfig[chain].name : "UKNOWN" : "NONE"}
+          </span>
+        </span>
         <span className={classes.wallet_text} onClick={walletTextClickHandler}>
           {currAccount ? currAccount.slice(0, 5) + "..." + currAccount.slice(38, 42) : "CONNECT"}
         </span>

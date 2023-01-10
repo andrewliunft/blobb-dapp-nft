@@ -4,22 +4,32 @@ function Problem({ problem }) {
 
   function getProblemDesc() {
     switch(problem) {
+      case 404:
+        return [
+          <div key="subtitle" className={classes.problem_subtitle_div}>
+            <p>ERROR <span className={classes.highlight}>404</span></p>
+          </div>,
+          <div key="desc" className={classes.problem_desc_div}>
+            <p>This page doesn't exist.</p>
+          </div>
+        ] 
       case "owner":
         return [
           <div key="subtitle" className={classes.problem_subtitle_div}>
-            YOU DON'T OWN A <span className={classes.highlight}>BLOBB</span>
+            <p>YOU DON'T OWN A <span className={classes.highlight}>BLOBB</span></p>
           </div>,
           <div key="desc" className={classes.problem_desc_div}>
-            To access this page you must mint a BLOBB.
+            <p>To access this page you must mint a BLOBB.</p>
           </div>
         ]
       case "wallet":
         return [
           <div key="subtitle" className={classes.problem_subtitle_div}>
-            WALLET CONNECTION <span className={classes.highlight}>ERROR</span>
+            <p>WALLET CONNECTION <span className={classes.highlight}>ERROR</span></p>
           </div>,
           <div key="desc" className={classes.problem_desc_div}>
-            Connect your <span className={classes.highlight}>MetaMask</span> account to the Polygon Mainnet
+            <p>Connect your <span className={classes.highlight}>MetaMask</span> account to the</p>
+            <p><span className={classes.highlight} style={{"fontSize": "18px"}}>ETHEREUM MAINNET</span></p>
           </div>
         ]
     }

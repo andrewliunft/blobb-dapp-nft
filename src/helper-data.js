@@ -1,12 +1,28 @@
-const newtworkConfig = {
+const networkConfig = {
+  networks: [31337, 80001, 1],
   31337: {
-    name: "localhost"
+    name: "LOCALHOST"
+  },
+  1: {
+    name: "MAINNET"
   },
   5: {
-    name: "Goerli"
-  }
+    name: "GOERLI"
+  },
+  10: {
+    name: "OPTIMISM"
+  },
+  56: {
+    name: "BINANCE"
+  },
+  137: {
+    name: "POLYGON"
+  },
+  80001: {
+    name: "MUMBAI"
+  },  
 }
 
 module.exports = {
-  newtworkConfig,
+  networkConfig,
 }

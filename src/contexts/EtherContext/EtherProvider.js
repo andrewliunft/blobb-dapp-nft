@@ -3,13 +3,13 @@ import { createContext, useEffect, useReducer, useCallback } from "react"
 import { ethers } from "ethers";
 import Blobb from "../../artifacts/contracts/Blobb.sol/Blobb.json"
 
-const CONTRACT_ADDRESS = "0x7E04B28e06e7eDD10D6eAcDbfF9875BaB63c0ECf" //"0xd5dE780a77495E81BF54e476540484b0f272116B" //OLD: 0x7995988461F28D587f330ba286A31ddE5380F7f8 - NEW: 0x38E6fb0F39Bde57944A8246fa6AA2BcEcBb514da 
+const CONTRACT_ADDRESS = "0x5FbDB2315678afecb367f032d93F642f64180aa3" //"0x7E04B28e06e7eDD10D6eAcDbfF9875BaB63c0ECf" 
 const CHAIN_ID = "0x13881"
 
 const EtherContext = createContext()
 
 const ACTIONS = {INIT: "init", TRANSACTION: "transaction", RESET: "reset"}
-const initialState = {account: null, provider: null, signer: null, contract: null, pending: null, init: false}
+const initialState = {account: null, provider: null, signer: null, contract: null, pending: null, chain: null}
 const reducer = (state, action) => {
   const { type, data } = action
   switch (type) {
@@ -33,11 +33,11 @@ export function EtherProvider({ children }) {
     if(window.ethereum) {
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       // const provider = new ethers.providers.WebSocketProvider("ws://localhost:8545")
-      // const chain = await provider.getNetwork()
       const accounts = await window.ethereum.request({ method: "eth_accounts" })
       const account = accounts[0] 
       const signer = provider.getSigner()
-      console.log("SIGNER", signer, typeof account, ethers.utils.formatEther(await provider.getBalance(CONTRACT_ADDRESS)))
+      const chain = (await provider.getNetwork()).chainId
+      console.log("SIGNER", signer, typeof account, ethers.utils.formatEther(await provider.getBalance(CONTRACT_ADDRESS)), chain)
 
       let contract
       try {
@@ -45,7 +45,7 @@ export function EtherProvider({ children }) {
       } catch (err) {
         console.error(err)
       }
-      dispatch({type: ACTIONS.INIT, data: { account, provider, signer, contract }})
+      dispatch({type: ACTIONS.INIT, data: { account, provider, signer, contract, chain }})
     }
     else 
       alert("Install MetaMask!")

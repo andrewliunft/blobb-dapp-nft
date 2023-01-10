@@ -12,6 +12,8 @@
 }
 
 .div_wallet_text {
+  --chain-color: #5e5e5e;
+
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -22,7 +24,7 @@
   font-size: 18px;
 
   margin: 10px 10px 0 0;
-  border: 2px solid #5e5e5e;
+  border: 2px solid var(--chain-color);
   border-radius: 10px;
 
   /* translate: 100px; */
@@ -32,13 +34,29 @@
 
 .wallet_text_title {
   position: absolute;
-  top: 0px;
+  bottom: 49px;
   left: 20px;
  
-  padding: 0 5px;
+  padding: 3px 5px;
+
+  font-size: 18px;
+  font-weight: bold;
   
   border-radius: 5px;
+  border-bottom: 2px solid var(--chain-color);
+
   background-color: aliceblue;
+  box-shadow: 0 2px 3px #000a;
+
+  transition: .25s ease;
+}
+
+.highlight {
+  padding: 0 3px;
+  border-radius: 5px;
+  color: #323232;
+  background-color: #c2c5c8;
+  text-shadow: none;
 }
 
 .wallet_text {

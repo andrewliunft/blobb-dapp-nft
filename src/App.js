@@ -11,6 +11,7 @@ import MyHistory from './components/MyHistory';
 import { EtherProvider } from './contexts/EtherContext/EtherProvider';
 import { MyBlobProvider } from './contexts/MyBlobContext/MyBlobProvider';
 import { BlobbsProvider } from './contexts/BlobbsContext/BlobbsProvider';
+import Problem from './components/Problem';
 
 
 // mumbai contract: 0x7995988461F28D587f330ba286A31ddE5380F7f8
@@ -29,6 +30,7 @@ function App() {
               <Route path="/bsearch/sblobb" element={ <SearchedBlobb /> } />
               <Route path="/benemy" element={ <EnemyBlobbs /> } /> 
               <Route path="/history" element={ <MyHistory /> } />
+              <Route path="*" element={ <Problem problem={404} /> } />
             </Routes>
           </Layout>
         </BlobbsProvider>
