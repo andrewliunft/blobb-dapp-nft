@@ -29,7 +29,7 @@ function Problem({ problem }) {
           </div>,
           <div key="desc" className={classes.problem_desc_div}>
             <p>Connect your <span className={classes.highlight}>MetaMask</span> account to the</p>
-            <p><span className={classes.highlight} style={{"fontSize": "18px"}}>ETHEREUM MAINNET</span></p>
+            <p><span className={classes.highlight} style={{"fontSize": "18px"}}>MUMBAI TESTNET</span></p> {/* POLYGON */}
           </div>
         ]
     }
@@ -38,7 +38,7 @@ function Problem({ problem }) {
   return(
     <div className={classes.non_owner_div}>
       <div className={classes.problem_div}>
-        <span className={classes.problem_title_span}>SOMETHING WRONG...</span>
+        <span className={classes.problem_title_span}>SOMETHING <span className={classes.highlight}>WRONG!</span></span>
         {getProblemDesc()}
       </div>
       {/* <div className={classes.problem_button}>

@@ -26,7 +26,7 @@ contract Blobb is ERC721URIStorage, Ownable {
 
   event NewBlobb(uint indexed newBlobID, address indexed newOwner);
   //Single event for Attack and Heal. In front-end if the newHP is greater than the one stored, the Action is an Heal an Attack instead.
-  event Action(uint indexed toBlobID, uint indexed madeFrom, uint newHP, uint newTotAttks);
+  event Action(uint indexed toBlobID, uint indexed madeFrom, uint newHP, uint newTotAttks, uint kingOfBlobbs);
   
   struct Blob {
     uint256 blobID;
@@ -52,7 +52,7 @@ contract Blobb is ERC721URIStorage, Ownable {
   //MY ID => IDX => ACTOR ID: If ACTOR ID is equal to MY ID, it means that it is a heal, an attack instead.
   mapping(uint256 => mapping(uint256 => uint256)) public blobbHistory;
 
-  uint theKingOfBlobb;
+  uint public theKingOfBlobbs;
 
   constructor() ERC721 ("BLOBB", "BLOBB") {} //LESS IN DEPLOY COSTS
   // constructor(bytes[] memory _svg) ERC721 ("BLOBB", "BLOBB") { _svgChunks.uploadSVG(_svg); } //LESS IN CONTRACT SIZE
@@ -61,8 +61,8 @@ contract Blobb is ERC721URIStorage, Ownable {
   function setIsContractEnabled(bool _isContractEnabled) external onlyOwner { isContractEnabled = _isContractEnabled; }
   function getTotalBlobbsNumber() public view returns(uint) { return _blobIDs.current(); }
   function checkConditions() private view {
-    require(isContractEnabled, "Contract is stopped!");
-    require(theKingOfBlobb == 0, "The Battle is over!");
+    require(isContractEnabled); //"Contract is stopped!"
+    require(theKingOfBlobbs == 0); //"The Battle is over!"
     ownerOf(ownedBlob[msg.sender]);
   }
 
@@ -87,18 +87,22 @@ contract Blobb is ERC721URIStorage, Ownable {
     bytes memory _startRGB = abi.encodePacked(_colors[0].toString(), ",", _colors[1].toString(), ",", _colors[2].toString());
     bytes memory _endRGB = abi.encodePacked(_colors[3].toString(), ",", _colors[4].toString(), ",", _colors[5].toString());
     bytes memory _b1 = bytes("1");
+    bytes memory _gradient = _blobID > 10 ? bytes("T") : bytes("C"); //10
     
     blob.values[0] = _b1; //VERIFIED
-    blob.values[1] = bytes("10"); //EXP CIRCLE BAR
-    blob.values[2] = _b1; //LEVEL NUMBER
-    blob.values[3] = bytes(_blobID.toString()); //BLOB ID
-    blob.values[4] = abi.encodePacked(SVGChunksTool.substring(msg.sender.toHexString(), 0, 5), "...", SVGChunksTool.substring(msg.sender.toHexString(), 38, 42)); //OWNER ADDRESS
-    blob.values[5] = _startRGB; //FIRST COLOR
-    blob.values[6] = _b1; //ALPHA FIRST COLOR
-    blob.values[7] = _endRGB; //SECOND COLOR
-    blob.values[8] = _b1; //ALPHA SECOND COLOR
-    blob.values[9] = _startRGB; //STROKE FIRST COLOR
-    blob.values[10] = _endRGB; //STROKE SECOND COLOR
+    blob.values[1] = bytes("0"); //CROWN OPACITY
+    blob.values[2] = _gradient; //GOLD OR WHITE EXP BAR GRADIENT
+    blob.values[3] = bytes("10"); //EXP CIRCLE BAR
+    blob.values[4] = _gradient; //GOLD OR WHITE LEVEL GRADIENT
+    blob.values[5] = _b1; //LEVEL NUMBER
+    blob.values[6] = bytes(_blobID.toString()); //BLOB ID
+    blob.values[7] = abi.encodePacked(SVGChunksTool.substring(msg.sender.toHexString(), 0, 5), "...", SVGChunksTool.substring(msg.sender.toHexString(), 38, 42)); //OWNER ADDRESS
+    blob.values[8] = _startRGB; //FIRST COLOR
+    blob.values[9] = _b1; //ALPHA FIRST COLOR
+    blob.values[10] = _endRGB; //SECOND COLOR
+    blob.values[11] = _b1; //ALPHA SECOND COLOR
+    blob.values[12] = _startRGB; //STROKE FIRST COLOR
+    blob.values[13] = _endRGB; //STROKE SECOND COLOR
   }
 
   function _updateValue(uint _blobID, uint _vIDX, bytes memory _value) internal {
@@ -117,7 +121,7 @@ contract Blobb is ERC721URIStorage, Ownable {
   }
 
   function mintBlob(uint[6] memory _colors) public payable {
-    require(isContractEnabled, "Contract is stopped!");
+    require(isContractEnabled); //"Contract is stopped!"
     require(_blobIDs.current() < maxSupply, "Max exceeded!");
     for(uint256 i = 0; i < _colors.length; i++) { require(_colors[i] <= 255); }
     require(ownedBlob[msg.sender] == 0, "You already OWN a Blobb!");
@@ -144,7 +148,7 @@ contract Blobb is ERC721URIStorage, Ownable {
     require(attackerBlob.hp != 0, "Your Blobb is dead!");
     require(blob.hp != 0, "Blobb is dead!");
     uint killing = blob.hp == 1 ? 1 : 0;
-    require(msg.value == attackPrice * (killing == 1 ? 2 : 1), "Wrong ATTACK value!");
+    require(msg.value >= attackPrice * (killing == 1 ? 2 : 1), "Wrong ATTACK value!");
 
     blob.hp -= 1;
     blob.lastHit = msg.sender;
@@ -160,32 +164,34 @@ contract Blobb is ERC721URIStorage, Ownable {
       deadBlobs[totalDeadBlobs] = _blobID;
     }
 
-    if(totalDeadBlobs == 999) {
+    bytes memory _b1 = bytes("1");
+    if(totalDeadBlobs == 999) { //999
       // kingOfBlobb(attackerBlobID);
-      theKingOfBlobb = attackerBlobID;
-      _updateValue(attackerBlobID, 8, bytes("1"));
+      theKingOfBlobbs = attackerBlobID;
+      //CROWN OPACITY
+      _updateValue(attackerBlobID, 1, _b1);
     }
 
     //ATTACKED BLOBB METADATA UPDATE
-    bytes memory _hpToAlpha = blob.hp == 10 ? bytes("1") : abi.encodePacked(".", blob.hp.toString());
-      //ALPHA FIRST COLOR -> 6
-    _updateValue(_blobID, 6, _hpToAlpha);
-      //ALPHA SECOND COLOR -> 8
-    _updateValue(_blobID, 8, _hpToAlpha);
+    bytes memory _hpToAlpha = blob.hp == 10 ? _b1 : abi.encodePacked(".", blob.hp.toString());
+      //ALPHA FIRST COLOR -> 9
+    _updateValue(_blobID, 9, _hpToAlpha);
+      //ALPHA SECOND COLOR -> 11
+    _updateValue(_blobID, 11, _hpToAlpha);
 
     //ATTACKER BLOBB METADATA UPDATE
     
-      //EXP CIRCLE BAR -> 1
-    _updateValue(attackerBlobID, 1, attackerBlob.totalAttacks < 1000 ? abi.encodePacked((10 - attackerBlob.totalAttacks % 10).toString()) : bytes("0"));
-      //LEVEL NUMBER -> 2
-    _updateValue(attackerBlobID, 2, attackerBlob.totalAttacks < 1000 ? abi.encodePacked((attackerBlob.totalAttacks/10).toString()) : bytes("99"));
+      //EXP CIRCLE BAR -> 3
+    _updateValue(attackerBlobID, 3, attackerBlob.totalAttacks < 1000 ? abi.encodePacked((10 - attackerBlob.totalAttacks % 10).toString()) : bytes("0"));
+      //LEVEL NUMBER -> 5
+    _updateValue(attackerBlobID, 5, attackerBlob.totalAttacks < 1000 ? abi.encodePacked((attackerBlob.totalAttacks/10).toString()) : bytes("99"));
 
     blobbHistory[_blobID][blob.totalActions] = attackerBlobID;
 
     _setTokenURI(_blobID, getBlobURI(_blobID));
     _setTokenURI(attackerBlobID, getBlobURI(attackerBlobID));
 
-    emit Action(_blobID, attackerBlobID, blob.hp, attackerBlob.totalAttacks);
+    emit Action(_blobID, attackerBlobID, blob.hp, attackerBlob.totalAttacks, theKingOfBlobbs);
   }
 
   function healBlob(uint256 _blobID) public payable {
@@ -201,16 +207,16 @@ contract Blobb is ERC721URIStorage, Ownable {
 
     //HEALED BLOBB METADATA UPDATE
     bytes memory _hpToAlpha = blob.hp == 10 ? bytes("1") : abi.encodePacked(".", blob.hp.toString());
-      //ALPHA FIRST COLOR -> 6
-    _updateValue(_blobID, 6, _hpToAlpha);
-      //ALPHA SECOND COLOR -> 8
-    _updateValue(_blobID, 8, _hpToAlpha);
+      //ALPHA FIRST COLOR -> 9
+    _updateValue(_blobID, 9, _hpToAlpha);
+      //ALPHA SECOND COLOR -> 11
+    _updateValue(_blobID, 11, _hpToAlpha);
 
     blobbHistory[_blobID][blob.totalActions] = ownedBlob[msg.sender];
 
     _setTokenURI(_blobID, getBlobURI(_blobID));
 
-    emit Action(_blobID, 0, blob.hp, blob.totalAttacks);
+    emit Action(_blobID, 0, blob.hp, blob.totalAttacks, theKingOfBlobbs);
   }
 
   function _transfer(address from, address to, uint256 tokenId) internal virtual override {
@@ -226,8 +232,8 @@ contract Blobb is ERC721URIStorage, Ownable {
     //TRANSFERED BLOBB METADATA UPDATE
       //VERIFIED -> 0
     _updateValue(tokenId, 0, blob.owner == blob.creator ? bytes("1") : bytes("0"));
-      //OWNER ADDRESS -> 4
-    _updateValue(tokenId, 4, abi.encodePacked(SVGChunksTool.substring(to.toHexString(), 0, 5), "...", SVGChunksTool.substring(to.toHexString(), 38, 42))); //OWNER ADDRESS
+      //OWNER ADDRESS -> 7
+    _updateValue(tokenId, 7, abi.encodePacked(SVGChunksTool.substring(to.toHexString(), 0, 5), "...", SVGChunksTool.substring(to.toHexString(), 38, 42))); //OWNER ADDRESS
 
     _setTokenURI(tokenId, getBlobURI(tokenId));
   }

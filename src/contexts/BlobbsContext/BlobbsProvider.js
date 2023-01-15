@@ -26,8 +26,8 @@ export function BlobbsProvider({ children }) {
   const [blobbs, blobbsDispatch] = useReducer(reducer, initBlobbs)
 
   //EVENTS HANDLER CALLBACK
-  const _actionEventsHandlerFB = (toBlobID, madeFrom, newHP, newTotAttks, event) => {
-    console.log("Action to BlobbsProvider EMITTED", toBlobID, madeFrom, newHP, newTotAttks, event)
+  const _actionEventsHandlerFB = (toBlobID, madeFrom, newHP, newTotAttks, kingOfBlobbs, event) => {
+    console.log("Action to BlobbsProvider FB EMITTED", toBlobID, madeFrom, newHP, newTotAttks, kingOfBlobbs, event)
     console.log("VALUE: ", blobbs)
     const eventBlobHP = parseInt(newHP._hex, 16)
     if(eventBlobHP === blobbs.focusedBlobb.hp) {
@@ -40,8 +40,8 @@ export function BlobbsProvider({ children }) {
     blobbsDispatch({type: ACTIONS.SET, data: { focusedBlobb }})
 
   }
-  const _actionEventsHandlerSB = (toBlobID, madeFrom, newHP, newTotAttks, event) => {
-    console.log("Action to BlobbsProvider EMITTED", toBlobID, madeFrom, newHP, newTotAttks, event)
+  const _actionEventsHandlerSB = (toBlobID, madeFrom, newHP, newTotAttks, kingOfBlobbs, event) => {
+    console.log("Action to BlobbsProvider SB EMITTED", toBlobID, madeFrom, newHP, newTotAttks, kingOfBlobbs, event)
     console.log("VALUE: ", blobbs)
     const eventBlobHP = parseInt(newHP._hex, 16)
     if(eventBlobHP === blobbs.searchedBlobb.hp) {
@@ -127,13 +127,19 @@ export function BlobbsProvider({ children }) {
     return month + "/" + day + "/" + dateInSecs.getFullYear()
   }
 
-  const _getBlobbColors = async (blobID) => {
+  const _getBlobbColors = async blobID => {
     let colors = []
     for(let i = 0; i < 6; i++) {
       const color = await contract.blobbColors(blobID, i)
       colors.push(parseInt(color._hex, 16))
     }
     return {start: colors.slice(0,3).join(), end: colors.slice(-3).join()}
+  }
+
+  const _isThekingOfBlobbs = async blobID => {
+    const king = await contract.theKingOfBlobbs()
+    if(parseInt(king._hex, 16) === blobID) return true
+    return false
   }
 
   const _getAliveIDs = async () => {
@@ -172,7 +178,8 @@ export function BlobbsProvider({ children }) {
       creator: blobb.creator,
       owner: blobb.owner,
       lastHit: blobb.lastHit || "NONE",
-      colors: await _getBlobbColors(parseInt(bID, 16))
+      colors: await _getBlobbColors(parseInt(bID, 16)),
+      king: await _isThekingOfBlobbs(parseInt(bID, 16))
     }
   }
 

@@ -6,7 +6,7 @@ import { ethers } from "ethers";
 const MyBlobContext = createContext()
 
 const ACTIONS = {SET: "set", RESET: "reset"}
-const initBlob = {number: null, birthday: null, hp: null, totalActions: null, totalAttacks: null, kills: null, death: null, creator: null, owner: null, lastHit: null, colors: null}
+const initBlob = {number: null, birthday: null, hp: null, totalActions: null, totalAttacks: null, kills: null, death: null, creator: null, owner: null, lastHit: null, colors: null, king: null}
 const reducer = (blob, action) => {
   const { type, data } = action
   switch (type) {
@@ -24,8 +24,8 @@ export function MyBlobProvider({ children }) {
   const [blob, blobDispatch] = useReducer(reducer, initBlob)
 
   //EVENTS HANDLER CALLBACK
-  const _actionEventsHandler = (toBlobID, madeFrom, newHP, newTotAttks, event) => {
-    console.log("Action to MyBlobProvider EMITTED", toBlobID, madeFrom, newHP, newTotAttks, event)
+  const _actionEventsHandler = (toBlobID, madeFrom, newHP, newTotAttks, kingOfBlobbs, event) => {
+    console.log("Action to MyBlobProvider EMITTED", toBlobID, madeFrom, newHP, newTotAttks, kingOfBlobbs, event)
     console.log("VALUE: ", blob)
     const eventBlobHP = parseInt(newHP._hex, 16)
     if(eventBlobHP === blob.hp) {
@@ -35,14 +35,16 @@ export function MyBlobProvider({ children }) {
     const death = eventBlobHP === 0 ? _getDateFromTimestamp(Date.now()/1000) : "ALIVE"
     blobDispatch({type: ACTIONS.SET, data: {hp: eventBlobHP, totalActions: ++blob.totalActions, death}})
   }
-  const _attackEventHandler = (toBlobID, madeFrom, newHP, newTotAttks, event) => {
-    console.log("MYBLOBB ATTACK EMITTED", toBlobID, madeFrom, newHP, newTotAttks, event)
-    const eventBlobTotAttks= parseInt(newTotAttks._hex, 16)
+  const _attackEventHandler = (toBlobID, madeFrom, newHP, newTotAttks, kingOfBlobbs, event) => {
+    console.log("MYBLOBB ATTACK EMITTED", toBlobID, madeFrom, newHP, newTotAttks, kingOfBlobbs, event)
+    const eventBlobTotAttks = parseInt(newTotAttks._hex, 16)
     if(eventBlobTotAttks === blob.totalAttacks) {
       console.log("FALSE EVENT - NOTHING TO FETCH")
       return
     }
-    blobDispatch({type: ACTIONS.SET, data: {totalAttacks: eventBlobTotAttks}})
+
+    const king = blob.number === parseInt(kingOfBlobbs._hex, 16)
+    blobDispatch({type: ACTIONS.SET, data: {totalAttacks: eventBlobTotAttks, king}})
   }
 
   //CONTRACT EVENTS LISTENER 
@@ -66,7 +68,13 @@ export function MyBlobProvider({ children }) {
   }, [account, contract])
 
   const getBlob = async () => {
-    const myBlobID = (await contract.ownedBlob(account)).toNumber()
+    let myBlobID
+    try {
+      myBlobID = (await contract.ownedBlob(account)).toNumber()
+    } catch(e) {
+      console.error("Contract function call failed!", e)
+      myBlobID = 0
+    }
     console.log("b:", myBlobID)
     if(!myBlobID) { 
       blobDispatch({type: ACTIONS.RESET})
@@ -86,6 +94,7 @@ export function MyBlobProvider({ children }) {
       owner: myBlob.owner,
       lastHit: myBlob.lastHit || "NONE",
       colors: await _getBlobbColors(myBlobID),
+      king: await _isThekingOfBlobbs(myBlobID)
     }
     console.log("BLOB GET", myBlobInfo, myBlob)
     blobDispatch({type: ACTIONS.SET, data: myBlobInfo})
@@ -102,13 +111,19 @@ export function MyBlobProvider({ children }) {
     return month + "/" + day + "/" + dateInSecs.getFullYear()
   }
 
-  const _getBlobbColors = async (blobID) => {
+  const _getBlobbColors = async blobID => {
     let colors = []
     for(let i = 0; i < 6; i++) {
       const color = await contract.blobbColors(blobID, i)
       colors.push(parseInt(color._hex, 16))
     }
     return {start: colors.slice(0,3).join(), end: colors.slice(-3).join()}
+  }
+
+  const _isThekingOfBlobbs = async blobID => {
+    const king = await contract.theKingOfBlobbs()
+    if(parseInt(king._hex, 16) === blobID) return true
+    return false
   }
 
   const _mintBlob = async (startHexColor, endHexColor) => {

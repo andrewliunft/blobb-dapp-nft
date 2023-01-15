@@ -1,85 +1,6 @@
 import classes from "./BlobbSVG.module.css"
 
 function BlobbSVG({ currAccount, colors, mintFunc }) {
-  const SVG_SQWARE = (bHP, smooth) => 
-    <svg className={classes.blobb_svg} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 125 125" fill="none">
-      <style type="text/css">
-        {`
-          #blobb, #blobb-shadow, #path {
-            // animation: spin infinite 10s linear;
-            transform-box: fill-box;
-            transform-origin: center;
-            scale: `+bHP/10+`;
-            transition: .25s ease;            
-          }
-          #blobb:active {
-            scale: `+(bHP/10+.1)+`;
-          }
-          #blobb-blur {
-            filter: blur(2px);
-          }
-          #blobb-shadow {
-            transform-box: fill-box;
-            filter: blur(3px);
-          }
-          .address_text {
-            font-weight: bold;
-            font-size: 5px;
-            text-shadow: 2px 2px 0 #0009;
-          }
-          @keyframes spin {
-            from {
-              rotate: 0deg;
-            }
-            to {
-              rotate: 360deg;
-            }
-          }
-        `}
-      </style>
-      <g>
-        <rect width="100%" height="100%" />
-        <rect id="blobb-shadow"
-          width={100}
-          height={100}
-          rx={smooth}
-          fill="#000"
-          x={14}
-          y={14}
-        />
-        <g id="blobb">
-          {/* <rect id="blobb-blur"
-            width={100}
-            height={100}
-            rx={smooth}
-            fill="url(#grad)"
-            x={12.5}
-            y={12.5}
-          /> */}
-          <rect
-            width={100}
-            height={100}
-            rx={smooth}
-            // ry="10%"
-            fill="url(#grad)"
-            x={12.5}
-            y={12.5}
-          />
-        </g>
-        <path id="path" d="M12.5,12.5 h100 v100 H12.5 Z" fill="black"></path>
-        
-        <a href={"https://mumbai.polygonscan.com/address/"+currAccount} target="_blank">
-          <text className="address_text" x={0} y={"100%"} dy="-5" fill={"#3f3f3f"} textAnchor="start">{currAccount.slice(0, 5) + "..." + currAccount.slice(38, 42)}</text>
-        </a>
-        
-      </g>
-      <defs>
-        <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" style={{stopColor: "rgb(255,0,0)", stopOpacity: 1}} />
-          <stop offset="100%" style={{stopColor: "rgb(255,255,0)", stopOpacity: 1}} />
-        </linearGradient>
-      </defs>
-    </svg>
   const SVG_BLOBB = () => 
     <svg className={classes.blobb_svg} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
       <style type="text/css"> {`
@@ -132,9 +53,18 @@ function BlobbSVG({ currAccount, colors, mintFunc }) {
           transform: translate(130px, 147px) rotate(0deg);
           animation: ver infinite 10s ease forwards;
         }
+        #crown {
+          transform: translate(100px, 3px) rotate(25deg) scale(1.5);
+          animation: c_anim infinite 10s ease forwards;
+        }
         textPath {
           font-family: Titan One;
           pointer-events: none;
+        }
+        @keyframes c_anim {
+          25% { transform: translate(90px, 13px) rotate(15deg) scale(1.5); }
+          50% { transform: translate(85px, 7px) rotate(0deg) scale(1.5); }
+          75% { transform: translate(100px, 0px) rotate(15deg) scale(1.5); }
         }
         @keyframes t_anim {
           25% { d: path("M-65.17 26.34C-40.14 21.76-30.99 41.15-1.38 27.15 26.98 2 41.15 18.53 50.58 16.11") }
@@ -153,6 +83,14 @@ function BlobbSVG({ currAccount, colors, mintFunc }) {
         }
       `}</style>
       <g id="blobs">
+        {/* <g id="crown">
+          <use href="#c-path" filter="blur(1px)" />
+          <use href="#c-path" filter="drop-shadow(1px 1px 1 #000b)" />
+          <circle r={2} stroke="#0006" strokeWidth={0.75} transform="translate(12.3 8.3)" />
+          <circle r={1} fill="url(#s-grad)" strokeWidth={1} transform="translate(3.75 8)" />
+          <circle r={1} fill="url(#s-grad)" strokeWidth={1} transform="translate(20.25 8)" />
+          <circle r={2} stroke="url(#s-grad)" strokeWidth={0.75} transform="translate(12 8)" />
+        </g> */}
         <use id="b-shad" href="#b-path" />
         <use id="b" href="#b-path" />
         <use id="b-blur" href="#b-path" onClick={mintFunc}/>
@@ -196,6 +134,9 @@ function BlobbSVG({ currAccount, colors, mintFunc }) {
         <path id="b-path" 
           d="M33.6-46C45.8-37.4 59.6-30.6 64-20.1 68.4-9.6 63.4 4.7 59.2 19.8 55.1 34.9 51.8 50.9 42.1 59.2 32.4 67.5 16.2 68.2-.6 69-17.4 69.9-34.9 71-46.4 63.2-57.8 55.5-63.4 38.9-69.3 22.2-75.2 5.4-81.5-11.5-78.2-26.6-75-41.7-62.3-55-47.6-62.8-33-70.7-16.5-73.2-2.9-69.2 10.7-65.1 21.4-54.6 33.6-46Z"
         />
+        <path id="c-path" fill="url(#c-grad)"
+          d="M2.801 5.2 7 8l4.186-5.86a1 1 0 011.628 0L17 8l4.2-2.8a1 1 0 011.547.95l-1.643 6a1 1 0 01-.993.883H3.889a1 1 0 01-.993-.883L1.253 6.149A1 1 0 012.8 5.2"
+        />
         <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" style={{stopColor: colors.start}} />
           <stop offset="100%" style={{stopColor: colors.end}} />
@@ -211,6 +152,14 @@ function BlobbSVG({ currAccount, colors, mintFunc }) {
           <stop offset="60%" style={{stopColor: "#fff"}} />
           <stop offset="65%" style={{stopColor: "#fffd"}} />
           <stop offset="100%" style={{stopColor: "#fffd"}} />
+        </linearGradient>
+        <linearGradient id="c-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#f9f295" />
+          <stop offset="40%" stopColor="#ffb341" />
+          <stop offset="50%" stopColor="#f9f295" />
+          <stop offset="60%" stopColor="#f9f295" />
+          <stop offset="70%" stopColor="#ffb341" />
+          <stop offset="100%" stopColor="#f9f295" />
         </linearGradient>
       </defs>
     </svg>

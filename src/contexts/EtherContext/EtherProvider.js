@@ -3,8 +3,7 @@ import { createContext, useEffect, useReducer, useCallback } from "react"
 import { ethers } from "ethers";
 import Blobb from "../../artifacts/contracts/Blobb.sol/Blobb.json"
 
-const CONTRACT_ADDRESS = "0x7E04B28e06e7eDD10D6eAcDbfF9875BaB63c0ECf" //"0x7E04B28e06e7eDD10D6eAcDbfF9875BaB63c0ECf" 
-const CHAIN_ID = "0x13881"
+const CONTRACT_ADDRESS = "0x2e235D7cb26386A661B293B18F9B33148D600c96" //"0x7E04B28e06e7eDD10D6eAcDbfF9875BaB63c0ECf" 
 
 const EtherContext = createContext()
 

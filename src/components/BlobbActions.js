@@ -15,6 +15,9 @@ function BlobbActions({ currAccount, blobb }) {
   }
 
   function getInfoMessageLeft() {
+    if(blobb.king) return <span className={classes.info_comic_span_L}>
+      THE BATTLE IS OVER! YOU ARE THE <span className={classes.highlight}>KING</span>
+    </span>
     switch(blobb.hp) {
       case 10: 
         return <span className={classes.info_comic_span_L}>
@@ -52,7 +55,7 @@ function BlobbActions({ currAccount, blobb }) {
           i
           {getInfoMessageLeft()}
         </span>
-        <div className={blobb.hp < 10 && blobb.hp >= 1 ? classes.heal_button : classes.heal_button_off} onClick={healButtonHandler}>
+        <div className={blobb.hp < 10 && blobb.hp >= 1 && !blobb.king ? classes.heal_button : classes.heal_button_off} onClick={healButtonHandler}>
           {blobb.hp === 0 ? "dead" : "heal"}
         </div>
         <div className={blobb.hp === 0 ? classes.heal_button_off : classes.attack_button} onClick={() => navigate("/benemy")}>
