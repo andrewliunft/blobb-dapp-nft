@@ -6,7 +6,7 @@ import { ethers } from "ethers";
 const MyBlobContext = createContext()
 
 const ACTIONS = {SET: "set", RESET: "reset"}
-const initBlob = {number: null, birthday: null, hp: null, totalActions: null, totalAttacks: null, kills: null, death: null, creator: null, owner: null, lastHit: null, colors: null, king: null}
+const initBlob = {number: null, birthday: null, hp: null, totalActions: null, totalAttacks: null, kills: null, death: null, creator: null, owner: null, lastHit: null, colors: null, gifted: null, king: null}
 const reducer = (blob, action) => {
   const { type, data } = action
   switch (type) {
@@ -94,6 +94,7 @@ export function MyBlobProvider({ children }) {
       owner: myBlob.owner,
       lastHit: myBlob.lastHit || "NONE",
       colors: await _getBlobbColors(myBlobID),
+      gifted: parseInt(myBlob.gifted._hex, 16),
       king: await _isThekingOfBlobbs(myBlobID)
     }
     console.log("BLOB GET", myBlobInfo, myBlob)
@@ -182,9 +183,12 @@ export function MyBlobProvider({ children }) {
     // const transTX1 = await contract.transferFrom(account, ethers.utils.getAddress("0x70997970C51812dc3A010C7d01b50e0d17dc79C8"), blob.number)
     // await transTX1.wait(1)
 
-    const transTX2 = await contract.withdraw()
-    await transTX2.wait(1)
-    console.log(transTX2)
+    // const transTX2 = await contract.withdraw()
+    // await transTX2.wait(1)
+
+    const transTX3 = await contract.mintGiftBlob(ethers.utils.getAddress("0x70997970C51812dc3A010C7d01b50e0d17dc79C8"), _hexsToRGB("#ff0000", "#ffff00"))
+    await transTX3.wait(1)
+    console.log(transTX3)
   }
 
   const funcs = {

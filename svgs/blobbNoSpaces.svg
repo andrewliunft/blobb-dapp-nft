@@ -7,13 +7,13 @@
     #b,#bB{fill:url(#gB);stroke:url(#gS);stroke-width:4px;}
     #bB{filter:blur(2px);}
     #bS{transform:translate(2px,2px);filter:blur(1px);stroke:#000b;stroke-width:4px;}
-    #l{transform:translate(150px, 50px);}
-    #v{transform:translate(130px, 147px) rotate(0deg);animation:aV infinite 10s ease forwards;opacity:|}
-    #c{transform:translate(100px, 3px) rotate(25deg);animation:aC infinite 10s ease forwards;opacity:|;}
+    #l{transform:translate(150px,50px);animation:aL| infinite 10s ease forwards;}
+    #v{transform:translate(130px,147px) rotate(0deg);animation:aV infinite 10s ease forwards;opacity:|}
+    #c{transform:translate(100px,3px) rotate(25deg);animation:aC infinite 10s ease forwards;opacity:|;}
     @keyframes aC{
-      25%{transform:translate(90px, 13px) rotate(15deg);}
-      50%{transform:translate(85px, 7px) rotate(0deg);}
-      75%{transform:translate(100px, 0px) rotate(15deg);}
+      25%{transform:translate(90px,13px) rotate(15deg);}
+      50%{transform:translate(85px,7px) rotate(0deg);}
+      75%{transform:translate(100px,0px) rotate(15deg);}
     }
     @keyframes aT{
       25%{d:path("M-65.17 26.34C-40.14 21.76-30.99 41.15-1.38 27.15 26.98 2 41.15 18.53 50.58 16.11")}
@@ -26,9 +26,14 @@
       75%{d:path("M42-55.7C56-47.6 70.1-37.5 78.7-22.8 87.3-8.1 90.4 11.1 85.9 28.8 81.4 46.4 69.2 62.5 53.6 69.4 38 76.3 19 74.1 2.6 70.5-13.8 66.9-27.5 61.9-38.3 53.4-49.1 44.9-56.9 33-61.4 19.8-65.8 6.6-67-7.8-65-23.3-62.9-38.9-57.7-55.6-46.4-64.6-35-73.6-17.5-75-1.8-72.6 14-70.1 27.9-63.9 42-55.7Z")}
     }
     @keyframes aV{
-      25%{transform:translate(145px, 155px) rotate(-15deg);}
-      50%{transform:translate(125px, 130px) rotate(5deg);}
-      75%{transform:translate(160px, 147px) rotate(20deg);}
+      25%{transform:translate(145px,155px) rotate(-15deg);}
+      50%{transform:translate(125px,130px) rotate(5deg);}
+      75%{transform:translate(160px,147px) rotate(20deg);}
+    }
+    @keyframes aL{
+      25%{transform:translate(145px,52px) rotate(-10deg);}
+      50%{transform: translate(150px,44px) rotate(5deg);}
+      75%{transform: translate(160px,41px) rotate(15deg);}
     }
   </style>
   <g id="c">

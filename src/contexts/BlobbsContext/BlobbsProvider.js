@@ -179,6 +179,7 @@ export function BlobbsProvider({ children }) {
       owner: blobb.owner,
       lastHit: blobb.lastHit || "NONE",
       colors: await _getBlobbColors(parseInt(bID, 16)),
+      gifted: parseInt(blobb.gifted._hex, 16),
       king: await _isThekingOfBlobbs(parseInt(bID, 16))
     }
   }

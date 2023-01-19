@@ -3,6 +3,8 @@ import classes from "./EnemyBlobbSVG.module.css"
 const MAX_ATTACKS_LVL = 1000
 
 function EnemyBlobbSVG({ fBlobb, show, setShow, isSearched }) {
+  const lvl_anim_time = fBlobb.gifted ? "10s" : "0s"
+
   const SVG_BLOBB = () => 
     <svg className={show ? isSearched ? classes.s_blobb_svg_w_stats : classes.blobb_svg_w_stats : isSearched ? classes.s_blobb_svg : classes.blobb_svg } xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
       <style type="text/css"> {`
@@ -86,6 +88,11 @@ function EnemyBlobbSVG({ fBlobb, show, setShow, isSearched }) {
           50% { transform: translate(125px, 130px) rotate(5deg); }
           75% { transform: translate(160px, 147px) rotate(20deg); }
         }
+        @keyframes lvl {
+          25% { transform: translate(145px, 52px) rotate(-10deg); }
+          50% { transform: translate(150px, 44px) rotate(5deg); }
+          75% { transform: translate(160px, 41px) rotate(15deg); }
+        }
       `}</style>
       <g id="blobs">
         <g id="crown" style={{opacity: Number(fBlobb.king)}}>
@@ -119,7 +126,7 @@ function EnemyBlobbSVG({ fBlobb, show, setShow, isSearched }) {
         </g>
       </g>
 
-      <g id="b-lvl">
+      <g id="b-lvl" style={{"animation": "lvl infinite " + lvl_anim_time + " ease forwards"}}>
         <circle r={10} fill="url(#grad)" stroke="url(#s-grad)" strokeWidth={1} filter="drop-shadow(1 1 1 #000b)" />
         <circle r={10} stroke="url(#s-grad)" strokeWidth={2} filter="blur(1px)" />
         <circle id="exp" r="15" stroke={fBlobb.number <= 10 ? "url(#c-grad)" : "url(#t-grad)"} strokeDasharray="10" strokeDashoffset={(fBlobb.totalAttacks < MAX_ATTACKS_LVL ? 10 - fBlobb.totalAttacks%10 : 0)} pathLength="10" strokeWidth="2" strokeLinecap="round" filter="drop-shadow(0 0 1 #000b)" transform="rotate(-90)" />

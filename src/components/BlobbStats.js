@@ -8,7 +8,7 @@ function BlobbStats({ blobb, show, setShow, mine }) {
       <span className={classes.stats_title} onClick={() => setShow(!show)}><span className={classes.highlight}>X</span>INFO</span>
       {
         Object.keys(blobb).filter(
-          stat => !["colors", "totalActions", "totalAttacks", "lastHit", "king"].includes(stat)
+          stat => !["colors", "totalActions", "totalAttacks", "lastHit", "gifted", "king"].includes(stat)
         ).map(stat => {
           let value = blobb[stat]
           if(stat === "creator" || stat === "owner") 

@@ -36,7 +36,8 @@
       /* fill: #000000; */
     }
     #b-lvl{
-      transform: translate(150px, 50px);
+      transform: translate(150px, 50px); /*translate(150px, 50px)*/
+      animation: lvl infinite var(--a-dur) ease forwards;
     }
     #ver {
       transform: translate(130px, 147px) rotate(0deg);
@@ -51,6 +52,7 @@
     #c {
       transform: translate(100px, 3px) rotate(25deg) scale(1.5);
       animation: c_anim infinite var(--a-dur) ease forwards;
+      opacity: 0;
     }
     @keyframes c_anim {
       25% { transform: translate(90px, 13px) rotate(15deg) scale(1.5); }
@@ -71,6 +73,11 @@
       25% { transform: translate(145px, 155px) rotate(-15deg); }
       50% { transform: translate(125px, 130px) rotate(5deg); }
       75% { transform: translate(160px, 147px) rotate(20deg); }
+    }
+    @keyframes lvl {
+      25% { transform: translate(145px, 52px) rotate(-10deg); }
+      50% { transform: translate(150px, 44px) rotate(5deg); }
+      75% { transform: translate(160px, 41px) rotate(15deg); }
     }
   </style>
   <g id="c">
@@ -101,6 +108,8 @@
   </g>
 
   <g id="ver">
+    <!-- <circle r="10" stroke="url(#s-grad)" stroke-width="1" filter="drop-shadow(1 1 1 #000b)" />
+    <circle r="10" stroke="url(#s-grad)" stroke-width="2" filter="blur(1px)" /> -->
     <circle r="8" fill="url(#s-grad)" stroke="url(#s-grad)" stroke-width="1" filter="drop-shadow(1 1 1 #0008)"/>
     <path d="M-3,1 L-1,4 L3,-3" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="drop-shadow(1 0 1 #0009)"/>
   </g>
@@ -126,8 +135,8 @@
     <path id="t-path" d="M-60.38 7.8C-47.55-6.28-41.34-19.94-5.32-3.79 26.98 2 27.9433-15.1133 45.61-15.39" transform="translate(100 100)"/>
     <path id="c-path" fill="url(#c-grad)" d="M2.801 5.2 7 8l4.186-5.86a1 1 0 011.628 0L17 8l4.2-2.8a1 1 0 011.547.95l-1.643 6a1 1 0 01-.993.883H3.889a1 1 0 01-.993-.883L1.253 6.149A1 1 0 012.8 5.2"/>
     <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#ff00c855" />
-      <stop offset="100%" stop-color="rgb(255,255,0,.5)" />
+      <stop offset="0%" stop-color="#ff00c8" />
+      <stop offset="100%" stop-color="rgb(255,255,0)" />
     </linearGradient>
     <linearGradient id="s-grad" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#ff00c8" />

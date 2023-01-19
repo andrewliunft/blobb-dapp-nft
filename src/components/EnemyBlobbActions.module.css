@@ -74,15 +74,15 @@
   border: 2px solid aliceblue;
   translate: 0 3px;
 }
-.next_button:active {
+/* .next_button:active {
   animation: deny-anim .5s ease forwards;
 }
 @keyframes deny-anim {
-  /* 0% {opacity: 0;} */
+  0% {opacity: 0;}
   100% {
     opacity: .5;
   }
-}
+} */
 
 .attack_button_off {
   cursor: default;

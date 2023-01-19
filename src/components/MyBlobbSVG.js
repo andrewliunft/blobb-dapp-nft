@@ -1,8 +1,27 @@
+import { useState } from "react"
 import classes from "./MyBlobbSVG.module.css"
 
 const MAX_ATTACKS_LVL = 1000
+const ss = "10s"
 
 function MyBlobbSVG({ currAccount, blobb, show, setShow }) {
+  const [lvl, setLlv] = useState({e: 0, l: 1})
+
+  setTimeout(() => {
+    if(lvl.l === 5) return
+    let e = lvl.e + 1
+    if(lvl.e === 9) {
+      if(lvl.l === 4) setLlv({e: 10, l: 5})
+      else {
+        let l = lvl.l +1
+        setLlv({ e: 0, l })
+      }
+      
+    }
+    else setLlv({e, l: lvl.l})
+  }, 500)
+
+  const lvl_anim_time = blobb.gifted ? "10s" : "0s"
   const SVG_BLOBB = () => 
     <svg className={show ? classes.blobb_svg_w_stats : classes.blobb_svg } xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
       <style type="text/css"> {`
@@ -86,6 +105,11 @@ function MyBlobbSVG({ currAccount, blobb, show, setShow }) {
           50% { transform: translate(125px, 130px) rotate(5deg); }
           75% { transform: translate(160px, 147px) rotate(20deg); }
         }
+        @keyframes lvl {
+          25% { transform: translate(145px, 52px) rotate(-10deg); }
+          50% { transform: translate(150px, 44px) rotate(5deg); }
+          75% { transform: translate(160px, 41px) rotate(15deg); }
+        }
       `}</style>
       <g id="blobs">
         <g id="crown" style={{opacity: Number(blobb.king)}}>
@@ -118,12 +142,12 @@ function MyBlobbSVG({ currAccount, blobb, show, setShow }) {
           </text>
         </g>
       </g>
-      <g id="b-lvl">
+      <g id="b-lvl" style={{"animation": "lvl infinite " + lvl_anim_time + " ease forwards"}}>
         <circle r={10} fill="url(#grad)" stroke="url(#s-grad)" strokeWidth={1} filter="drop-shadow(1 1 1 #000b)" />
         <circle r={10} stroke="url(#s-grad)" strokeWidth={2} filter="blur(1px)" />
-        <circle id="exp" r="15" stroke={blobb.number <= 10 ? "url(#c-grad)" : "url(#t-grad)"} strokeDasharray="10" strokeDashoffset={(blobb.totalAttacks < MAX_ATTACKS_LVL ? 10 - blobb.totalAttacks%10 : 0)} pathLength="10" strokeWidth="2" strokeLinecap="round" filter="drop-shadow(0 0 1 #000b)" transform="rotate(-90)" />
+        <circle id="exp" r="15" stroke={blobb.number <= 10 ? "url(#c-grad)" : "url(#t-grad)"} strokeDasharray="10" strokeDashoffset={(blobb.totalAttacks < MAX_ATTACKS_LVL ? 10 - lvl.e /* blobb.totalAttacks%10 */ : 0)} pathLength="10" strokeWidth="2" strokeLinecap="round" filter="drop-shadow(0 0 1 #000b)" transform="rotate(-90)" />
         <text fill={blobb.number <= 10 ? "url(#c-grad)" : "url(#t-grad)"} filter="drop-shadow(0 1px 0 #000d)" textAnchor="middle" style={{fontFamily: "Titan One", pointerEvents: "none", fontSize: "12px"}} transform="translate(0 4)">
-          {blobb.totalAttacks < MAX_ATTACKS_LVL ? Math.floor(blobb.totalAttacks/10) : 99}
+          {blobb.totalAttacks < MAX_ATTACKS_LVL ? lvl.l /*Math.floor(blobb.totalAttacks/10)*/ : 99}
         </text>
       </g>
       
