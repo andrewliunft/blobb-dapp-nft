@@ -127,7 +127,7 @@
   box-shadow: 2px 2px 5px rgb(0, 0, 0, .75);
   overflow: hidden;
 
-  transition: .25s ease, background-color .1s ease;
+  transition: .25s ease, background-color 1s ease;
 }
 
 .color_button_start:hover, .color_button_end:hover {

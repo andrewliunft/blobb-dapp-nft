@@ -67,6 +67,11 @@ export function BlobbsProvider({ children }) {
     const totalBlobs = blobbs.totalBlobs + 1
     blobbsDispatch({type: ACTIONS.SET, data: { aliveIDs, totalBlobs }})
   }  
+  const _newBlobbEventHandlerNoNumber = (newBlobID, newOwner, event) => {
+    console.log("NEWBLOBB EMITTED IN NO NUMBER", newBlobID, newOwner, event)
+    const totalBlobs = parseInt(newBlobID._hex, 16)
+    blobbsDispatch({type: ACTIONS.SET, data: { totalBlobs }})
+  }  
 
   //CONTRACT EVENTS LISTENER 
   useEffect(() => {
@@ -93,15 +98,27 @@ export function BlobbsProvider({ children }) {
 
   //INIT CONTEXT
   useEffect(() => {
+    if(!contract) return
     const getTotalBlobsNumber = async () => {
       const totalBlobs = parseInt((await contract.getTotalBlobbsNumber())._hex, 16)
       blobbsDispatch({type: ACTIONS.SET, data: { totalBlobs }})
     }
 
     blobbsDispatch({type: ACTIONS.RESET})
-    if(contract && number) setBlobbs()
-    else if(contract && !number) getTotalBlobsNumber()
-  }, [number, contract])
+    console.log("ao", number, contract)
+
+    if(number) {
+      setBlobbs()//Se l'unico BLOBB e quindi unico number, in setBlobbs() non verrà connesso il NewBlobb Event perchè non ci sarà alcun fb 
+    }
+    else {
+      contract.on(contract.filters.NewBlobb(), _newBlobbEventHandlerNoNumber)
+      console.log("NewBlobb EVENTS CONNECTED to BlobbsProvider No Number", contract.listeners())  
+      getTotalBlobsNumber()
+    } 
+
+    return () => contract.off(contract.filters.NewBlobb(), _newBlobbEventHandlerNoNumber)
+
+  }, [number]) //contract too
 
   const setBlobbs = async () => {
     const {totalBlobs, aliveIDs} = await _getAliveIDs()

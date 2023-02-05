@@ -4,7 +4,7 @@
   /* justify-content: center; */
   height: 100vh;
   background-image: url("../graphics/blobbBackground.svg");
-  background-size: 50px;
+  background-size: 100px; /*50px*/
 }
 
 .main_layout {

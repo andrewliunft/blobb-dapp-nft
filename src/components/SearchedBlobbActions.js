@@ -20,6 +20,9 @@ function SearchedBlobbActions({ sBlobb }) {
     if(hp === 0) return <span className={classes.info_comic_span_R}>
       YOUR BLOBB IS <span className={classes.highlight}>DEAD</span>
     </span>
+    else if(hp === null) return <span className={classes.info_comic_span_R}>
+      YOU MUST OWN A <span className={classes.highlight}>BLOBB</span>
+    </span>
 
     switch(sBlobb.hp) {
       case 0:
@@ -40,7 +43,7 @@ function SearchedBlobbActions({ sBlobb }) {
         <div className={classes.back_button} onClick={() => navigate("/bsearch")}>
           <span className={classes.arrows}>{"<<"}</span> search
         </div>
-        <div className={sBlobb.hp === 0 || hp === 0 ? classes.attack_button_off : classes.attack_button} onClick={attackButtonHandler}>
+        <div className={sBlobb.hp === 0 || hp === 0 || hp === null ? classes.attack_button_off : classes.attack_button} onClick={attackButtonHandler}>
           {sBlobb.hp === 0 ? "dead" : sBlobb.hp > 1 ? "attack" : "kill"}
         </div>
         <span>

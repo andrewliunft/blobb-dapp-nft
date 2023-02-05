@@ -55,10 +55,14 @@ contract Blobb is ERC721URIStorage, Ownable {
 
   uint public theKingOfBlobbs;
 
-  constructor() ERC721 ("BLOBB", "BLOBB") {} //LESS IN DEPLOY COSTS
-  // constructor(bytes[] memory _svg) ERC721 ("BLOBB", "BLOBB") { _svgChunks.uploadSVG(_svg); } //LESS IN CONTRACT SIZE
+  //upload func -> 0.0236 ETH
+  // constructor() ERC721 ("BLOBB", "BLOBB") {} //LESS IN DEPLOY COSTS
 
-  function uploadSVG(bytes[] memory _svg) external onlyOwner { _svgChunks.uploadSVG(_svg); }
+  //upload in constructor & update func -> 0.0256 ETH
+  constructor(bytes[] memory _svg) ERC721 ("BLOBB", "BLOBB") { _svgChunks.uploadSVG(_svg); } //LESS IN CONTRACT SIZE
+
+  // function uploadSVG(bytes[] memory _svg) external onlyOwner { _svgChunks.uploadSVG(_svg); }
+  function updateSVGChunk(uint _nChunkIDX, bytes memory _nChunk) external onlyOwner { _svgChunks.updateSVGChunk(_nChunkIDX, _nChunk); }
   function setIsContractEnabled(bool _isContractEnabled) external onlyOwner { isContractEnabled = _isContractEnabled; }
   function getTotalBlobbsNumber() public view returns(uint) { return _blobIDs.current(); }
   function checkActionsConditions() private view {
@@ -82,7 +86,7 @@ contract Blobb is ERC721URIStorage, Ownable {
     return string(abi.encodePacked("data:image/svg+xml;base64,", Base64.encode(svg)));
   }
 
-  function _newDefaultBlob(uint256 _blobID, address _creator, uint[6] memory _colors, uint _gift) internal {
+  function _newDefaultBlob(uint256 _blobID, address _creator, uint[6] memory _colors, uint _giftType) internal {
     Blob storage blob = blobs[_blobID];
     blob.blobID = _blobID;
     blob.birthday = block.timestamp;
@@ -90,7 +94,7 @@ contract Blobb is ERC721URIStorage, Ownable {
     blob.totalAttacks = 10;
     blob.creator = _creator;
     blob.owner = _creator;
-    blob.gifted = _gift;
+    blob.gifted = _giftType;
     blobbColors[_blobID] = _colors;
 
     bytes memory _startRGB = abi.encodePacked(_colors[0].toString(), ",", _colors[1].toString(), ",", _colors[2].toString());
@@ -98,7 +102,7 @@ contract Blobb is ERC721URIStorage, Ownable {
     bytes memory _b1 = bytes("1");
     bytes memory _gradient = _blobID > 10 ? bytes("T") : bytes("C"); //10
     
-    if(_gift == 0) blob.values[0] = _b1; //MOVING CIRCLE LEVEL
+    if(_giftType == 0 || _giftType == 2) blob.values[0] = _b1; //CIRCLE LEVEL ANIMATED
     blob.values[1] = _b1; //VERIFIED
     blob.values[2] = bytes("0"); //CROWN OPACITY
     blob.values[3] = _gradient; //GOLD OR WHITE EXP BAR GRADIENT
@@ -113,6 +117,7 @@ contract Blobb is ERC721URIStorage, Ownable {
     blob.values[12] = _b1; //ALPHA SECOND COLOR
     blob.values[13] = _startRGB; //STROKE FIRST COLOR
     blob.values[14] = _endRGB; //STROKE SECOND COLOR
+    if(_giftType < 2) blob.values[15] = _b1; //STROKE GRADIENT ANIMATED
   }
 
   function _updateValue(uint _blobID, uint _vIDX, bytes memory _value) internal {
@@ -135,17 +140,17 @@ contract Blobb is ERC721URIStorage, Ownable {
     require(msg.value == mintPrice, "Wrong MINT value!");
     _mintBlob(msg.sender, _colors, 0);
   }
-  function mintGiftBlob(address _creatorAddress, uint[6] memory _colors) external onlyOwner {
+  function mintGiftBlob(address _creatorAddress, uint[6] memory _colors, uint _giftType) external onlyOwner {
     checkMintConditions(_creatorAddress, _colors);
-    _mintBlob(_creatorAddress, _colors, 1);
+    _mintBlob(_creatorAddress, _colors, _giftType);
   }
 
-  function _mintBlob(address _creatorAddress, uint[6] memory _colors, uint _gift) internal {
+  function _mintBlob(address _creatorAddress, uint[6] memory _colors, uint _giftType) internal {
     _blobIDs.increment();
     uint256 newBlobID = _blobIDs.current();
     _safeMint(_creatorAddress, newBlobID);
 
-    _newDefaultBlob(newBlobID, _creatorAddress, _colors, _gift);
+    _newDefaultBlob(newBlobID, _creatorAddress, _colors, _giftType);
     ownedBlob[_creatorAddress] = newBlobID;
 
     _setTokenURI(newBlobID, getBlobURI(newBlobID));
@@ -211,7 +216,7 @@ contract Blobb is ERC721URIStorage, Ownable {
   function healBlob(uint256 _blobID) public payable {
     checkActionsConditions();
     Blob storage blob = blobs[_blobID];
-    require(ownedBlob[msg.sender] == _blobID, "You can't HEAL Blobbs you don't own!");
+    require(ownedBlob[msg.sender] == _blobID, "Not your BLOBB!");
     require(blob.hp != 0, "Your Blobb is dead!");
     require(blob.hp < 10, "Your Blobb has FULL HP!");
     require(msg.value == healPrice, "Wrong HEAL value!");

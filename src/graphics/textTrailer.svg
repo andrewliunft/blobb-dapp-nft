@@ -1,0 +1,269 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <style type="text/css">
+    @font-face { 
+      font-family: "Titan One";
+      /* src: url(data:application/octet-stream;base64,d09GMgABAAAAAAy4AA8AAAAAFLQAAAxjAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGhYbVhwoBmAARBEICp1wl0kLUgABNgIkA4EgBCAFg2wHIAwHGzUQI5KT1h6SqSN14c+ff78fvy17GSjHJqwYVTNgaiJJ9y+pGLAq3pETkX9lCLd1JmMhEoMRLSL4pI0JzAKzPrECjH/xI7vgeX5/1Hl3xAopTQIQBTbJEdqOvJvK9/m/X+lEaR6PAsCZ+ybf+9OxkUkTIBuADRqd4OtLexZkQWFFYBfprJky+YWCOao7IACwwDohAVqyiY/jAGAYB3NAWrdhmw18Lh2/dYUFwSjiaCs6XTx94wqY38gtZQRp7zYDs0ilEATYcY+dZXw8v1tUT4AJ4gAsHFZxbi9Jo9FrGAAVUqXEkXv+0gl9AXPg7xDHn4vGfrrQtfs3bsIqGDUmwNDu2Q1gaIccahqQ1knNbJQqbnyDOwgZQrkRZqXMYP67aRQshgdE1h8FM+C4x+P5xqN4sqyQc1cEyOMB3w82ac7fxVsgM34TMS3YFJll7Wlre8HNbUCP9MXx0ydJ+BBnssuzmi0B3oHjZwQYRow0WQPMpmGmqV5DTKMmkGHmCTPJOMtHfuaRljljAnwmeQ1hn23q2FGDx4+dOljv5N2sR3QRns6OJhAB9FDkN1xboSEm1+hCXa4CtVU6nCJCZ1o4D8oE+p3Ci5EBczY3QhdFScFOMB7kGmI9OnkBVOldVDqPCGccjQ0KDQqycMTkHh1egyt3qc1ZNTgPqIK51o6YnkOEKhBzFFuT2UQ30QVWwVxDbGsHefGXBx7aFbHPZkboRIDxjGyTmS5PM5aVIcRb2GmygLCr9lb7SRdq1fA8Gqt0fqYhcsTTmhM0ngtuO6dEMOLHZwcxHxHOdOItBodR5WPbVfoSsbUuDYL6C/ndg+q+DhMRLJpHyoJhTuWQgnKONe4ZvXV0IsarogC9V7jnsPMd6RrTexbqhLApLq6UitxaF2pbXdbgKJCowpNd1jFYkRHPBEqEW25GA4ysCmAj7oqJFaKtanjarKk8l4kIwVhO7p6iT5c6JfFr4Zk0T0RqKLfz9vL8+BHxRJqWO4OJ4612shOMjo6OnFQqi6EGlow5UPUkJYpdNK0/f0h0FiPLV7E4QNQghvnZIJG3qyBWQAjTPyzs4FUqmDfr0+BPt87FJxF+n6hwrXpEPmJ7M3TRFpw2OJiMjCFisDMsorWYb0lOIn+FA9IIhftvNjAN86SwRT042YnJiIkdpMhf9OIjWYwMHOoIdZ3n7BuFd7OJJRm/rAHSZ88R04UKeWlLwYhE4sUty/K+mmMSXDTSf70PLdZi/h4+IkNcgRBXq4jhw0mBnEKEvbxF1Zu/zh5uDReJqMfrCSSDap/PvTSncOssPtzq4u8VasdtioKdo4k7p6JDqHVqFNtFyZ1Ui3m7NX2IFdths8tPGh8kUSLQd41cq09QWAuNb8rFbyMkY5p6gD8jIgUZXGcpVMToomqGctGcepw7yrXOIFJYebPWrrEYvUcXatP4pPxG6q/WpKoq0G+4tkSrXDQ6i4lCGCBfN8JAy0QUUDvXUroJqEqEM0JlkNWBIye9bz1Y3e8ihu8nByN00RZGlX2hmCdbtU8fhvIhDmz7Ev6U8QVyaLBdruv4MqAfn4ysG1S+DxFtwXYiuytKYVyxqVCH+QhHAaupH6Ehcl5KYapELYWrOeMmVWxFlLOYRNlF3f4D/Dvm4PmDd86cc8Aa65QRcfIPYt5YU8r1CqgyJ18bph3Y9vXHR7b9cHV41LXhPxzZ9vHXB7ZpHz9/NPRvr4PpXkf+H/pkdnwcRFruWx5M8c494/8Wr2kbeWnhkA0XMIMT9cMmhSz36X88dMvIth+K1HWfVX16/AnfW18yp9S92piwLf4oe2APr+x8vqikhwZE4RWZhiWKTQ+sjXOrRpHt7D9oBCf3kp93d3lXkarc06lPWpRsCCr3UIoKa1Q+HMVQAW/Wnz4SYHb8z9fev2TLmIvEbzbMFtr66wb6sMHNxJtAaDHLq9m+LfrIh7SIU1TpCukuXpae0cwhNAdzYi3GY5Pdi2uH6kDsnnSugxTULcCdI2SJ6+slqXPnrxk8ddXMmlkinBc40N9niBVzfgsLFeUIrwvF18EwtB/ah4fhw1ac9esfnsbqwplkOLogQnMxxUBLB633Xxa+rPlyDrcpWiZ2IyZ1a1HgtnNf7Av/Sd+VP5B+kOwR9xJLe4EzvwuK+lQWRCRda9Nmz5+7eNzkFbPrp/NwbuBAf5/BKdS6H7pbXVipvYVnheKz4AFUajKLErt0Svy6OsE/Q6rasM1Acm9BjNguSixVNUw2oIy1dmByZnm4BqlFa54Wctshohhf2sb7LbCIsDegmNog6GC3qcxFWhdMQkVUYlvtKduCoPyx8VPHx/qOmCSWhEhFYLF/R51QldyaonGaYxeT4sTWEnmBqBsXypJGvxu+IbpQ6cOUFcvDm9T7wT1I8XX81Q8heeToignFpaNGpkMI2ZfdpDKTqhr4GNKIVh2rgtqhQctF6on+LQhsg2RzchkkUD00xwW06L2YsS6+cr5yZiUnIcDH2TBbt60L+aiFn/l3w26BbKJFmC6NEctBRaoRaUAXEMYQfmnAOJbUGugob5pu2xVr4eayqSjbFATbh/KLlI1M4DSboNC4DK7DKixbCle0YkE2WUHznd2hEDRs5hTL5d6h+OKeM3tPnTduLI0IdNG9e9qZXSnK6ch9+FwoI7CviZEIqjhsO2LlsPijkBa04xe2FW9RJViJQupkmKRcud/X0tXSPiIUaUXdv0CY91ukGXWrsdtsp9paOvy6xRYYUkJsAVWSRveh8oGDAk7KF7OdakuZbrX3X6I0xKYYliQLBXq0Ce0wYVvYTpW5TNsT0z3hmBaHSYnM4avGrZKItuYrGMoCdsE8B9DfPYa4ULca28J2qsxlIFpqMyJO1G3C8PFCym3aSMSJdqgxvOlqDcLkj0RcqFuNvcWbVQNaR1NOWDg7OhUpi89WRcc7yA7Q1x6KuFC3GovT1Kl7MAT8UYgTdZuwt3izakDraMrJJPYJeUVSOyiA7HXcDSXmLQvKyIL4UdG5cIE8XVpvn7F6xpp5b7lv0eQGW1PRGO4/LGUYkLX3wZuCzSJhePgSiPhKuZRrDQAMW6d8nxxa/t3qi8USzz2jQqkQVuxCmlF3h/0/3RrQ4svjy2eDKN+MArtk4rHg0rXzpm1y5GNT64UjkEZ0AeFCSAiKRhdJjDIoisp3AH10AOJE3SbsLbMxeHDLXMrVmtDahWGUbFFXLlwjTPQCRmhZmribv0rXwICbgzNHCp1bSfpuZYI9VGBJbZSOKoPSoXMMZUSFtEHGUxO0cZm0LEGk3XQEzKQMyPUvStHPnmNE/maNYUnc4naFqVQz0cazGxoZ0dv51+QumRW8hpxFLRP8WW0B5kLNvzSEJCT8ary3fJLSy68v0kGjJkCDl93uAbz/wBMcfH13LRGL4RpiqKJSeskvb3+/yOkz9bfSyLVjjcCwgDj+NVm61U+8VblG/6ps5wn9BKO1QCOlo8gdyKGoDPKAPyASoBwQ2GPvVZHXlofAoGhbNIjBQnP75rnm34SZo1XdkjTBM6i08T5H7Az5EI1f+oD05qUPMKVrfVvgIApoSYiGyPhUbikpcK5gJPQahbcFmQs1/U5ImHwe3jdogvLmfe38cWNphNJJ925LZTqeAsZqv5z2nJqF3CQtN4m5ns/uEoGWtZc1zOQmaYkk1lQ9AAAAAAAAHgAAD2Ah70spXWkxXyHE6wUAAJzWUE8DAMBpDfX0/13/s32qvU4BACAPCAAKdH5pGaA3pr1op3oV0wPbOeGpfIH37wOVG55qByv5g736wELKsJdC7KUKCynGXhawFxuMZfZjpSXsZQ0XcceKdbWSAawkgGeBlZdxUXm4qCmQHsbLNtP5jYtsB+Qc3Iuw8yJWkoiLFGOl/mMsB6zzIXo6f9F7GSLzuEg4VmR1nhRiYJvA4acvnH7SkLJJUkDXCDPvvH5gaue5AoNgzo5Bh2jyCnX5Bj2siTboY0noTc0JBSpooYUGwggggGaKaaKSBlpA7k/zW9XgTz1NlBNAGrEkk00lLRRSRxp1lJJLKU1yZ6unDkeC8CeQQILIpJ4Sa79ZTj2xtFJKHV0UUkMlJRQShuPK4wj4gwVrA7+qlHJaqaGQJrmeUdTTQKcHxGV5RzwpxmteypFEeUeEzk9VUEoNNdQTThNlEnv5U0w9tXjhiyPtVFiF9VQpzanQ1EYpJQekBah0TKWQWkqxnDN55jwhtm7m0u4J5tz5SWmjV7rjAA==); */
+      src: url(data:application/octet-stream;base64,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);
+    }
+
+    svg{
+      --a-dur: 10s;
+      /* background: linear-gradient(90deg, #1e1e1e, #1e1e1ea0); */
+      background-color: #202020;
+      /* <!-- Background image with raw SVG: charset=utf8 and raw svg with needs to encode: <, # --> */
+      background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 125 125' fill='none'>%3Cstyle type='text/css'>%23b{animation:spin infinite 10s linear;transform-origin:center center;}@keyframes spin{from{transform:rotate(0deg) scale(.75);}to{transform:rotate(360deg) scale(.75);}}%3C/style>%3Crect id='b' width='100' height='100' rx='20%' fill='%233f3f3f0f' x='12.5' y='12.5'/>%3C/svg>");
+      background-size: 10vmin;
+      /* background: linear-gradient(90deg, #ff00c8, #ff0); */
+      /* border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%; */
+    }
+    #b-path {
+      animation: b_anim infinite var(--a-dur) ease forwards;
+    }
+    #t-path {
+      animation: t_anim infinite var(--a-dur) ease forwards;
+    }
+    #b, #b-blur {
+      fill: url(#grad);
+      stroke: url(#s-grad);
+      stroke-width: 4px;
+    }
+    #b-blur {
+      filter: blur(2px);
+    }
+    #b-shad {
+      transform: translate(2px, 2px);
+      filter: blur(1px);
+      stroke: #000b;
+      stroke-width: 4px;
+      /* fill: #000000; */
+    }
+    #b-lvl{
+      transform: translate(150px, 50px); /*translate(150px, 50px)*/
+      animation: lvls infinite var(--a-dur) ease forwards;
+    }
+    #ver {
+      transform: translate(130px, 147px) rotate(0deg);
+      animation: ver infinite var(--a-dur) ease forwards;
+    }
+    #b-id {
+      /* transform-origin: center;
+      transform-box: fill-box; */
+      /* transform: translate(0, -10px); */
+      /* transform: translate(130px, 147px); */
+    }
+    @keyframes t_anim {
+      25% { d: path("M-65.17 26.34C-40.14 21.76-30.99 41.15-1.38 27.15 26.98 2 41.15 18.53 50.58 16.11") }
+      50% { d: path("M-53.75 44.61C-48.66 9.51-7.22 26.3-.35-2.44 10.84-28.12 32.96-23.03 36.27-33.2") }
+      75% { d: path("M-45.31-39.13C-27.43-10.3-12.21-23.92-.35-2.44 13.15 18.79 41.98 4.11 69.21 19.86") }
+    }
+    @keyframes b_anim {
+      25% { d: path("M31,-41.9C41.5,-35,52.4,-27.8,60,-16.6C67.6,-5.4,72.1,9.7,71.3,26.6C70.5,43.4,64.5,61.9,51.7,67.5C39,73,19.5,65.5,0.7,64.6C-18.2,63.7,-36.3,69.3,-50.2,64.2C-64.1,59,-73.7,43,-79.2,25.8C-84.7,8.6,-86.1,-9.9,-78.9,-23.6C-71.7,-37.4,-55.9,-46.3,-41.4,-51.9C-26.8,-57.5,-13.4,-59.6,-1.6,-57.4C10.2,-55.2,20.5,-48.7,31,-41.9Z") }
+      50% { d: path("M36.8,-50.2C49.5,-41.4,62.9,-33.1,66.8,-21.6C70.7,-10,65.3,4.7,57.5,15.6C49.7,26.6,39.7,33.7,29.7,45.4C19.8,57,9.9,73.2,-4,78.7C-18,84.3,-35.9,79.3,-48.8,68.5C-61.6,57.8,-69.3,41.4,-74.2,24.6C-79,7.7,-81,-9.6,-73.2,-20.7C-65.4,-31.8,-47.8,-36.7,-34,-45.1C-20.1,-53.5,-10.1,-65.5,1,-66.9C12,-68.3,24.1,-59,36.8,-50.2Z") }
+      75% { d: path("M42-55.7C56-47.6 70.1-37.5 78.7-22.8 87.3-8.1 90.4 11.1 85.9 28.8 81.4 46.4 69.2 62.5 53.6 69.4 38 76.3 19 74.1 2.6 70.5-13.8 66.9-27.5 61.9-38.3 53.4-49.1 44.9-56.9 33-61.4 19.8-65.8 6.6-67-7.8-65-23.3-62.9-38.9-57.7-55.6-46.4-64.6-35-73.6-17.5-75-1.8-72.6 14-70.1 27.9-63.9 42-55.7Z") }
+    }
+    @keyframes ver {
+      25% { transform: translate(145px, 155px) rotate(-15deg); }
+      50% { transform: translate(125px, 130px) rotate(5deg); }
+      75% { transform: translate(160px, 147px) rotate(20deg); }
+    }
+    @keyframes lvl {
+      25% { transform: translate(145px, 52px) rotate(-10deg); }
+      50% { transform: translate(150px, 44px) rotate(5deg); }
+      75% { transform: translate(160px, 41px) rotate(15deg); }
+    }
+    svg {
+      --dur-t: 2s;
+    }
+    #tt-path {
+      /* fill: black;
+      stroke-width: 2px;
+      stroke: black; */
+      animation: title var(--dur-t) 2s ease forwards, idle 5s calc(var(--dur-t) + 2s) infinite ease forwards;
+      /*########################*/
+      animation: drop var(--dur-t) 2s ease forwards, p_idle 5s calc(var(--dur-t) + 2s) infinite ease forwards;
+    }
+    #tt-blobb {
+      font-size: 40px;
+      /* stroke: url("#s-grad"); */
+      /* stroke-width: 1px; */
+      opacity: 0;
+      animation: /*fade-in 2s ease forwards,*/ color-change .15s calc(var(--dur-t) + 2s - .30s) ease forwards;
+    }
+    #tt-blob {
+      font-size: 40px;
+      animation: fade-in var(--dur-t) 2s ease forwards;
+    }
+    #tt-phrase {
+      animation: drop var(--dur-t) 2s ease forwards;
+    }
+    @keyframes fade-in {
+      0% {opacity: 0;}
+      10% {opacity: 0;}
+      70% {opacity: 1;}
+      85% {opacity: 1;}
+      90% {opacity: 0;}
+      100% {opacity: 0;}
+    }
+    @keyframes color-change {
+      0% {stroke: url("#s-grad"); opacity: 1;}
+      100% {stroke: url("#s-grad"); opacity: 1;}
+    }
+    @keyframes title {
+      /* 0% { d: path("M 100 100 L 100 100") }
+      50% { d: path("M0 100 L200 100") }
+      100% { d: path("M0 100 L200 100") } */
+      0% { d: path("  M 80 110 L 80 110") }
+      70% { d: path(" M 0 100   L 200 110") }
+      80% { d: path(" M 0 100   L 200 110") } 
+      100% { d: path("M 0 100   L 200 120"); }
+    }
+    @keyframes idle {
+      0%, 100% {d: path("M 0 100   L 200 120")}
+      50% {d: path("M 0 110   L 200 125")}
+    }
+    @keyframes drop {
+      /* 0% { d: path("M 100 100 L 100 100") }
+      50% { d: path("M0 100 L200 100") }
+      100% { d: path("M0 100 L200 100") } */
+      0% { d: path("M 0 0 L200 -30") }
+      90% { d: path("M0 100 L200 110") }
+      100% { d: path("M0 100 L200 110") }
+    }
+    @keyframes p_idle {
+      0%, 100% {d: path("M 0 100   L 200 110")}
+      50% {d: path("M 0 90   L 200 105")}
+    }
+    #c {
+      transform: translate(145px, 60px) rotate(15deg) scale(1.5);
+      animation: c_anims 1.5s 4.5s ease forwards, c_anim_idles infinite 5s 6.5s ease forwards;
+      opacity: 0;
+    }
+    @keyframes c_anim {
+      0% { opacity: 0; transform: translate(145px, 45px) rotate(15deg) scale(1.5); }
+      100% { opacity: 1; transform: translate(145px, 65px) rotate(17deg) scale(1.5); }0
+    }
+    @keyframes c_anim_idle {
+      0%, 100% { transform: translate(145px, 65px) rotate(17deg) scale(1.5); }
+      50% { transform: translate(145px, 59px) rotate(15deg) scale(1.5); }
+    }
+  </style>
+  <g id="c">
+    <use href="#c-path" stroke="url(#s-grad)" stroke-width="2" filter="blur(1px)" />
+    <use href="#c-path" filter="drop-shadow(1px 1px 1 #000b)" stroke="url(#s-grad)" stroke-width="0.5"/>
+    <!-- <circle r="1" fill="url(#grad)" stroke="url(#s-grad)" transform="translate(5 12)"/> -->
+    <circle r="2" stroke="#0006" stroke-width=".75" transform="translate(12.3 8.3)"/>
+    <!-- <circle r="1.75" stroke="#0005" stroke-width=".75" transform="translate(12 9)"/> -->
+    <circle r="1" fill="url(#s-grad)" stroke-width="1" transform="translate(3.75 8)" />
+    <circle r="1" fill="url(#s-grad)" stroke-width="1" transform="translate(20.25 8)" />
+    <circle r="2" stroke="url(#s-grad)" stroke-width=".75" transform="translate(12 8)"/>
+    <!-- <circle r="1" fill="url(#grad)" stroke="url(#s-grad)" transform="translate(19 12)"/> -->
+    <!-- <circle r="3" fill="url(#grad)" stroke="url(#s-grad)" stroke-width=".75" transform="translate(12 15)"/> -->
+  </g>
+  <g id="blobs" style="opacity: 0">
+    <use id="b-shad" href="#b-path" />
+    <use id="b" href="#b-path" />
+    <use id="b-blur" href="#b-path" />
+  </g>
+  <!-- #0278d8 -->
+  <g id="b-lvl" style="opacity: 0">
+    <circle r="10" fill="url(#grad)" stroke="url(#s-grad)" stroke-width="1" filter="drop-shadow(1 1 1 #000b)" />
+    <circle r="10" stroke="url(#s-grad)" stroke-width="2" filter="blur(1px)" />
+    <circle r="15" stroke="url(#t-grad)" stroke-dasharray="10" stroke-dashoffset="7" pathLength="10" stroke-width="2" stroke-linecap="round" filter="drop-shadow(0 0 1 #000b)" transform="rotate(-90)" />
+    <text fill="url(#t-grad)" text-anchor="middle" font-family="Titan One" font-size="12px" filter="drop-shadow(0 1 0 #000d)" transform="translate(0 4)">
+      17
+    </text>
+  </g>
+
+  <g id="ver" style="opacity: 0">
+    <!-- <circle r="10" stroke="url(#s-grad)" stroke-width="1" filter="drop-shadow(1 1 1 #000b)" />
+    <circle r="10" stroke="url(#s-grad)" stroke-width="2" filter="blur(1px)" /> -->
+    <circle r="8" fill="url(#s-grad)" stroke="url(#s-grad)" stroke-width="1" filter="drop-shadow(1 1 1 #0008)"/>
+    <path d="M-3,1 L-1,4 L3,-3" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="drop-shadow(1 0 1 #0009)"/>
+  </g>
+
+  <g id="b-id" style="opacity: 0">
+    <text fill="url(#t-grad)" font-family="Titan One" font-size="12px" filter="drop-shadow(0 1 0 #000d)">
+      <textPath text-anchor="middle" startOffset="80%">
+        12 / 1000
+        <animate attributeName="href" repeatCount="indefinite" dur="1s" values="#b-path" />
+      </textPath>
+    </text>
+  </g>
+  <text fill="url(#t-grad)" font-family="Titan One" filter="drop-shadow(0 1px 0 #000b)" style="opacity: 0">
+    <textPath text-anchor="middle" startOffset="50%">
+      0x313...52af
+      <animate attributeName="href" repeatCount="indefinite" dur="1s" values="#t-path" />
+    </textPath>
+  </text>
+  <g id="tt-g">
+    
+    <use href="#tt-path" />
+    <!-- <text id="tt-blobb" fill="url(#s-grad)" font-family="Titan One" font-size="20px" filter="blur(5px)" >
+      <textPath text-anchor="middle" startOffset="50%">
+        BLOBB.
+        <animate attributeName="href" repeatCount="indefinite" dur="1s" values="#tt-path" />
+      </textPath>
+    </text>
+    <text id="tt-blobb" fill="url(#t-grad)" font-family="Titan One" font-size="20px" filter="drop-shadow(1px 2px 0 #000b)" >
+      <textPath text-anchor="middle" startOffset="50%">
+        BLOBB.
+        <animate attributeName="href" repeatCount="indefinite" dur="1s" values="#tt-path" />
+      </textPath>
+    </text>    
+    <text id="tt-blob" fill="url(#t-grad)" font-family="Titan One" font-size="20px" filter="drop-shadow(1px 2px 0 #000b)" >
+      <textPath text-anchor="middle" startOffset="40%" fill="url(#t-grad)">
+        BLOB
+        <animate attributeName="href" repeatCount="indefinite" dur="1s" values="#tt-path" />
+      </textPath>
+    </text> -->
+    <text id="tt-phrase" stroke="url(#s-grad)" stroke-width="3px" font-family="Titan One" font-size="25px" filter="blur(2px)" >
+      <textPath text-anchor="middle" startOffset="50%">
+        the king of...
+        <animate attributeName="href" repeatCount="indefinite" dur="1s" values="#tt-path" />
+      </textPath>
+    </text>
+    <text id="tt-phrase" fill="url(#t-grad)" font-family="Titan One" font-size="25px" filter="drop-shadow(1px 2px 0 #000b)" >
+      <textPath text-anchor="middle" startOffset="50%" fill="url(#t-grad)">
+        the king of...
+        <animate attributeName="href" repeatCount="indefinite" dur="1s" values="#tt-path" />
+      </textPath>
+    </text>
+    
+    
+  </g>
+  <!-- <rect width="100" height="100" transform="translate(50 50)" fill="url(#s-grad)" stroke="black"/> -->
+  <defs>
+    <path id="b-path" d="M33.6-46C45.8-37.4 59.6-30.6 64-20.1 68.4-9.6 63.4 4.7 59.2 19.8 55.1 34.9 51.8 50.9 42.1 59.2 32.4 67.5 16.2 68.2-.6 69-17.4 69.9-34.9 71-46.4 63.2-57.8 55.5-63.4 38.9-69.3 22.2-75.2 5.4-81.5-11.5-78.2-26.6-75-41.7-62.3-55-47.6-62.8-33-70.7-16.5-73.2-2.9-69.2 10.7-65.1 21.4-54.6 33.6-46Z" transform="translate(100 100)"/>
+    <path id="t-path" d="M-60.38 7.8C-47.55-6.28-41.34-19.94-5.32-3.79 26.98 2 27.9433-15.1133 45.61-15.39" transform="translate(100 100)"/>
+    <path id="c-path" fill="url(#c-grad)" d="M2.801 5.2 7 8l4.186-5.86a1 1 0 011.628 0L17 8l4.2-2.8a1 1 0 011.547.95l-1.643 6a1 1 0 01-.993.883H3.889a1 1 0 01-.993-.883L1.253 6.149A1 1 0 012.8 5.2"/>
+    <path id="tt-path" fill="url(#c-grad)" d="M0 100 L1000 100"/>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fd0ac022" /> <!-- "#ff00c8" "#ffff00" -->
+      <stop offset="100%" stop-color="#1f00a722" />
+    </linearGradient>
+    <linearGradient id="s-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#fd0ac0" />
+      <stop offset="100%" stop-color="#1f00a7" />
+      <animateTransform attributeName="gradientTransform" type="rotate" values="0 .5 .5;360 .5 .5" dur="1.5s" repeatCount="indefinite" />
+    </linearGradient>
+    <linearGradient id="t-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fffd" />
+      <stop offset="45%" stop-color="#fffd" />
+      <stop offset="50%" stop-color="#fff" />
+      <stop offset="60%" stop-color="#fff" />
+      <stop offset="65%" stop-color="#fffd" />
+      <stop offset="100%" stop-color="#fffd" />
+      <animateTransform attributeName="gradientTransform" type="translate" values="0 100;100 100" dur="2s" repeatCount="indefinite" />
+
+    </linearGradient>
+    <linearGradient id="c-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f9f295" />
+      <stop offset="40%" stop-color="#ffb341" />
+      <stop offset="50%" stop-color="#f9f295" />
+      <stop offset="60%" stop-color="#f9f295" />
+      <stop offset="70%" stop-color="#ffb341" />
+      <stop offset="100%" stop-color="#f9f295" />
+    </linearGradient>
+        
+  </defs>
+</svg>

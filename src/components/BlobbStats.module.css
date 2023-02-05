@@ -23,16 +23,22 @@
 .stats_title {
   --x-color: #323232;
   position: relative;
-  bottom: 12px;
 
   cursor: pointer;
   user-select: none;
  
-  padding: 0 5px;
+  bottom: 13px;
+ 
+  padding: 3px 5px;
+
   font-size: 18px;
   font-weight: bold;
+  
   border-radius: 5px;
+  border-bottom: 2px solid #5e5e5e;
+
   background-color: aliceblue;
+  box-shadow: 0 2px 3px #000a;
   transition: background-color .25s ease, color .25s ease;
 }
 .stats_title:hover {

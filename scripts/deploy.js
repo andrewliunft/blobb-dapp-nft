@@ -18,7 +18,7 @@ async function main() {
 
   //DEPLYING CONTRACT
   const Blobb = await hre.ethers.getContractFactory("Blobb");
-  const blobb = await Blobb.deploy(/*SVGChunksInBytes*/);
+  const blobb = await Blobb.deploy(SVGChunksInBytes);
 
   await blobb.deployed();
   console.log(`Blobb succesfully deployed to ${blobb.address}`);
@@ -28,9 +28,9 @@ async function main() {
   const signer = accounts[0]
   const blobbContract = new hre.ethers.Contract(blobb.address, Blobb.interface, signer)
 
-  const chunksTX = await blobbContract.uploadSVG(SVGChunksInBytes)
-  const receipt = await chunksTX.wait(1)
-  console.log("The receipt: ", receipt.cumulativeGasUsed, receipt.effectiveGasPrice)
+  // const chunksTX = await blobbContract.uploadSVG(SVGChunksInBytes)
+  // const receipt = await chunksTX.wait(1)
+  // console.log("The receipt: ", receipt.cumulativeGasUsed, receipt.effectiveGasPrice)
 
   const enableTX = await blobbContract.setIsContractEnabled(true)
   await enableTX.wait(1)

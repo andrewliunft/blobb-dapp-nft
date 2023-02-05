@@ -22,6 +22,7 @@ function Layout({ children }) {
       </main>
       <Header />
       <Wallet currAccount={account} connectWalletFunc={connectWallet} />
+      {/* <div>asdasd</div> */}
       {pending && <PendingTransaction txName={pending.txName} txDesc={pending.txDesc} />}
     </div>
     

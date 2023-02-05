@@ -81,6 +81,9 @@ function BlobbSVG({ currAccount, colors, mintFunc }) {
           50% { transform: translate(125px, 130px) rotate(5deg); }
           75% { transform: translate(160px, 147px) rotate(20deg); }
         }
+        stop {
+          transition: .25s ease;
+        }
       `}</style>
       <g id="blobs">
         {/* <g id="crown">
@@ -140,10 +143,12 @@ function BlobbSVG({ currAccount, colors, mintFunc }) {
         <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" style={{stopColor: colors.start}} />
           <stop offset="100%" style={{stopColor: colors.end}} />
+          {/* <animateTransform attributeName="gradientTransform" type="rotate" values="180 .5 .5;540 .5 .5" dur="1.5s" repeatCount="indefinite" /> */}
         </linearGradient>
         <linearGradient id="s-grad" x1="0%" y1="0%" x2="100%" y2="0%">
           <stop offset="0%" style={{stopColor: colors.start}} />
           <stop offset="100%" style={{stopColor: colors.end}} />
+          {/* <animateTransform attributeName="gradientTransform" type="rotate" values="0 .5 .5;360 .5 .5" dur="1.5s" repeatCount="indefinite" /> */}
         </linearGradient>
         <linearGradient id="t-grad" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" style={{stopColor: "#fffd"}} />

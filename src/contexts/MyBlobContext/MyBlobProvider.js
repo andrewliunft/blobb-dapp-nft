@@ -77,7 +77,7 @@ export function MyBlobProvider({ children }) {
     }
     console.log("b:", myBlobID)
     if(!myBlobID) { 
-      blobDispatch({type: ACTIONS.RESET})
+      blobDispatch({type: ACTIONS.SET, data: {...initBlob, ...{number: myBlobID}}})
       return
     }
     console.log(await contract.tokenURI(myBlobID))
@@ -179,23 +179,10 @@ export function MyBlobProvider({ children }) {
     return { history, isLastPage }
   }
 
-  const _transfer = async () => {
-    // const transTX1 = await contract.transferFrom(account, ethers.utils.getAddress("0x70997970C51812dc3A010C7d01b50e0d17dc79C8"), blob.number)
-    // await transTX1.wait(1)
-
-    // const transTX2 = await contract.withdraw()
-    // await transTX2.wait(1)
-
-    const transTX3 = await contract.mintGiftBlob(ethers.utils.getAddress("0x70997970C51812dc3A010C7d01b50e0d17dc79C8"), _hexsToRGB("#ff0000", "#ffff00"))
-    await transTX3.wait(1)
-    console.log(transTX3)
-  }
-
   const funcs = {
     mintBlob: _mintBlob,
     healBlob: _healBlob,
-    getBlobbHistory: _getBlobbHistory,
-    transfer: _transfer
+    getBlobbHistory: _getBlobbHistory
   }
 
   return(

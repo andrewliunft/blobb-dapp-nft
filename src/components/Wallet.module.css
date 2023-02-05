@@ -88,16 +88,20 @@
   background: linear-gradient(90deg, var(--startColor), var(--endColor));
   box-shadow: 2px 2px 5px rgb(0, 0, 0, .75);
 
-  transition: .5s ease;
+  transition: .5s ease, translate .25s ease;
 }
 .profile_circle:hover {
   cursor: pointer;
 
-  border: 3px solid aliceblue;
+  /* border: 3px solid aliceblue; */
   border-radius: 40% 60% 70% 30% / 40% 40% 60% 50%;
 /* 
   animation: morph 4s ease infinite alternate forwards;
   transition: 1s ease; */
+}
+.profile_circle:active {
+  border: 3px solid aliceblue;
+  translate: 0 3px;
 }
 
 .profile_circle::after {

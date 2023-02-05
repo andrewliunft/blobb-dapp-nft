@@ -38,8 +38,8 @@
   </style>
   <g id="c">
     <g transform="scale(1.5)">
-      <use href="#pC" filter="blur(1px)"/>
-      <use href="#pC" filter="drop-shadow(1px 1px 1 #000)"/>
+      <use href="#pC" stroke="url(#gS)" stroke-width="2" filter="blur(1px)"/>
+      <use href="#pC" stroke="url(#gS)" stroke-width="0.5" filter="drop-shadow(1px 1px 1 #000)"/>
       <circle r="2" stroke="#0006" stroke-width=".75" transform="translate(12.3 8.3)"/>
       <circle r="1" fill="url(#gS)" stroke-width="1" transform="translate(3.75 8)"/>
       <circle r="1" fill="url(#gS)" stroke-width="1" transform="translate(20.25 8)"/>
@@ -80,6 +80,7 @@
     <linearGradient id="gS" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="rgb(|)" stopOpacity="0.5"/>
       <stop offset="100%" stop-color="rgb(|)" stopOpacity="0.5"/>
+      <animateTransform attributeName="gradientTransform|" type="rotate" values="0 .5 .5;360 .5 .5" dur="1.5s" repeatCount="indefinite"/>
     </linearGradient>
     <linearGradient id="gT" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#fffd"/>

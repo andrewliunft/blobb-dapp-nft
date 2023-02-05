@@ -5,6 +5,18 @@
 
   transition: 1s ease;
   /* min-width: 500px; */
+  /* animation: pop-in .5s ease .25s forwards; */
+}
+@keyframes pop-in {
+  /* 0% {opacity: 0;} */
+  50% {
+    opacity: 1;
+    scale: 1.1;
+  }
+  100% {
+    opacity: 1;
+    scale: 1;
+  }
 }
 
 .blobb_svg_w_stats {
