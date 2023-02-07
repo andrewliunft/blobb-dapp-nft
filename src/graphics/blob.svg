@@ -6,6 +6,12 @@
     }
     svg{
       --a-dur: 10s;
+
+      --sColor: 255,0,0;
+      --eColor: 255,255,0;
+      --hpAlpha: .1;
+      --multiColorDur: 5s;
+
       /* background: linear-gradient(90deg, #1e1e1e, #1e1e1ea0); */
       background-color: #202020;
       /* <!-- Background image with raw SVG: charset=utf8 and raw svg with needs to encode: <, # --> */
@@ -48,11 +54,53 @@
       transform-box: fill-box; */
       /* transform: translate(0, -10px); */
       /* transform: translate(130px, 147px); */
-    }
+    } 
     #c {
       transform: translate(100px, 3px) rotate(25deg) scale(1.5);
       animation: c_anim infinite var(--a-dur) ease forwards;
       opacity: 0;
+    }
+
+    .fillColor, #start-fill {
+      stop-color: rgba(var(--sColor), var(--hpAlpha));
+      animation: multi-color-fill-start infinite var(--multiColorDur) ease forwards;
+    }
+    .fillColor, #end-fill {
+      stop-color: rgba(var(--eColor), var(--hpAlpha));
+      animation: multi-color-fill-end infinite var(--multiColorDur) ease forwards;
+    }
+    .strokeColor, #start-stroke {
+      stop-color: rgba(var(--sColor));
+      animation: multi-color-stroke-start infinite var(--multiColorDur) ease forwards;
+    }
+    .strokeColor, #end-stroke {
+      stop-color: rgba(var(--eColor));
+      animation: multi-color-stroke-end infinite var(--multiColorDur) ease forwards;
+    }
+    @keyframes multi-color-fill-start {
+      0% { stop-color: rgba(255,0,0,var(--hpAlpha));}
+      33.33% { stop-color: rgba(0,255,0,var(--hpAlpha));}
+      66.66% { stop-color: rgba(0,0,255,var(--hpAlpha));}
+      100% { stop-color: rgba(255,0,0,var(--hpAlpha));}
+    }
+    @keyframes multi-color-fill-end {
+      0% { stop-color: rgba(255,255,0,var(--hpAlpha));}
+      33.33% { stop-color: rgba(0,255,255,var(--hpAlpha));}
+      66.66% { stop-color: rgba(255,0,255,var(--hpAlpha));}
+      100% { stop-color: rgba(255,255,0,var(--hpAlpha));}
+    }
+    
+    @keyframes multi-color-stroke-start {
+      0% { stop-color: #f00;}
+      33.33% { stop-color: #0f0;}
+      66.66% { stop-color: #00f;}
+      100% { stop-color: #f00;}
+    }
+    @keyframes multi-color-stroke-end {
+      0% { stop-color: #ff0;}
+      33.33% { stop-color: #0ff;}
+      66.66% { stop-color: #f0f;}
+      100% { stop-color: #ff0;}
     }
     @keyframes c_anim {
       25% { transform: translate(90px, 13px) rotate(15deg) scale(1.5); }
@@ -123,40 +171,38 @@
     </text>
   </g>
   
-  <text fill="url(#t-grad)" font-family="Titan One" font-size="13px" filter="drop-shadow(0 1px 0 #000b)" >
+  <text fill="url(#t-grad)" font-family="Titan One" font-size="14px" filter="drop-shadow(0 1px 0 #000b)" >
     <textPath text-anchor="middle" startOffset="50%">
-      *your address*
+      your address
       <animate attributeName="href" repeatCount="indefinite" dur="1s" values="#t-path" />
     </textPath>
   </text>
-  <!-- <rect width="100" height="100" transform="translate(50 50)" fill="url(#s-grad)" stroke="black"/> -->
+
+  <!-- <rect width="100" style="height:var(-rW);" transform="translate(50 50)" fill="url(#s-grad)" stroke="black"/> -->
   <defs>
+    
     <path id="b-path" d="M33.6-46C45.8-37.4 59.6-30.6 64-20.1 68.4-9.6 63.4 4.7 59.2 19.8 55.1 34.9 51.8 50.9 42.1 59.2 32.4 67.5 16.2 68.2-.6 69-17.4 69.9-34.9 71-46.4 63.2-57.8 55.5-63.4 38.9-69.3 22.2-75.2 5.4-81.5-11.5-78.2-26.6-75-41.7-62.3-55-47.6-62.8-33-70.7-16.5-73.2-2.9-69.2 10.7-65.1 21.4-54.6 33.6-46Z" transform="translate(100 100)"/>
     <path id="t-path" d="M-60.38 7.8C-47.55-6.28-41.34-19.94-5.32-3.79 26.98 2 27.9433-15.1133 45.61-15.39" transform="translate(100 100)"/>
     <path id="c-path" fill="url(#c-grad)" d="M2.801 5.2 7 8l4.186-5.86a1 1 0 011.628 0L17 8l4.2-2.8a1 1 0 011.547.95l-1.643 6a1 1 0 01-.993.883H3.889a1 1 0 01-.993-.883L1.253 6.149A1 1 0 012.8 5.2"/>
     <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#ff0000">  <!-- "#ff00c8" "#ffff00" -->
+      <stop id="start-fill" class="fillColor" offset="0%" stop-color="#ff0000">  <!-- "#ff00c8" "#ffff00" -->
         <!-- <animate attributeName="stop-color" values="#ff000088;#00ff0088;#0000ff88;#ff000088" dur="5s" repeatCount="indefinite" /> -->
-
       </stop>
-      <stop offset="100%" stop-color="#000000">  <!-- "#ff00c8" "#ffff00" -->
-        <!-- <animate attributeName="stop-color" values="#ff000022;#00ff0022;#0000ff22;#ff000022" dur="5s" repeatCount="indefinite" /> -->
-
+      <stop id="end-fill" class="fillColor" offset="100%" stop-color="#000000">  <!-- "#ff00c8" "#ffff00" -->
+        <!-- <animate attributeName="stop-color" values="#ffff0022;#00ffff22;#ff00ff22;#ffff0022" dur="5s" repeatCount="indefinite" /> -->
       </stop>
-      <!-- <animateTransform attributeName="gradientTransform1" type="rotate" values="0 .5 .5;360 .5 .5" dur=".2s" repeatCount="indefinite" />
-      <animate attributeName="x2" values="0%;50%;100%;150%;200%;250%;300%;350%;400%;450%;500%" dur="5s" repeatCount="indefinite" />
-      <animate attributeName="y2" values="0%;50%;100%;150%;200%;250%;300%;350%;400%;450%;500%" dur="5s" repeatCount="indefinite" /> -->
+      <!-- <animateTransform attributeName="gradientTransform1" type="rotate" values="0 .5 .5;360 .5 .5" dur=".2s" repeatCount="indefinite" /> -->
     </linearGradient>
     <linearGradient id="s-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#ff0000">  <!-- "#ff00c8" "#ffff00" -->
+      <stop id="start-stroke" class="strokeColor" offset="0%" stop-color="#ff0000">  <!-- "#ff00c8" "#ffff00" -->
         <!-- <animate attributeName="stop-color" values="#ff0000;#00ff00;#0000ff;#ff0000" dur="5s" repeatCount="indefinite" /> -->
 
       </stop>
-      <stop offset="100%" stop-color="#000000">  <!-- "#ff00c8" "#ffff00" -->
+      <stop id="end-stroke" class="strokeColor" offset="100%" stop-color="#000000">  <!-- "#ff00c8" "#ffff00" -->
         <!-- <animate attributeName="stop-color" values="#ffff00;#00ffff;#ff00ff;#ffff00" dur="5s" repeatCount="indefinite" /> -->
 
       </stop>
-      <animateTransform attributeName="gradientTransform" type="rotate" values="0 .5 .5;360 .5 .5" dur="1.5s" repeatCount="indefinite" />
+      <animateTransform attributeName="gradientTransform1" type="rotate" values="0 .5 .5;360 .5 .5" dur="1.5s" repeatCount="indefinite" />
     </linearGradient>
     <linearGradient id="t-grad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#fffd" />
