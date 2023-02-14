@@ -1,8 +1,10 @@
 import classes from "./BlobbSVG.module.css"
 
-function BlobbSVG({ currAccount, colors, mintFunc }) {
+function BlobbSVG({ currAccount, bProperties, mintFunc }) {
+  const lvl_anim_time = bProperties.bType === 1 || bProperties.bType >= 3 ? "10s" : "0s"
+
   const SVG_BLOBB = () => 
-    <svg className={classes.blobb_svg} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+    <svg className={bProperties.bType % 2 ? classes.blobb_svg_1 : classes.blobb_svg_2 } xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
       <style type="text/css"> {`
         #b-path {
           transform: translate(100px, 100px);
@@ -42,8 +44,8 @@ function BlobbSVG({ currAccount, colors, mintFunc }) {
           // fill: #000000
         }
         #b-lvl {
+          transform: translate(150px, 50px);
           transition: .25s ease;
-          
         }
         #exp {
           transition: .25s ease;
@@ -81,8 +83,12 @@ function BlobbSVG({ currAccount, colors, mintFunc }) {
           50% { transform: translate(125px, 130px) rotate(5deg); }
           75% { transform: translate(160px, 147px) rotate(20deg); }
         }
+        @keyframes lvl {
+          25% { transform: translate(145px, 52px) rotate(-10deg); }
+          50% { transform: translate(150px, 44px) rotate(5deg); }
+          75% { transform: translate(160px, 41px) rotate(15deg); }
         stop {
-          transition: .25s ease;
+          transition: 0s ease;
         }
       `}</style>
       <g id="blobs">
@@ -119,11 +125,11 @@ function BlobbSVG({ currAccount, colors, mintFunc }) {
         </g>
       </g>
 
-      <g id="b-lvl">
-        <circle r={10} fill="url(#grad)" stroke="url(#s-grad)" strokeWidth={1} filter="drop-shadow(1 1 1 #000b)" transform="translate(150.5 50.5)" />
-        <circle r={10} stroke="url(#s-grad)" strokeWidth={2} filter="blur(1px)" transform="translate(150.5 50.5)" />
-        <circle id="exp" r="15" stroke="url(#t-grad)" strokeDasharray="10" strokeDashoffset="10" pathLength="10" strokeWidth="2" strokeLinecap="round" filter="drop-shadow(0 0 1 #000b)" transform="translate(150.5 50.5) rotate(-90)" />
-        <text fill="url(#t-grad)" filter="drop-shadow(0 1px 0 #000d)" textAnchor="middle" style={{fontFamily: "Titan One", pointerEvents: "none", fontSize: "12px"}} transform="translate(150.5 54.5)">
+      <g id="b-lvl" style={{"animation": "lvl infinite " + lvl_anim_time + " ease forwards"}}>
+        <circle r={10} fill="url(#grad)" stroke="url(#s-grad)" strokeWidth={1} filter="drop-shadow(1 1 1 #000b)" />
+        <circle r={10} stroke="url(#s-grad)" strokeWidth={2} filter="blur(1px)" />
+        <circle id="exp" r="15" stroke="url(#t-grad)" strokeDasharray="10" strokeDashoffset="10" pathLength="10" strokeWidth="2" strokeLinecap="round" filter="drop-shadow(0 0 1 #000b)" transform="rotate(-90)" />
+        <text fill="url(#t-grad)" filter="drop-shadow(0 1px 0 #000d)" textAnchor="middle" style={{fontFamily: "Titan One", pointerEvents: "none", fontSize: "12px"}} transform="translate(0 4)">
           1
         </text>
         {/* <path d="M147,51 L150, 55 L154, 47" stroke="white" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round" filter="drop-shadow(1 0 1 #0009)" /> */}
@@ -141,13 +147,14 @@ function BlobbSVG({ currAccount, colors, mintFunc }) {
           d="M2.801 5.2 7 8l4.186-5.86a1 1 0 011.628 0L17 8l4.2-2.8a1 1 0 011.547.95l-1.643 6a1 1 0 01-.993.883H3.889a1 1 0 01-.993-.883L1.253 6.149A1 1 0 012.8 5.2"
         />
         <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style={{stopColor: colors.start}} />
-          <stop offset="100%" style={{stopColor: colors.end}} />
+          <stop offset="0%" style={{stopColor: bProperties.cStart}} />
+          <stop offset="100%" style={{stopColor: bProperties.cEnd}} />
           {/* <animateTransform attributeName="gradientTransform" type="rotate" values="180 .5 .5;540 .5 .5" dur="1.5s" repeatCount="indefinite" /> */}
         </linearGradient>
         <linearGradient id="s-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" style={{stopColor: colors.start}} />
-          <stop offset="100%" style={{stopColor: colors.end}} />
+          <stop offset="0%" style={{stopColor: bProperties.cStart}} />
+          <stop offset="100%" style={{stopColor: bProperties.cEnd}} />
+          {bProperties.bType >= 2 && <animateTransform attributeName="gradientTransform" type="rotate" values="0 .5 .5;360 .5 .5" dur="1.5s" repeatCount="indefinite" />}
           {/* <animateTransform attributeName="gradientTransform" type="rotate" values="0 .5 .5;360 .5 .5" dur="1.5s" repeatCount="indefinite" /> */}
         </linearGradient>
         <linearGradient id="t-grad" x1="0%" y1="0%" x2="100%" y2="100%">

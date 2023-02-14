@@ -8,7 +8,7 @@ let { networkConfig } = require("../helper-data.js")
 
 function Wallet({ currAccount, connectWalletFunc }) {
   const {state: { chain }} = useContext(EtherContext)
-  const {blob: { colors }} = useContext(MyBlobContext)
+  const {blob: { colors, bType }} = useContext(MyBlobContext)
   const location = useLocation()
   const navigate = useNavigate()
 
@@ -17,6 +17,7 @@ function Wallet({ currAccount, connectWalletFunc }) {
     return {
       "--startColor": colors ? "rgb("+colors.start+")" : "#0000",
       "--endColor": colors ? "rgb("+colors.end+")" : "#0000",
+      "--multiColorDur": bType === 4 ? "5s" : 0,
     }
   }, [colors])
 

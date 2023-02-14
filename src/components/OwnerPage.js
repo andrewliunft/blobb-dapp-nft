@@ -46,7 +46,7 @@ function OwnerPage() {
   }, [giftData])  
 
   const changeTypeHandler = rArrow => {
-    const bType = rArrow ? (giftData.bType+1)%4 : (4+(giftData.bType-1)%4)%4
+    const bType = rArrow ? (giftData.bType+1)%5 : (5+(giftData.bType-1)%5)%5
     giftDispatch({type: ACTIONS.SET, data: { bType }})
   }
 
@@ -89,11 +89,11 @@ function OwnerPage() {
     return arrayRGBs
   }
 
-  const withdrawBalance = async () => {
+  const withdrawBalance = async withdrawType => {
     const errMsgClass = giftData.errMsg.change ? classes.error_div_2 : classes.error_div_1
     try {
       giftDispatch({type: ACTIONS.SET, data: { pending: true }})
-      await contract.withdraw()
+      await contract.withdraw(withdrawType)
       giftDispatch({type: ACTIONS.SET, data: { pending: false }})
     }
     catch(e) {
@@ -201,7 +201,7 @@ function OwnerPage() {
       <div className={classes.utilities_div}>
         <span className={classes.title_span}><span className={classes.highlight}>CONTRACT</span> UTILITIES</span>
         <div className={classes.utilities_buttons}>
-          <div className={giftData.pending ? classes.buttons_off : classes.utility_button} onClick={withdrawBalance}>
+          <div className={giftData.pending ? classes.buttons_off : classes.utility_button} onClick={() => withdrawBalance(0)}>
             withdraw
           </div>
           <div className={giftData.pending ? classes.pause_toggle_off : classes.pause_toggle} onClick={toggleContractPause}>
@@ -223,6 +223,7 @@ function OwnerPage() {
           <div className={giftData.pending ? classes.buttons_off : classes.utility_button}>
             update
           </div>
+          <div onClick={() => withdrawBalance(1)}>king</div>
         </div>
       </div>
       

@@ -24,6 +24,30 @@
   border: 2px solid #3f3f3f; */
   
 }
+.trigger_div {
+  position: absolute;
+  top: 120px;
+  translate: -200px;
+}
+.trigger_div_1, .trigger_div_2 {
+  position: absolute;
+  top: 120px;
+  translate: -200px;
+  animation: trigger-popup-1 5s ease forwards;
+}
+.trigger_div_2 {
+  animation: trigger-popup-2 5s ease forwards;
+}
+
+@keyframes trigger-popup-1 {
+  0%, 100% {translate: -200px;}
+  25% {translate: 10px;}
+  75% {translate: 10px;}
+}@keyframes trigger-popup-2 {
+  0%, 100% {translate: -200px;}
+  25% {translate: 10px;}
+  75% {translate: 10px;}
+}
 
 @media all and (max-height: 700px), all and (max-width: 500px)
 {

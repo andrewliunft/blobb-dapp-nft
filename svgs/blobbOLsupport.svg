@@ -74,20 +74,20 @@
   <g id="l">
     <circle r="10" fill="url(#gB)" stroke="url(#gS)" stroke-width="1" filter="drop-shadow(1 1 1 #000b)"/>
     <circle r="10" stroke="url(#gS)" stroke-width="2" filter="blur(1px)"/>
-    <circle r="15" style="stroke:var(--tG)" stroke-dasharray="10" stroke-dashoffset="|" pathLength="10" stroke-width="2" stroke-linecap="round" filter="drop-shadow(0 0 1 #000b)" transform="rotate(-90)"/>
-    <text style="fill:var(--tG)" text-anchor="middle" font-family="Titan One" font-size="12px" filter="drop-shadow(0 1 0 #000d)" transform="translate(0 4)">|</text>
+    <circle r="15" stroke="url(#g|)" stroke-dasharray="10" stroke-dashoffset="|" pathLength="10" stroke-width="2" stroke-linecap="round" filter="drop-shadow(0 0 1 #000b)" transform="rotate(-90)"/>
+    <text fill="url(#g|)" text-anchor="middle" font-family="Titan One" font-size="12px" filter="drop-shadow(0 1 0 #000d)" transform="translate(0 4)">|</text>
   </g>
   <g id="v">
     <circle r="8" fill="url(#gS)" stroke="url(#gS)" stroke-width="1" filter="drop-shadow(1 1 1 #0008)"/>
     <path d="M-3,1 L-1,4 L3,-3" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="drop-shadow(1 0 1 #0009)"/>
   </g>
-  <text style="fill:var(--tG)" font-family="Titan One" font-size="12px" filter="drop-shadow(0 1 0 #000d)">
+  <text fill="url(#gT)" font-family="Titan One" font-size="12px" filter="drop-shadow(0 1 0 #000d)">
     <textPath text-anchor="middle" startOffset="80%">
       | / 1000
       <animate attributeName="href" repeatCount="indefinite" dur="1s" values="#pB"/>
     </textPath>
   </text>
-  <text style="fill:var(--tG)" font-family="Titan One" filter="drop-shadow(0 1px 0 #000b)">
+  <text fill="url(#gT)" font-family="Titan One" filter="drop-shadow(0 1px 0 #000b)">
     <textPath text-anchor="middle" startOffset="50%">
       |
       <animate attributeName="href" repeatCount="indefinite" dur="1s" values="#pT"/>

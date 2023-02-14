@@ -9,15 +9,16 @@ import BlobbActions from "./BlobbActions"
 import BlobbStats from "./BlobbStats"
 import BlobbColorsPicker from "./BlobbColorsPicker"
 
+const _randomColor = () => "#000000".replace(/0/g, () => (~~(Math.random()*16)).toString(16))
+
 function BlobbHome() {
   const {state: { account }, funcs: { newWalletRequest }} = useContext(EtherContext)
-  const { blob, funcs: { mintBlob }, funcs: { transfer } } = useContext(MyBlobContext)
+  const { blob, funcs: { mintBlob } } = useContext(MyBlobContext)
   const [showStats, setShowStats] = useState(false)
   
-  const _randomColor = () => "#000000".replace(/0/g, () => (~~(Math.random()*16)).toString(16))
-  const [colors, setColors] = useState({start: _randomColor(), end: _randomColor()})
+  const [properties, setProperties] = useState({cStart: _randomColor(), cEnd: _randomColor(), bType: 0})
   // const [colors, setColors] = useState({start: "#000000", end: "#333333", time: 3000, reps: 0})
-  console.log("BLOB HOME", account, blob.number, showStats, colors)
+  console.log("BLOB HOME", account, blob.number, showStats, properties)
   
   
   // setTimeout(() => {
@@ -49,10 +50,14 @@ function BlobbHome() {
 
   const colorPicked = cPicker => {
     console.log(cPicker, cPicker.target.value, cPicker.target.id)
-    cPicker.target.id === "c-start" ? setColors({start: cPicker.target.value, end: colors.end}) : setColors({start: colors.start, end: cPicker.target.value})
+    cPicker.target.id === "c-start" ? setProperties({...properties, ...{cStart: cPicker.target.value}}) : setProperties({...properties, ...{cEnd: cPicker.target.value}})
+  }
+  const bTypeChanged = right => {
+    const bType = right ? (properties.bType+1)%4 : (4+(properties.bType-1)%4)%4
+    setProperties({...properties, ...{ bType }})
   }
 
-  const callMintBlob = () => newWalletRequest("MINT", "MINTING YOUR BRAND NEW BLOBB!", () => mintBlob(colors.start, colors.end))
+  const callMintBlob = () => newWalletRequest("MINT", "MINTING YOUR BRAND NEW BLOBB!", () => mintBlob(properties))
 
   if(blob.number) {
     return(
@@ -65,8 +70,8 @@ function BlobbHome() {
   }
   return(
     <div className={classes.home_div_mint}>
-      <BlobbSVG currAccount={account} colors={{start: colors.start, end: colors.end}} mintFunc={callMintBlob} />
-      <BlobbColorsPicker currAccount={account} bColors={colors} colorPickedFunc={colorPicked} />
+      <BlobbSVG currAccount={account} bProperties={properties} mintFunc={callMintBlob} />
+      <BlobbColorsPicker currAccount={account} bProperties={properties} propertiesFuncs={{colorPicked, bTypeChanged}} />
     </div>
   )  
 }

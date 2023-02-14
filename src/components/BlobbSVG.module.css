@@ -1,4 +1,4 @@
-.blobb_svg {
+.blobb_svg_1, .blobb_svg_2 {
   width: 100%;
   max-height: 80%;
   overflow: visible;
@@ -7,10 +7,23 @@
   /* min-width: 500px; */
   /* animation: pop-in .5s ease .25s forwards; */
 
-  transform: translate(100px);
+  /* transform: translate(100px);
   opacity: 0;
-  animation: slide .75s ease .25s forwards;
+  animation: slide .75s ease .25s forwards; */
+
+  opacity: 0;
+  animation: fade-1 .75s ease forwards;
 }
+.blobb_svg_2 {
+  animation: fade-2 .75s ease forwards;
+}
+
+@keyframes fade-1 {
+  100% { opacity: 1; }
+}@keyframes fade-2 {
+  100% { opacity: 1; }
+}
+
 @keyframes pop-in {
   /* 0% {opacity: 0;} */
   50% {

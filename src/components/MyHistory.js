@@ -95,7 +95,11 @@ function MyHistory() {
         {historyData.history.map((hAction, idx) => {
           let arrowColor = hAction.action === "HEAL" ? "lime" : "red"
           let actionText = hAction.action === "HEAL" ? <span>YOU <span className={classes.highlight}>HEALED</span> YOUR BLOBB</span> : <span><span className={classes.highlight}>ATTACKED</span> YOUR BLOBB</span>
-          const colorsVars = {"--start-color": "rgb("+hAction.bColors.start+")", "--end-color": "rgb("+hAction.bColors.end+")"}
+          const colorsVars = {
+            "--start-color": "rgb("+hAction.bColors.start+")",
+            "--end-color": "rgb("+hAction.bColors.end+")",
+            "--multiColorDur": hAction.bColors.start.slice(0,3) === "256" ? "5s" : 0
+          }
 
           return( 
             <div key={idx} className={classes.history_element}>

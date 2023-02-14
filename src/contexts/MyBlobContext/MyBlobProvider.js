@@ -6,7 +6,7 @@ import { ethers } from "ethers";
 const MyBlobContext = createContext()
 
 const ACTIONS = {SET: "set", RESET: "reset"}
-const initBlob = {number: null, birthday: null, hp: null, totalActions: null, totalAttacks: null, kills: null, death: null, creator: null, owner: null, lastHit: null, colors: null, gifted: null, king: null}
+const initBlob = {number: null, birthday: null, hp: null, totalActions: null, totalAttacks: null, kills: null, death: null, creator: null, owner: null, lastHit: null, colors: null, bType: null, king: null, attackTrigger: null}
 const reducer = (blob, action) => {
   const { type, data } = action
   switch (type) {
@@ -30,10 +30,11 @@ export function MyBlobProvider({ children }) {
     const eventBlobHP = parseInt(newHP._hex, 16)
     if(eventBlobHP === blob.hp) {
       console.log("FALSE EVENT - NOTHING TO FETCH")
-      return
+      return 
     }
     const death = eventBlobHP === 0 ? _getDateFromTimestamp(Date.now()/1000) : "ALIVE"
-    blobDispatch({type: ACTIONS.SET, data: {hp: eventBlobHP, totalActions: ++blob.totalActions, death}})
+    const attackTrigger = blob.attackTrigger === null ? false : eventBlobHP < blob.hp ? !blob.attackTrigger : blob.attackTrigger
+    blobDispatch({type: ACTIONS.SET, data: {hp: eventBlobHP, totalActions: ++blob.totalActions, death, attackTrigger}})
   }
   const _attackEventHandler = (toBlobID, madeFrom, newHP, newTotAttks, kingOfBlobbs, event) => {
     console.log("MYBLOBB ATTACK EMITTED", toBlobID, madeFrom, newHP, newTotAttks, kingOfBlobbs, event)
@@ -75,7 +76,7 @@ export function MyBlobProvider({ children }) {
       console.error("Contract function call failed!", e)
       myBlobID = 0
     }
-    console.log("b:", myBlobID)
+    console.log("b:", myBlobID, account)
     if(!myBlobID) { 
       blobDispatch({type: ACTIONS.SET, data: {...initBlob, ...{number: myBlobID}}})
       return
@@ -94,7 +95,7 @@ export function MyBlobProvider({ children }) {
       owner: myBlob.owner,
       lastHit: myBlob.lastHit || "NONE",
       colors: await _getBlobbColors(myBlobID),
-      gifted: parseInt(myBlob.gifted._hex, 16),
+      bType: parseInt(myBlob.blobType._hex, 16),
       king: await _isThekingOfBlobbs(myBlobID)
     }
     console.log("BLOB GET", myBlobInfo, myBlob)
@@ -127,9 +128,11 @@ export function MyBlobProvider({ children }) {
     return false
   }
 
-  const _mintBlob = async (startHexColor, endHexColor) => {
-    const price = await contract.mintPrice()
-    const transaction = await contract.mintBlob(_hexsToRGB(startHexColor, endHexColor), {value: price})
+  const _mintBlob = async (blobProperties) => {
+    let price = ethers.utils.formatEther(await contract.mintPrice())
+    const { cStart, cEnd, bType } = blobProperties
+    price = parseFloat(price) + (0.0025 * bType) + ""
+    const transaction = await contract.mintBlob(_hexsToRGB(cStart, cEnd), bType, { value: ethers.utils.parseEther(price) })
     const receipt = await transaction.wait()
     console.log("RECEIPT", receipt)
     getBlob()
@@ -166,8 +169,8 @@ export function MyBlobProvider({ children }) {
     console.log("IDX HISTORY", startIDX, endIDX, blob.totalActions, hpTracker)
     for(let i = startIDX; i > endIDX; i--) {
       const actorID = parseInt((await contract.blobbHistory(blob.number, i))._hex, 16)
-      const bColors = await _getBlobbColors(actorID)
       const action = actorID === blob.number ? "HEAL" : "ATTACK"
+      const bColors = action === "HEAL" ? blob.colors : await _getBlobbColors(actorID)
       const toHP = hpTracker
 
       hpTracker += action === "HEAL" ? -1 : 1

@@ -21,7 +21,7 @@
   /* box-shadow: 2px 2px 5px rgb(0, 0, 0, .75); */
 }
 
-.title_span, .info_price_span {
+.title_span, .info_price_span_1, .info_price_span_2 {
   position: relative;
   top: 10px;
  
@@ -37,11 +37,12 @@
   box-shadow: 0 2px 3px #000a;
 }
 
-.info_price_span {
+.info_price_span_1, .info_price_span_2 {
   --popup-alpha: 0;
   --popup-x: 0;
   --popup-delay: 0s;
 
+  /* display: inline-block; */
   user-select: none;
   cursor: pointer;
 
@@ -56,8 +57,21 @@
   text-shadow: 0 0 4px aliceblue;
 
   transition: .5s ease;
+  animation: change-price-anim-1 .25s ease forwards;
 }
-.info_price_span:hover {
+.info_price_span_2 {
+  animation: change-price-anim-2 .25s ease forwards;
+}
+
+@keyframes change-price-anim-1 {
+  0%, 100% {margin-left: 0; border-left: 4px solid #5e5e5e;}
+  50% {margin-left: 5px; border-left: 4px solid aliceblue;}
+}@keyframes change-price-anim-2 {
+  0%, 100% {margin-left: 0; border-left: 4px solid #5e5e5e;}
+  50% {margin-left: 5px; border-left: 4px solid aliceblue;}
+}
+
+.info_price_span_1:hover, .info_price_span_2:hover {
   --popup-alpha: 1;
   --popup-x: -10px;
   --popup-delay: .5s;
@@ -146,4 +160,53 @@
 }
 .color_picker:hover {
   background: aliceblue;
+}
+
+.blob_type_arrow_div {
+  position: absolute;
+  width: 72.5%;
+
+  max-width: 500px;
+  min-width: 400px;
+
+  font-weight: bold;
+  font-size: 4vmin;
+
+  translate: 0 -100px;
+}
+.blob_type_arrow, .blob_type_arrow_left, .blob_type_arrow_right {
+  user-select: none;
+  cursor: pointer;
+  
+  margin: 10px 0;
+  padding: 10px 20px;
+  font-size: 25px;
+
+  border: 2px solid #5e5e5e;
+  border-radius: 5px;
+
+  box-shadow: 2px 2px 5px rgb(0, 0, 0, .75);
+  text-shadow: 2px 2px 5px #000a;
+
+  transition: .25s ease, background-color .1s ease;
+}
+.blob_type_arrow:hover, .blob_type_arrow_left:hover, .blob_type_arrow_right:hover {
+  color: aliceblue;
+  border: 2px solid aliceblue;
+  border-radius: 20px;
+}
+.blob_type_arrow:active, .blob_type_arrow_left:active, .blob_type_arrow_right:active {
+  background-color: aliceblue;
+  color: #323232;
+  border: 2px solid aliceblue;
+  translate: 0 3px;
+}
+
+.blob_type_arrow_left {
+  position: absolute;
+  left: -60px;
+}
+.blob_type_arrow_right {
+  position: absolute;
+  right: -60px;
 }

@@ -39,7 +39,7 @@ function MyBlobbSVG({ currAccount, blobb, show, setShow }) {
   //   setState({...state, ...{ time }})
   // }, 50);
 
-  const lvl_anim_time = blobb.gifted === 1 || blobb.gifted === 3 ? "10s" : "0s"
+  const lvl_anim_time = blobb.bType === 1 || blobb.bType >= 3 ? "10s" : "0s"
   const SVG_BLOBB = () => 
     <svg className={show ? classes.blobb_svg_w_stats : classes.blobb_svg } xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
       <style type="text/css"> {`
@@ -183,13 +183,49 @@ function MyBlobbSVG({ currAccount, blobb, show, setShow }) {
           d="M2.801 5.2 7 8l4.186-5.86a1 1 0 011.628 0L17 8l4.2-2.8a1 1 0 011.547.95l-1.643 6a1 1 0 01-.993.883H3.889a1 1 0 01-.993-.883L1.253 6.149A1 1 0 012.8 5.2"
         />
         <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style={{stopColor: "rgb("+blobb.colors.start+","+blobb.hp/10+")"}} />
-          <stop offset="100%" style={{stopColor: "rgb("+blobb.colors.end+","+blobb.hp/10+")"}} />
+          <stop offset="0%" style={{stopColor: "rgb("+blobb.colors.start+","+blobb.hp/10+")"}}>
+            {blobb.bType === 4 && 
+              <animate 
+                attributeName="stop-color" 
+                values={"rgba(255,0,0,"+ blobb.hp/10 +");rgba(0,255,0,"+ blobb.hp/10 +");rgba(0,0,255,"+ blobb.hp/10 +");rgba(255,0,0,"+ blobb.hp/10 +");"}
+                dur="5s" 
+                repeatCount="indefinite" 
+              />
+            }
+          </stop>
+          <stop offset="100%" style={{stopColor: "rgb("+blobb.colors.end+","+blobb.hp/10+")"}}>
+            {blobb.bType === 4 && 
+              <animate 
+                attributeName="stop-color" 
+                values={"rgba(255,255,0,"+ blobb.hp/10 +");rgba(0,255,255,"+ blobb.hp/10 +");rgba(255,0,255,"+ blobb.hp/10 +");rgba(255,255,0,"+ blobb.hp/10 +");"}
+                dur="5s" 
+                repeatCount="indefinite" 
+              />
+            }
+          </stop>
         </linearGradient>
         <linearGradient id="s-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" style={{stopColor: "rgb("+blobb.colors.start+")"}} />
-          <stop offset="100%" style={{stopColor: "rgb("+blobb.colors.end+")"}} />
-          {blobb.gifted >= 2 && <animateTransform attributeName="gradientTransform" type="rotate" values="0 .5 .5;360 .5 .5" dur="1.5s" repeatCount="indefinite" />}
+          <stop offset="0%" style={{stopColor: "rgb("+blobb.colors.start+")"}}>
+            {blobb.bType === 4 && 
+              <animate 
+                attributeName="stop-color" 
+                values={"rgb(255,0,0);rgb(0,255,0);rgb(0,0,255);rgb(255,0,0);"}
+                dur="5s" 
+                repeatCount="indefinite" 
+              />
+            }
+          </stop>
+          <stop offset="100%" style={{stopColor: "rgb("+blobb.colors.end+")"}}>
+            {blobb.bType === 4 && 
+              <animate 
+                attributeName="stop-color" 
+                values={"rgb(255,255,0);rgb(0,255,255);rgb(255,0,255);rgb(255,255,0);"}
+                dur="5s" 
+                repeatCount="indefinite" 
+              />
+            }
+          </stop>
+          {blobb.bType >= 2 && <animateTransform attributeName="gradientTransform" type="rotate" values="0 .5 .5;360 .5 .5" dur="1.5s" repeatCount="indefinite" />}
         </linearGradient>
         <linearGradient id="t-grad" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" style={{stopColor: "#fffd"}} />
