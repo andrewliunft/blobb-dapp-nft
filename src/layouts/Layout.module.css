@@ -24,29 +24,46 @@
   border: 2px solid #3f3f3f; */
   
 }
-.trigger_div {
-  position: absolute;
-  top: 120px;
-  translate: -200px;
-}
-.trigger_div_1, .trigger_div_2 {
-  position: absolute;
-  top: 120px;
-  translate: -200px;
-  animation: trigger-popup-1 5s ease forwards;
-}
-.trigger_div_2 {
-  animation: trigger-popup-2 5s ease forwards;
+.highlight {
+  padding: 0 3px;
+  border-radius: 5px;
+  color: #323232;
+  background-color: #c2c5c8;
+  text-shadow: none;
 }
 
-@keyframes trigger-popup-1 {
-  0%, 100% {translate: -200px;}
-  25% {translate: 10px;}
-  75% {translate: 10px;}
-}@keyframes trigger-popup-2 {
-  0%, 100% {translate: -200px;}
-  25% {translate: 10px;}
-  75% {translate: 10px;}
+.trigger_div {
+  display: flex;
+  position: absolute;
+  top: 150px;
+  /* translate: 250px; */
+}
+.trigger_popup_div {
+  position: absolute;
+  width: max-content;
+
+  padding: 3px 5px;
+  font-weight: bold;
+  font-size: 18px;
+
+  border-bottom: 2px solid #5e5e5e;
+  border-radius: 5px;
+  background-color: aliceblue;
+
+  box-shadow: 2px 2px 5px rgb(0, 0, 0, .75);
+
+  transition: .25s ease;
+  animation: trigger-popup 5s ease forwards, idle 4.25s ease forwards;
+}
+
+@keyframes trigger-popup {
+  0%, 100% {translate: -350px; opacity: 0;}
+  25% {translate: 20px; opacity: 1;}
+  75% {translate: 20px; opacity: 1;}
+}
+@keyframes idle {
+  0%, 20%, 40%, 60%, 80%, 100% {rotate: -1.5deg;}
+  10%, 30%, 50%, 70%, 90% {rotate: 1.5deg;}
 }
 
 @media all and (max-height: 700px), all and (max-width: 500px)

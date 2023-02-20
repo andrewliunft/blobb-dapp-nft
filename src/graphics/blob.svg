@@ -7,8 +7,8 @@
     svg{
       --a-dur: 10s;
 
-      --sColor: 121,38,30; /* 255,100,0 ---  */
-      --eColor: 88,9,36; /* 255,255,0 --- */
+      --sColor: 255,255,255; /* 255,100,0 --- 121,38,30 --- */
+      --eColor: 255,255,191;   /* 255,255,0 --- 88,9,36   --- */
       --hpAlpha: 1;
       --multiColorDur1: 5s;
       --textGradient: url(#c-grad);
@@ -146,9 +146,9 @@
   <g id="b-lvl">
     <circle r="10" fill="url(#grad)" stroke="url(#s-grad)" stroke-width="1" filter="drop-shadow(1 1 1 #000b)" />
     <circle r="10" stroke="url(#s-grad)" stroke-width="2" filter="blur(1px)" />
-    <circle r="15" style="stroke:var(--textGradient)" stroke-dasharray="10" stroke-dashoffset="4" pathLength="10" stroke-width="2" stroke-linecap="round" filter="drop-shadow(0 0 1 #000b)" transform="rotate(-90)" />
+    <circle r="15" style="stroke:var(--textGradient)" stroke-dasharray="10" stroke-dashoffset="6" pathLength="10" stroke-width="2" stroke-linecap="round" filter="drop-shadow(0 0 1 #000b)" transform="rotate(-90)" />
     <text style="fill:var(--textGradient)" text-anchor="middle" font-family="Titan One" font-size="12px" filter="drop-shadow(0 1 0 #000d)" transform="translate(0 4)">
-      4
+      6
     </text>
   </g>
 
@@ -162,7 +162,7 @@
   <g id="b-id">
     <text style="fill:var(--textGradient)" fill="url(#t-grad)" font-family="Titan One" font-size="12px" filter="drop-shadow(0 1 0 #000d)">
       <textPath text-anchor="middle" startOffset="80%">
-        3 / 1000
+        4 / 1000
         <animate attributeName="href" repeatCount="indefinite" dur="1s" values="#b-path" />
       </textPath>
     </text>

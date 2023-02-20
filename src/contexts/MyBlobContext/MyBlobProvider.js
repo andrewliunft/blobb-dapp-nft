@@ -23,6 +23,9 @@ export function MyBlobProvider({ children }) {
   const {state: { account, contract }} = useContext(EtherContext)
   const [blob, blobDispatch] = useReducer(reducer, initBlob)
 
+  // setTimeout(() => {
+  //   blobDispatch({type: ACTIONS.SET, data: {attackTrigger: !blob.attackTrigger}})
+  // }, 5000);
   //EVENTS HANDLER CALLBACK
   const _actionEventsHandler = (toBlobID, madeFrom, newHP, newTotAttks, kingOfBlobbs, event) => {
     console.log("Action to MyBlobProvider EMITTED", toBlobID, madeFrom, newHP, newTotAttks, kingOfBlobbs, event)

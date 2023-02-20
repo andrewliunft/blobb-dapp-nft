@@ -13,7 +13,7 @@ function EnemyBlobbSVG({ fBlobb, show, setShow, isSearched }) {
   // }, 1500);
 
   const lvl_anim_time = fBlobb.bType === 1 || fBlobb.bType >= 3 ? "10s" : "0s"
-
+  const text_gradient = fBlobb.number <= 50 ? "url(#c-grad)" : "url(#t-grad)"
   const SVG_BLOBB = () => 
     <svg className={show ? isSearched ? classes.s_blobb_svg_w_stats : classes.blobb_svg_w_stats : isSearched ? classes.s_blobb_svg : classes.blobb_svg } xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
       <style type="text/css"> {`
@@ -116,7 +116,7 @@ function EnemyBlobbSVG({ fBlobb, show, setShow, isSearched }) {
         <use id="b-shad" href="#b-path" />
         <use id="b" href="#b-path" />
         <use id="b-blur" href="#b-path" onClick={() => setShow(!show)} />
-        <text fill="url(#t-grad)" filter="drop-shadow(0 1px 0 #000000bb)">
+        <text fill={text_gradient} filter="drop-shadow(0 1px 0 #000000bb)">
           <textPath textAnchor="middle" startOffset="50%" style={{fontFamily: "Titan One", pointerEvents: "none"}}>
             {fBlobb.owner.slice(0, 5) + "..." + fBlobb.owner.toLowerCase().slice(38, 42)}
             <animate attributeName="href" repeatCount="indefinite" dur="1s" values="#t-path" />
@@ -124,10 +124,10 @@ function EnemyBlobbSVG({ fBlobb, show, setShow, isSearched }) {
         </text>
         <g id="ver" style={{opacity: Number(fBlobb.creator === fBlobb.owner)}}>
           <circle r={8} fill="url(#s-grad)" stroke="url(#s-grad)" strokeWidth={1} filter="drop-shadow(1 1 1 #0008)" />
-          <path d="M-3,1 L-1,4 L3,-3" stroke="white" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round" filter="drop-shadow(1 0 1 #0009)" />
+          <path d="M-3,1 L-1,4 L3,-3" stroke={text_gradient} /*stroke="white"*/ strokeWidth={3} strokeLinecap="round" strokeLinejoin="round" filter="drop-shadow(1 0 1 #0009)" />
         </g>
         <g id="b-id">
-          <text fill="url(#t-grad)" fontSize="12px" filter="drop-shadow(0 1 0 #000d)">
+          <text fill={text_gradient} fontSize="12px" filter="drop-shadow(0 1 0 #000d)">
             <textPath textAnchor="middle" startOffset="80%">
               {fBlobb.number + " / 1000"}
               <animate attributeName="href" repeatCount="indefinite" dur="1s" values="#b-path" />
@@ -139,8 +139,8 @@ function EnemyBlobbSVG({ fBlobb, show, setShow, isSearched }) {
       <g id="b-lvl" style={{"animation": "lvl infinite " + lvl_anim_time + " ease forwards"}}>
         <circle r={10} fill="url(#grad)" stroke="url(#s-grad)" strokeWidth={1} filter="drop-shadow(1 1 1 #000b)" />
         <circle r={10} stroke="url(#s-grad)" strokeWidth={2} filter="blur(1px)" />
-        <circle id="exp" r="15" stroke={fBlobb.number <= 10 ? "url(#c-grad)" : "url(#t-grad)"} strokeDasharray="10" strokeDashoffset={(fBlobb.totalAttacks < MAX_ATTACKS_LVL ? 10 - fBlobb.totalAttacks%10 : 0)} pathLength="10" strokeWidth="2" strokeLinecap="round" filter="drop-shadow(0 0 1 #000b)" transform="rotate(-90)" />
-        <text fill={fBlobb.number <= 10 ? "url(#c-grad)" : "url(#t-grad)"} filter="drop-shadow(0 1px 0 #000d)" textAnchor="middle" style={{fontFamily: "Titan One", pointerEvents: "none", fontSize: "12px"}} transform="translate(0 4)">
+        <circle id="exp" r="15" stroke={text_gradient} strokeDasharray="10" strokeDashoffset={(fBlobb.totalAttacks < MAX_ATTACKS_LVL ? 10 - fBlobb.totalAttacks%10 : 0)} pathLength="10" strokeWidth="2" strokeLinecap="round" filter="drop-shadow(0 0 1 #000b)" transform="rotate(-90)" />
+        <text fill={text_gradient} filter="drop-shadow(0 1px 0 #000d)" textAnchor="middle" style={{fontFamily: "Titan One", pointerEvents: "none", fontSize: "12px"}} transform="translate(0 4)">
           {fBlobb.totalAttacks < MAX_ATTACKS_LVL ? Math.floor(fBlobb.totalAttacks/10) : 99}
         </text>
       </g>

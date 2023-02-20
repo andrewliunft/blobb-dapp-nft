@@ -276,5 +276,5 @@ contract Blobb is ERC721URIStorage, Ownable {
     // require(payable(owner()).send(address(this).balance));
   }
   
-  receive() external payable {}
+  // receive() external payable {}
 }

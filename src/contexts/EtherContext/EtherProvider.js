@@ -30,13 +30,24 @@ export function EtherProvider({ children }) {
   const init = useCallback(async () => {
     console.log("INIT", state)
     if(window.ethereum) {
-      const provider = new ethers.providers.Web3Provider(window.ethereum)
-      // const provider = new ethers.providers.WebSocketProvider("ws://localhost:8545")
+      // const provider = new ethers.providers.Web3Provider(window.ethereum)
+      const provider = new ethers.providers.WebSocketProvider("wss://polygon-mumbai.g.alchemy.com/v2/QFAA0Sagc9TkEdfEyQfl7juZ0_ygIMMU", null, window.ethereum)
+      // provider.ethereum = window.ethereum
+      // const wsProvider = new ethers.providers.WebSocketProvider("ws://localhost:8545")
+      // wsProvider.ethereum = window.ethereum
+      // const provider = new ethers.providers.Web3Provider(window.ethereum);
+      // provider._websocket = wsProvider;
+      // const provider = new ethers.providers.Web3Provider(window.ethereum);
+      // customProvider.pollingInterval = 12000; // use custom polling interval if necessary
+
+      // provider._websocket = wsProvider;
+
+      // const provider = new ethers.providers.Web3Provider(customProvider);
       const accounts = await window.ethereum.request({ method: "eth_accounts" })
       const account = accounts[0] 
       const signer = provider.getSigner()
       const chain = (await provider.getNetwork()).chainId
-      console.log("SIGNER", signer, typeof account, ethers.utils.formatEther(await provider.getBalance(CONTRACT_ADDRESS)), chain)
+      console.log("SIGNER", signer, signer.getAddress(), ethers.utils.formatEther(await provider.getBalance(CONTRACT_ADDRESS)), chain)
 
       let contract
       try {

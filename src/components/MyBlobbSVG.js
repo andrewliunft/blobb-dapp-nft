@@ -40,6 +40,7 @@ function MyBlobbSVG({ currAccount, blobb, show, setShow }) {
   // }, 50);
 
   const lvl_anim_time = blobb.bType === 1 || blobb.bType >= 3 ? "10s" : "0s"
+  const text_gradient = blobb.number <= 50 ? "url(#c-grad)" : "url(#t-grad)"
   const SVG_BLOBB = () => 
     <svg className={show ? classes.blobb_svg_w_stats : classes.blobb_svg } xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
       <style type="text/css"> {`
@@ -143,7 +144,7 @@ function MyBlobbSVG({ currAccount, blobb, show, setShow }) {
         <use id="b-shad" href="#b-path" />
         <use id="b" href="#b-path" />
         <use id="b-blur" href="#b-path" onClick={() => setShow(!show)} />
-        <text fill="url(#t-grad)" filter="drop-shadow(0 1px 0 #000b)">
+        <text fill={text_gradient} filter="drop-shadow(0 1px 0 #000b)">
           <textPath textAnchor="middle" startOffset="50%">
             {blobb.owner.slice(0, 5) + "..." + blobb.owner.slice(38, 42)}
             <animate attributeName="href" repeatCount="indefinite" dur="1s" values="#t-path" />
@@ -151,10 +152,10 @@ function MyBlobbSVG({ currAccount, blobb, show, setShow }) {
         </text>
         <g id="ver" style={{opacity: Number(blobb.creator === blobb.owner)}}>
           <circle r={8} fill="url(#s-grad)" stroke="url(#s-grad)" strokeWidth={1} filter="drop-shadow(1 1 1 #0008)" />
-          <path d="M-3,1 L-1,4 L3,-3" stroke="white" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round" filter="drop-shadow(1 0 1 #0009)" />
+          <path d="M-3,1 L-1,4 L3,-3" stroke={text_gradient} /*stroke="white"*/ strokeWidth={3} strokeLinecap="round" strokeLinejoin="round" filter="drop-shadow(1 0 1 #0009)" />
         </g>
         <g id="b-id">
-          <text fill="url(#t-grad)" fontSize="12px" filter="drop-shadow(0 1 0 #000d)">
+          <text fill={text_gradient} fontSize="12px" filter="drop-shadow(0 1 0 #000d)">
             <textPath textAnchor="middle" startOffset="80%">
               {blobb.number + " / 1000"}
               <animate attributeName="href" repeatCount="indefinite" dur="1s" values="#b-path" />
@@ -165,8 +166,8 @@ function MyBlobbSVG({ currAccount, blobb, show, setShow }) {
       <g id="b-lvl" style={{"animation": "lvl infinite " + lvl_anim_time + " ease forwards"}}>
         <circle r={10} fill="url(#grad)" stroke="url(#s-grad)" strokeWidth={1} filter="drop-shadow(1 1 1 #000b)" />
         <circle r={10} stroke="url(#s-grad)" strokeWidth={2} filter="blur(1px)" />
-        <circle id="exp" r="15" stroke={blobb.number <= 10 ? "url(#c-grad)" : "url(#t-grad)"} strokeDasharray="10" strokeDashoffset={(blobb.totalAttacks < MAX_ATTACKS_LVL ? 10 - blobb.totalAttacks%10 : 0)} pathLength="10" strokeWidth="2" strokeLinecap="round" filter="drop-shadow(0 0 1 #000b)" transform="rotate(-90)" />
-        <text fill={blobb.number <= 10 ? "url(#c-grad)" : "url(#t-grad)"} filter="drop-shadow(0 1px 0 #000d)" textAnchor="middle" style={{fontFamily: "Titan One", pointerEvents: "none", fontSize: "12px"}} transform="translate(0 4)">
+        <circle id="exp" r="15" stroke={text_gradient} strokeDasharray="10" strokeDashoffset={(blobb.totalAttacks < MAX_ATTACKS_LVL ? 10 - blobb.totalAttacks%10 : 0)} pathLength="10" strokeWidth="2" strokeLinecap="round" filter="drop-shadow(0 0 1 #000b)" transform="rotate(-90)" />
+        <text fill={text_gradient} filter="drop-shadow(0 1px 0 #000d)" textAnchor="middle" style={{fontFamily: "Titan One", pointerEvents: "none", fontSize: "12px"}} transform="translate(0 4)">
           {blobb.totalAttacks < MAX_ATTACKS_LVL ? Math.floor(blobb.totalAttacks/10) : 99}
         </text>
       </g>
