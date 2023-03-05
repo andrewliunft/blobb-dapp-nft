@@ -34,11 +34,11 @@ export function MyBlobProvider({ children }) {
   //EVENTS HANDLER CALLBACK - toBlobID, madeFrom, newHP, newTotAttks, kingOfBlobbs, event
   const _actionEventsHandler = log => {
     const [ toBlobID, madeFrom, newHP, newTotAttks, kingOfBlobbs ] = iface.parseLog(log).args
-    console.log("Action to MyBlobProvider EMITTED: Healed or Attacked", toBlobID, madeFrom, newHP, newTotAttks, kingOfBlobbs)
-    console.log("VALUE: ", blob)
+    // console.log("Action to MyBlobProvider EMITTED: Healed or Attacked", toBlobID, madeFrom, newHP, newTotAttks, kingOfBlobbs)
+    // console.log("VALUE: ", blob)
     const eventBlobHP = parseInt(newHP._hex, 16)
     if(eventBlobHP === blob.hp) {
-      console.log("FALSE EVENT - NOTHING TO FETCH")
+      // console.log("FALSE EVENT - NOTHING TO FETCH")
       return 
     }
 
@@ -49,10 +49,10 @@ export function MyBlobProvider({ children }) {
   }
   const _attackEventHandler = log => {
     const [ toBlobID, madeFrom, newHP, newTotAttks, kingOfBlobbs ] = iface.parseLog(log).args
-    console.log("Action to MyBlobProvider EMITTED: Attack", toBlobID, madeFrom, newHP, newTotAttks, kingOfBlobbs)
+    // console.log("Action to MyBlobProvider EMITTED: Attack", toBlobID, madeFrom, newHP, newTotAttks, kingOfBlobbs)
     const eventBlobTotAttks = parseInt(newTotAttks._hex, 16)
     if(eventBlobTotAttks === blob.totalAttacks) {
-      console.log("FALSE EVENT - NOTHING TO FETCH")
+      // console.log("FALSE EVENT - NOTHING TO FETCH")
       return
     }
     const king = blob.number === parseInt(kingOfBlobbs._hex, 16)
@@ -65,7 +65,7 @@ export function MyBlobProvider({ children }) {
     alchemy.ws.once(contract.filters.Action(blob.number), _actionEventsHandler) //_actionEventsHandler
     alchemy.ws.once(contract.filters.Action(null, blob.number), _attackEventHandler) // _attackEventHandler
 
-    console.log("Action EVENT CONNECTED to MyBlobProvider")
+    // console.log("Action EVENT CONNECTED to MyBlobProvider")
     return () => {
       alchemy.ws.off(contract.filters.Action(blob.number), _actionEventsHandler)
       alchemy.ws.off(contract.filters.Action(null, blob.number), _attackEventHandler)
@@ -74,7 +74,7 @@ export function MyBlobProvider({ children }) {
 
   //INIT CONTEXT
   useEffect(() => {
-    console.log("TRY GET BLOB", account, contract)
+    // console.log("TRY GET BLOB", account, contract)
     if(account) getBlob() //account && contract
     else blobDispatch({type: ACTIONS.RESET})
   }, [account, contract])
@@ -87,12 +87,12 @@ export function MyBlobProvider({ children }) {
       console.error("Contract function call failed!", e)
       myBlobID = 0
     }
-    console.log("b:", myBlobID)
+    // console.log("b:", myBlobID)
     if(!myBlobID) { 
       blobDispatch({type: ACTIONS.SET, data: {...initBlob, ...{number: myBlobID}}})
       return
     }
-    console.log(await contract.tokenURI(myBlobID))
+    // console.log(await contract.tokenURI(myBlobID))
     const myBlob = await contract.blobs(myBlobID)
     const myBlobInfo = {
       number: parseInt(myBlob.blobID._hex, 16),
@@ -109,7 +109,7 @@ export function MyBlobProvider({ children }) {
       bType: parseInt(myBlob.blobType._hex, 16),
       king: await _isThekingOfBlobbs(myBlobID)
     }
-    console.log("BLOB GET", myBlobInfo, myBlob)
+    // console.log("BLOB GET", myBlobInfo, myBlob)
     blobDispatch({type: ACTIONS.SET, data: myBlobInfo})
   }
 
@@ -145,7 +145,7 @@ export function MyBlobProvider({ children }) {
     price = parseFloat(price) + (1.5 * bType) + ""
     const transaction = await contract.mintBlob(_hexsToRGB(cStart, cEnd), bType, { value: ethers.utils.parseEther(price) })
     const receipt = await transaction.wait()
-    console.log("RECEIPT", receipt)
+    // console.log("RECEIPT", receipt)
     getBlob()
     // return price.toNumber()
   }
@@ -161,7 +161,7 @@ export function MyBlobProvider({ children }) {
   const _healBlob = async () => {
     if(blob.number) {
       const price = await contract.healPrice()
-      console.log("HEAL PRICE", price, blob.number)
+      // console.log("HEAL PRICE", price, blob.number)
       const transaction = await contract.healBlob(blob.number, {value: price})
       await transaction.wait()
       // getBlob() //Re-fetching by the action event handler
@@ -177,7 +177,7 @@ export function MyBlobProvider({ children }) {
     let isLastPage = endIDX === 0 ? true : false
     let hpTracker = page === 1 ? blob.hp : startingHP 
     let history = []
-    console.log("IDX HISTORY", startIDX, endIDX, blob.totalActions, hpTracker)
+    // console.log("IDX HISTORY", startIDX, endIDX, blob.totalActions, hpTracker)
     for(let i = startIDX; i > endIDX; i--) {
       const actorID = parseInt((await contract.blobbHistory(blob.number, i))._hex, 16)
       const action = actorID === blob.number ? "HEAL" : "ATTACK"
@@ -189,7 +189,7 @@ export function MyBlobProvider({ children }) {
       history.push({ actorID, action, fromHP, toHP, bColors })
     }
     history = history.length === 0 ? null : history
-    console.log("HISTORY", history)
+    // console.log("HISTORY", history)
     return { history, isLastPage }
   }
 

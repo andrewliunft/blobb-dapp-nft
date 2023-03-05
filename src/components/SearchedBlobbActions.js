@@ -34,7 +34,7 @@ function SearchedBlobbActions({ sBlobb }) {
         </span>
       default:
         return <span className={classes.info_comic_span_R}>
-          <span className={classes.highlight}>{sBlobb.hp === 1 ? 9 : 6.5} ETH</span> + <span className={classes.highlight}>GAS</span>
+          <span className={classes.highlight}>{sBlobb.hp === 1 ? 9 : 6.5} MATIC</span> + <span className={classes.highlight}>GAS</span>
         </span>
     }
   }

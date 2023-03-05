@@ -29,7 +29,7 @@ function Problem({ problem }) {
           </div>,
           <div key="desc" className={classes.problem_desc_div}>
             <p>Connect your <span className={classes.highlight}>MetaMask</span> account to the</p>
-            <p><span className={classes.highlight} style={{"fontSize": "18px"}}>MUMBAI TESTNET</span></p> {/* POLYGON */}
+            <p><span className={classes.highlight} style={{"fontSize": "18px"}}>POLYGON TESTNET</span></p> {/* POLYGON */}
           </div>
         ]
     }

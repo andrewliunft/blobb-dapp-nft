@@ -33,7 +33,7 @@ function Layout({ children }) {
   //   setPopups(popups.concat(popups.length ? popups[popups.length-1]+1 : 0))
   // }, [attackTrigger])
 
-  console.log("LAYOUT", pending, /*popups*/)
+  // console.log("LAYOUT", pending, /*popups*/)
   return(
     <div className={classes.root_div}>
       <main className={classes.main_layout}>

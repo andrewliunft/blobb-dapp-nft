@@ -34,7 +34,8 @@ async function main() {
 
   const enableTX = await blobbContract.setIsContractEnabled(true)
   await enableTX.wait(1)
-  console.log("contract is ready to use", await blobbContract.isContractEnabled())
+  console.log("SVG chunks UPLOADED!")
+  // console.log("contract is ready to use", await blobbContract.isContractEnabled())
 }
 
 // We recommend this pattern to be able to use async/await everywhere

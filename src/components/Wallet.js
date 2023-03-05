@@ -13,7 +13,7 @@ function Wallet({ currAccount, walletChain, connectWalletFunc, switchChainFunc }
   const navigate = useNavigate()
 
   const styleVars = useMemo(() => {
-    console.log(colors)
+    // console.log(colors)
     return {
       "--startColor": colors ? "rgb("+colors.start+")" : "#0000",
       "--endColor": colors ? "rgb("+colors.end+")" : "#0000",
@@ -27,7 +27,8 @@ function Wallet({ currAccount, walletChain, connectWalletFunc, switchChainFunc }
 
   function walletTextClickHandler() {
     if(currAccount) {
-      if(networkConfig.networks.includes(walletChain)) window.open("https://mumbai.polygonscan.com/address/"+currAccount, "_blank")
+      //https://mumbai.polygonscan.com/address/"+currAccount
+      if(networkConfig.networks.includes(walletChain)) window.open("https://polygonscan.com/address/"+currAccount, "_blank")
       else switchChainFunc()
     }
     else connectWalletFunc()

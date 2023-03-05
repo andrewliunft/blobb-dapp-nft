@@ -29,7 +29,7 @@ function MyHistory() {
   const [historyData, historyDispatch] = useReducer(reducer, initialData)
   const navigate = useNavigate()
   
-  console.log("THIS IS THE HISTORY: ", historyData)
+  // console.log("THIS IS THE HISTORY: ", historyData)
   useEffect(() => { 
     const getHistory = async () => {  
       const { history, isLastPage } = await getBlobbHistory(1)
@@ -45,7 +45,7 @@ function MyHistory() {
 
     const newPageStartingHP = historyData.prevsHP[historyData.prevsHP.length-1]
     const prevsHP = historyData.prevsHP.filter((_v, idx) => idx < historyData.prevsHP.length-1)
-    console.log("PREV: ", newPageStartingHP, prevsHP)
+    // console.log("PREV: ", newPageStartingHP, prevsHP)
 
     let hClass 
     if(historyData.hClass === classes.history_div_FL1) hClass = classes.history_div_FL2
@@ -62,7 +62,7 @@ function MyHistory() {
 
     const newPageStartingHP = historyData.history[historyData.history.length-1].fromHP
     const prevsHP = historyData.prevsHP.concat(historyData.history[0].toHP)
-    console.log("NEXT: ", newPageStartingHP, prevsHP)
+    // console.log("NEXT: ", newPageStartingHP, prevsHP)
 
     let hClass 
     if(historyData.hClass === classes.history_div_FR1) hClass = classes.history_div_FR2
@@ -77,7 +77,7 @@ function MyHistory() {
     if(aID === number) return
     const result = await searchNewBlobb(aID.toString())
     if(result) navigate("/bsearch/sblobb")
-    else console.log("NOT OK")
+    // else console.log("NOT OK")
   }
 
   if(!number) return <Problem problem="owner"/>

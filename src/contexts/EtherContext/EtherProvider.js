@@ -6,11 +6,12 @@ import Blobb from "../../artifacts/contracts/Blobb.sol/Blobb.json"
 let { networkConfig } = require("../../helper-data.js")
 let { POPUPS_TYPES } = require("../../popups-types")
 
-const CONTRACT_ADDRESS = "0xaDBd17B51aaF3348Efe68078d6DA4AaF0A1Ab487" //"0x7C485eA3EeEd1BEf1C46A98a794C9eD6dd90EfAC - 0xab332Fe99cF084b000C1c75F005Ef12eFDB2571b - 0xaDBd17B51aaF3348Efe68078d6DA4AaF0A1Ab487" 
+//POLYGON ADDRESS: 0x0BE7Cc803BD24358652a7C9078a6F54514Da13a0
+const CONTRACT_ADDRESS = "0x0BE7Cc803BD24358652a7C9078a6F54514Da13a0" //"0x7C485eA3EeEd1BEf1C46A98a794C9eD6dd90EfAC - 0xab332Fe99cF084b000C1c75F005Ef12eFDB2571b - 0xaDBd17B51aaF3348Efe68078d6DA4AaF0A1Ab487" 
 
 const wsAlchemySettings = {
-  apiKey: process.env.REACT_APP_ALCHEMY_ID, //REACT_APP_ALCHEMY_POLYGON_ID
-  network: Network.MATIC_MUMBAI //Network.MATIC_MAINNET
+  apiKey: process.env.REACT_APP_ALCHEMY_POLYGON_ID, // ALCHEMY_ID - ALCHEMY_POLYGON_ID
+  network: Network.MATIC_MAINNET //MATIC_MAINNET - MATIC_MUMBAI
 }
 
 const EtherContext = createContext()
@@ -44,7 +45,7 @@ export function EtherProvider({ children }) {
       const account = accounts[0] 
       const signer = provider.getSigner()
       const chain = (await provider.getNetwork()).chainId
-      console.log("Balance", ethers.utils.formatEther(await provider.getBalance(CONTRACT_ADDRESS)), chain)
+      // console.log("Balance", ethers.utils.formatEther(await provider.getBalance(CONTRACT_ADDRESS)), chain)
 
       let contract
       try {
@@ -59,7 +60,7 @@ export function EtherProvider({ children }) {
   }, [])
 
   const connect = async () => {
-    console.log("CONNECT", state)
+    // console.log("CONNECT", state)
     await window.ethereum.request({ method: "wallet_requestPermissions", params: [{ eth_accounts: {} }] })
   }
 
@@ -71,7 +72,7 @@ export function EtherProvider({ children }) {
   }
 
   const disconnect = useCallback(() => {
-    console.log("DISCONNECT")
+    // console.log("DISCONNECT")
     dispatch({type: ACTIONS.RESET})
   }, [])
 
@@ -101,17 +102,17 @@ export function EtherProvider({ children }) {
 
   const pushNewPopup = popupType => {
     // const popups = [...state.popups]
-    console.log("BEFOR PUSH: ", state.popups) 
+    // console.log("BEFOR PUSH: ", state.popups) 
     const idxValue = state.popups.length ? state.popups[state.popups.length-1].idx + 1 : 0
     const popups = state.popups.concat( {idx: idxValue, pType: popupType} )
-    console.log("AFTER PUSH: ", popups)
+    // console.log("AFTER PUSH: ", popups)
     dispatch({type: ACTIONS.SET, data: { popups }})
   }
 
   const popFirstPopup = () => {
-    console.log("BEFOR POP: ", state.popups)
+    // console.log("BEFOR POP: ", state.popups)
     const popups = state.popups.find(popup => popup.idx > 0) ? state.popups.map(popup => {return {...popup, ...{idx: popup.idx-1}}}) : []
-    console.log("AFTER POP: ", popups)
+    // console.log("AFTER POP: ", popups)
     dispatch({type: ACTIONS.SET, data: { popups }})
   }
 
@@ -127,15 +128,15 @@ export function EtherProvider({ children }) {
         console.error(err)
       }
     }
-    console.log("TRY INIT")
+    // console.log("TRY INIT")
     tryInit()
 
     //EVENTS HANDLER
-    console.log("EVENTS")
+    // console.log("EVENTS")
     const events = ["chainChanged", "accountsChanged"]
     const handleChange = changed => {
       // 0x13881 mumbai
-      console.log("EVENT OCCOURS", state, changed, changed.length, changed.length > 0)
+      // console.log("EVENT OCCOURS", state, changed, changed.length, changed.length > 0)
       changed.length > 0 ? init() : disconnect()
     }
 

@@ -31,41 +31,41 @@ export function BlobbsProvider({ children }) {
   //EVENTS HANDLER CALLBACK
   const _actionEventsHandlerFB = log => {
     const [ toBlobID, madeFrom, newHP, newTotAttks, kingOfBlobbs ] = iface.parseLog(log).args
-    console.log("Action to BlobbsProvider FB EMITTED", toBlobID, madeFrom, newHP, newTotAttks, kingOfBlobbs)
-    console.log("VALUE: ", blobbs)
+    // console.log("Action to BlobbsProvider FB EMITTED", toBlobID, madeFrom, newHP, newTotAttks, kingOfBlobbs)
+    // console.log("VALUE: ", blobbs)
     const eventBlobHP = parseInt(newHP._hex, 16)
     if(eventBlobHP === blobbs.focusedBlobb.hp) {
-      console.log("FALSE EVENT - NOTHING TO FETCH")
+      // console.log("FALSE EVENT - NOTHING TO FETCH")
       return
     }
     const death = eventBlobHP === 0 ? _getDateFromTimestamp(Date.now()/1000) : "ALIVE"
     const focusedBlobb = {...blobbs.focusedBlobb, ...{hp: eventBlobHP, death}}
-    console.log("NEW VALUE", focusedBlobb)
+    // console.log("NEW VALUE", focusedBlobb)
     blobbsDispatch({type: ACTIONS.SET, data: { focusedBlobb }})
 
   }
   const _actionEventsHandlerSB = log => {
     const [ toBlobID, madeFrom, newHP, newTotAttks, kingOfBlobbs ] = iface.parseLog(log).args
-    console.log("Action to BlobbsProvider SB EMITTED", toBlobID, madeFrom, newHP, newTotAttks, kingOfBlobbs)
-    console.log("VALUE: ", blobbs)
+    // console.log("Action to BlobbsProvider SB EMITTED", toBlobID, madeFrom, newHP, newTotAttks, kingOfBlobbs)
+    // console.log("VALUE: ", blobbs)
     const eventBlobHP = parseInt(newHP._hex, 16)
     if(eventBlobHP === blobbs.searchedBlobb.hp) {
-      console.log("FALSE EVENT - NOTHING TO FETCH")
+      // console.log("FALSE EVENT - NOTHING TO FETCH")
       return
     }
     const death = eventBlobHP === 0 ? _getDateFromTimestamp(Date.now()/1000) : "ALIVE"
     const searchedBlobb = {...blobbs.searchedBlobb, ...{hp: eventBlobHP, death}}
-    console.log("NEW VALUE", searchedBlobb)
+    // console.log("NEW VALUE", searchedBlobb)
     blobbsDispatch({type: ACTIONS.SET, data: { searchedBlobb }})
   }
 
   const _newBlobbEventHandler = log => {
     const [ newBlobID, newOwner ] = iface.parseLog(log).args
-    console.log("NEWBLOBB EMITTED", newBlobID, newOwner)
-    console.log("VALUE: ", blobbs)
+    // console.log("NEWBLOBB EMITTED", newBlobID, newOwner)
+    // console.log("VALUE: ", blobbs)
     const eventBlobID = parseInt(newBlobID._hex, 16)
     if(blobbs.aliveIDs.includes(eventBlobID)) {
-      console.log("FALSE EVENT - THE BLOB ID IS PRESENT")
+      // console.log("FALSE EVENT - THE BLOB ID IS PRESENT")
       return
     }
     const aliveIDs = blobbs.aliveIDs.concat(eventBlobID)
@@ -74,7 +74,7 @@ export function BlobbsProvider({ children }) {
   }  
   const _newBlobbEventHandlerNoNumber = log => {
     const [ newBlobID, newOwner ] = iface.parseLog(log).args
-    console.log("NEWBLOBB EMITTED IN NO NUMBER", newBlobID, newOwner)
+    // console.log("NEWBLOBB EMITTED IN NO NUMBER", newBlobID, newOwner)
     const totalBlobs = parseInt(newBlobID._hex, 16)
     blobbsDispatch({type: ACTIONS.SET, data: { totalBlobs }})
   }  
@@ -85,7 +85,7 @@ export function BlobbsProvider({ children }) {
     alchemy.ws.once(contract.filters.Action(blobbs.focusedBlobb.number), _actionEventsHandlerFB)
     alchemy.ws.once(contract.filters.NewBlobb(), _newBlobbEventHandler)
 
-    console.log("Action AND NewBlobb EVENTS CONNECTED to BlobbsProvider FB", contract.listeners())
+    // console.log("Action AND NewBlobb EVENTS CONNECTED to BlobbsProvider FB", contract.listeners())
     return () => {
       alchemy.ws.off(contract.filters.Action(blobbs.focusedBlobb.number), _actionEventsHandlerFB)
       alchemy.ws.off(contract.filters.NewBlobb(), _newBlobbEventHandler)
@@ -96,7 +96,7 @@ export function BlobbsProvider({ children }) {
     if(!blobbs.searchedBlobb) return
     alchemy.ws.once(contract.filters.Action(blobbs.searchedBlobb.number), _actionEventsHandlerSB)
 
-    console.log("Action EVENTS CONNECTED to BlobbsProvider SB", contract.listeners())
+    // console.log("Action EVENTS CONNECTED to BlobbsProvider SB", contract.listeners())
     return () => {
       alchemy.ws.off(contract.filters.Action(blobbs.searchedBlobb.number), _actionEventsHandlerSB)
     }
@@ -111,14 +111,14 @@ export function BlobbsProvider({ children }) {
     }
 
     blobbsDispatch({type: ACTIONS.RESET})
-    console.log("ao", number, contract)
+    // console.log("ao", number, contract)
 
     if(number) {
       setBlobbs()//Se l'unico BLOBB e quindi unico number, in setBlobbs() non verrà connesso il NewBlobb Event perchè non ci sarà alcun fb 
     }
     else {
       alchemy.ws.once(contract.filters.NewBlobb(), _newBlobbEventHandlerNoNumber)
-      console.log("NewBlobb EVENTS CONNECTED to BlobbsProvider", contract.listeners())  
+      // console.log("NewBlobb EVENTS CONNECTED to BlobbsProvider", contract.listeners())  
       getTotalBlobsNumber()
     } 
 
@@ -133,9 +133,9 @@ export function BlobbsProvider({ children }) {
       return
     }
 
-    console.log("ALIVES: ", aliveIDs, totalBlobs)
+    // console.log("ALIVES: ", aliveIDs, totalBlobs)
     const focusedBlobb = await _getBlobb(aliveIDs[Math.floor(Math.random() * aliveIDs.length)])
-    console.log(focusedBlobb)
+    // console.log(focusedBlobb)
     blobbsDispatch({type: ACTIONS.SET, data: { focusedBlobb, aliveIDs, totalBlobs }})
   }
 
@@ -175,7 +175,7 @@ export function BlobbsProvider({ children }) {
   }
 
   const _getBlobb = async (bIdentifier, isAddress) => {
-    console.log("FOCUS ID", bIdentifier, isAddress)
+    // console.log("FOCUS ID", bIdentifier, isAddress)
     let bID = bIdentifier
     let blobb
     try {
@@ -208,35 +208,35 @@ export function BlobbsProvider({ children }) {
   }
 
   const _focusNewBlobb = async () => {
-    console.log("past", blobbs.pastIDs, blobbs.aliveIDs)
+    // console.log("past", blobbs.pastIDs, blobbs.aliveIDs)
     if(blobbs.aliveIDs.length === 1) return
     const pastIDs = blobbs.pastIDs.length+1 === blobbs.aliveIDs.length ? [blobbs.focusedBlobb.number] : blobbs.pastIDs.map(v => v).concat(blobbs.focusedBlobb.number)
     const nAlivesIDs = blobbs.aliveIDs.filter(v => !pastIDs.includes(v))
-    console.log("nAlive", nAlivesIDs, pastIDs)
+    // console.log("nAlive", nAlivesIDs, pastIDs)
     const focusedBlobb = await _getBlobb(nAlivesIDs[Math.floor(Math.random() * nAlivesIDs.length)])
-    console.log(focusedBlobb, pastIDs)
+    // console.log(focusedBlobb, pastIDs)
     blobbsDispatch({type: ACTIONS.SET, data: { focusedBlobb, pastIDs }})
   }
 
   const _attackFocusedBlobb = async () => {
-    console.log("ATTACK FOCUSED")
+    // console.log("ATTACK FOCUSED")
     if(blobbs.focusedBlobb) {
       let price = ethers.utils.formatEther(await contract.attackPrice())
       price = parseFloat(price) + (2.5 * (blobbs.focusedBlobb.hp === 1 ? 1 : 0)) + ""
       // const price = ethers.utils.parseEther(blobbs.focusedBlobb.hp === 1 ? "2.52" : "0.02")
-      console.log("ATTACK PRICE", price)
+      // console.log("ATTACK PRICE", price)
       const transaction = await contract.attackBlob(blobbs.focusedBlobb.number, {value: ethers.utils.parseEther(price)})
       await transaction.wait()
     }
   }
   const _attackSearchedBlobb = async () => {
-    console.log("ATTACK SEARCHED")
+    // console.log("ATTACK SEARCHED")
     if(blobbs.searchedBlobb) {
       // const price = await contract.attackPrice()
       let price = ethers.utils.formatEther(await contract.attackPrice())
       price = parseFloat(price) + 1.5 + (2.5 * (blobbs.searchedBlobb.hp === 1 ? 1 : 0)) + ""
       // const price = ethers.utils.parseEther(blobbs.searchedBlobb.hp === 1 ? "0.045" : "0.025")
-      console.log("ATTACK PRICE", price)
+      // console.log("ATTACK PRICE", price)
       const transaction = await contract.attackBlob(blobbs.searchedBlobb.number, {value: ethers.utils.parseEther(price)})
       await transaction.wait()
     }
@@ -245,7 +245,7 @@ export function BlobbsProvider({ children }) {
   const _asyncFilter = async (array, predicate) => Promise.all(array.map(predicate)).then(res => array.filter((_v, idx) => res[idx]))
 
   const _searchNewBlobb = async bIdentifier => {
-    console.log("SEARCHING", bIdentifier, "1000".length, parseInt(bIdentifier))
+    // console.log("SEARCHING", bIdentifier, "1000".length, parseInt(bIdentifier))
     if(!isNaN(bIdentifier) && parseInt(bIdentifier) === number) return 2
     
     const isAddress = ethers.utils.isAddress(bIdentifier)

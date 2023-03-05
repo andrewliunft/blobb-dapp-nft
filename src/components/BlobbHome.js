@@ -49,7 +49,7 @@ function BlobbHome() {
   // }, 250);
 
   const colorPicked = cPicker => {
-    console.log(cPicker, cPicker.target.value, cPicker.target.id)
+    // console.log(cPicker, cPicker.target.value, cPicker.target.id)
     cPicker.target.id === "c-start" ? setProperties({...properties, ...{cStart: cPicker.target.value}}) : setProperties({...properties, ...{cEnd: cPicker.target.value}})
   }
   const bTypeChanged = right => {

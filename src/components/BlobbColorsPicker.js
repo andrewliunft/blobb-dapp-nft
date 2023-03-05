@@ -7,7 +7,7 @@ function BlobbColorsPicker({ bProperties, propertiesFuncs: { colorPicked, bTypeC
       <span className={bProperties.bType % 2 ? classes.info_price_span_1 : classes.info_price_span_2}>
         i
         <span className={classes.price_span}>
-          <span className={classes.highlight}>{15 + 2.5 * bProperties.bType} MATIC</span> + <span className={classes.highlight}>GAS</span>
+          <span className={classes.highlight}>{15 + 1.5 * bProperties.bType} MATIC</span> + <span className={classes.highlight}>GAS</span>
         </span>
       </span>
       <div className={classes.colors_div}>

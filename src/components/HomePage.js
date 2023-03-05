@@ -8,12 +8,12 @@ import { Timer } from "./Timer";
 function HomePage() {
   const {state: { account }, funcs: { connectWallet, pushPopup }} = useContext(EtherContext)
   const navigate = useNavigate()
-  console.log("HOME PAGE", account, Boolean(account))
+  // console.log("HOME PAGE", account, Boolean(account))
 
   return(
     <div className={classes.home_page_div}>
       <div className={classes.info_div_container}>
-        <Timer deadline="March, 4, 2023, 19:00" />
+        {/* <Timer deadline="March, 4, 2023, 19:00" /> */}
         <div className={classes.info_div}>
           <span className={classes.info_div_title}>JOIN THE <span className={classes.highlight}>BLOBB</span> COMMUNITY</span>
           <p>Mint your <span className={classes.highlight}>BLOBB</span> and take care of it.</p>

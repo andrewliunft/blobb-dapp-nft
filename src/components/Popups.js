@@ -30,7 +30,7 @@ function Popups() {
     
   }
 
-  if(popups) console.log(Array.from(popups.entries()))
+  // if(popups) console.log(Array.from(popups.entries()))
   return (
     <div className={classes.trigger_div}>
       {/* {popups && Array.from(popups.entries()).map(keyValue => {
