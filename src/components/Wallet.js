@@ -6,8 +6,8 @@ import classes from "./Wallet.module.css"
 
 let { networkConfig } = require("../helper-data.js")
 
-function Wallet({ currAccount, connectWalletFunc }) {
-  const {state: { chain }} = useContext(EtherContext)
+function Wallet({ currAccount, walletChain, connectWalletFunc, switchChainFunc }) {
+  // const {state: { chain }} = useContext(EtherContext)
   const {blob: { colors, bType }} = useContext(MyBlobContext)
   const location = useLocation()
   const navigate = useNavigate()
@@ -26,20 +26,27 @@ function Wallet({ currAccount, connectWalletFunc }) {
   }
 
   function walletTextClickHandler() {
-    if(currAccount) window.open("https://mumbai.polygonscan.com/address/"+currAccount, "_blank")
+    if(currAccount) {
+      if(networkConfig.networks.includes(walletChain)) window.open("https://mumbai.polygonscan.com/address/"+currAccount, "_blank")
+      else switchChainFunc()
+    }
     else connectWalletFunc()
   }
 
   return(
     <div className={classes.div_wallet_container} style={styleVars}>
-      <div className={classes.div_wallet_text} style={{"--chain-color": networkConfig.networks.includes(chain) ? "#5e5e5e" : "red"}}>
+      <div className={classes.div_wallet_text} style={{"--chain-color": networkConfig.networks.includes(walletChain) ? "#5e5e5e" : "red"}}>
         <span className={classes.wallet_text_title}>
           <span className={classes.highlight}>
-            {chain ? networkConfig[chain] ? networkConfig[chain].name : "UKNOWN" : "NONE"}
+            {walletChain ? networkConfig[walletChain] ? networkConfig[walletChain].name : "UKNOWN" : "NONE"}
           </span>
         </span>
         <span className={classes.wallet_text} onClick={walletTextClickHandler}>
-          {currAccount ? currAccount.slice(0, 5) + "..." + currAccount.slice(38, 42) : "CONNECT"}
+          {currAccount ? 
+            networkConfig.networks.includes(walletChain) ? 
+              currAccount.slice(0, 5) + "..." + currAccount.slice(38, 42) 
+            : "SWITCH CHAIN"
+          : "CONNECT"}
         </span>
       </div>
       <div className={classes.profile_circle} innertext={colors ? "MY BLOBB" : "MINT BLOBB"} onClick={handleProfileClick}>

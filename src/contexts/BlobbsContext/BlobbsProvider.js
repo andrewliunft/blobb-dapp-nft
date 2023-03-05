@@ -2,7 +2,8 @@ import { createContext, useCallback, useContext, useEffect, useReducer } from "r
 import EtherContext from "../EtherContext/EtherProvider"
 import MyBlobContext from "../MyBlobContext/MyBlobProvider"
 
-import { ethers } from "ethers";
+import { ethers } from "ethers"
+import Blobb from "../../artifacts/contracts/Blobb.sol/Blobb.json"
 
 const BlobbsContext = createContext()
 
@@ -20,14 +21,17 @@ const reducer = (blobbs, action) => {
   }
 }
 
+const iface = new ethers.utils.Interface(Blobb.abi)
+
 export function BlobbsProvider({ children }) {
-  const {state: { contract }} = useContext(EtherContext)
+  const {state: { contract, alchemy }} = useContext(EtherContext)
   const {blob: { number }} = useContext(MyBlobContext)
   const [blobbs, blobbsDispatch] = useReducer(reducer, initBlobbs)
 
   //EVENTS HANDLER CALLBACK
-  const _actionEventsHandlerFB = (toBlobID, madeFrom, newHP, newTotAttks, kingOfBlobbs, event) => {
-    console.log("Action to BlobbsProvider FB EMITTED", toBlobID, madeFrom, newHP, newTotAttks, kingOfBlobbs, event)
+  const _actionEventsHandlerFB = log => {
+    const [ toBlobID, madeFrom, newHP, newTotAttks, kingOfBlobbs ] = iface.parseLog(log).args
+    console.log("Action to BlobbsProvider FB EMITTED", toBlobID, madeFrom, newHP, newTotAttks, kingOfBlobbs)
     console.log("VALUE: ", blobbs)
     const eventBlobHP = parseInt(newHP._hex, 16)
     if(eventBlobHP === blobbs.focusedBlobb.hp) {
@@ -40,8 +44,9 @@ export function BlobbsProvider({ children }) {
     blobbsDispatch({type: ACTIONS.SET, data: { focusedBlobb }})
 
   }
-  const _actionEventsHandlerSB = (toBlobID, madeFrom, newHP, newTotAttks, kingOfBlobbs, event) => {
-    console.log("Action to BlobbsProvider SB EMITTED", toBlobID, madeFrom, newHP, newTotAttks, kingOfBlobbs, event)
+  const _actionEventsHandlerSB = log => {
+    const [ toBlobID, madeFrom, newHP, newTotAttks, kingOfBlobbs ] = iface.parseLog(log).args
+    console.log("Action to BlobbsProvider SB EMITTED", toBlobID, madeFrom, newHP, newTotAttks, kingOfBlobbs)
     console.log("VALUE: ", blobbs)
     const eventBlobHP = parseInt(newHP._hex, 16)
     if(eventBlobHP === blobbs.searchedBlobb.hp) {
@@ -52,11 +57,11 @@ export function BlobbsProvider({ children }) {
     const searchedBlobb = {...blobbs.searchedBlobb, ...{hp: eventBlobHP, death}}
     console.log("NEW VALUE", searchedBlobb)
     blobbsDispatch({type: ACTIONS.SET, data: { searchedBlobb }})
-
   }
 
-  const _newBlobbEventHandler = (newBlobID, newOwner, event) => {
-    console.log("NEWBLOBB EMITTED", newBlobID, newOwner, event)
+  const _newBlobbEventHandler = log => {
+    const [ newBlobID, newOwner ] = iface.parseLog(log).args
+    console.log("NEWBLOBB EMITTED", newBlobID, newOwner)
     console.log("VALUE: ", blobbs)
     const eventBlobID = parseInt(newBlobID._hex, 16)
     if(blobbs.aliveIDs.includes(eventBlobID)) {
@@ -67,8 +72,9 @@ export function BlobbsProvider({ children }) {
     const totalBlobs = blobbs.totalBlobs + 1
     blobbsDispatch({type: ACTIONS.SET, data: { aliveIDs, totalBlobs }})
   }  
-  const _newBlobbEventHandlerNoNumber = (newBlobID, newOwner, event) => {
-    console.log("NEWBLOBB EMITTED IN NO NUMBER", newBlobID, newOwner, event)
+  const _newBlobbEventHandlerNoNumber = log => {
+    const [ newBlobID, newOwner ] = iface.parseLog(log).args
+    console.log("NEWBLOBB EMITTED IN NO NUMBER", newBlobID, newOwner)
     const totalBlobs = parseInt(newBlobID._hex, 16)
     blobbsDispatch({type: ACTIONS.SET, data: { totalBlobs }})
   }  
@@ -76,23 +82,23 @@ export function BlobbsProvider({ children }) {
   //CONTRACT EVENTS LISTENER 
   useEffect(() => {
     if(!blobbs.focusedBlobb) return
-    contract.on(contract.filters.Action(blobbs.focusedBlobb.number), _actionEventsHandlerFB)
-    contract.on(contract.filters.NewBlobb(), _newBlobbEventHandler)
+    alchemy.ws.once(contract.filters.Action(blobbs.focusedBlobb.number), _actionEventsHandlerFB)
+    alchemy.ws.once(contract.filters.NewBlobb(), _newBlobbEventHandler)
 
-    console.log("Action AND NewBlobb EVENTS CONNECTED to BlobbsProvider", contract.listeners())
+    console.log("Action AND NewBlobb EVENTS CONNECTED to BlobbsProvider FB", contract.listeners())
     return () => {
-      contract.off(contract.filters.Action(blobbs.focusedBlobb.number), _actionEventsHandlerFB)
-      contract.off(contract.filters.NewBlobb(), _newBlobbEventHandler)
+      alchemy.ws.off(contract.filters.Action(blobbs.focusedBlobb.number), _actionEventsHandlerFB)
+      alchemy.ws.off(contract.filters.NewBlobb(), _newBlobbEventHandler)
     }
   }, [blobbs.focusedBlobb])
 
   useEffect(() => {
     if(!blobbs.searchedBlobb) return
-    contract.on(contract.filters.Action(blobbs.searchedBlobb.number), _actionEventsHandlerSB)
+    alchemy.ws.once(contract.filters.Action(blobbs.searchedBlobb.number), _actionEventsHandlerSB)
 
-    console.log("Action AND NewBlobb EVENTS CONNECTED to BlobbsProvider", contract.listeners())
+    console.log("Action EVENTS CONNECTED to BlobbsProvider SB", contract.listeners())
     return () => {
-      contract.off(contract.filters.Action(blobbs.searchedBlobb.number), _actionEventsHandlerSB)
+      alchemy.ws.off(contract.filters.Action(blobbs.searchedBlobb.number), _actionEventsHandlerSB)
     }
   }, [blobbs.searchedBlobb])
 
@@ -111,12 +117,12 @@ export function BlobbsProvider({ children }) {
       setBlobbs()//Se l'unico BLOBB e quindi unico number, in setBlobbs() non verrà connesso il NewBlobb Event perchè non ci sarà alcun fb 
     }
     else {
-      contract.on(contract.filters.NewBlobb(), _newBlobbEventHandlerNoNumber)
-      console.log("NewBlobb EVENTS CONNECTED to BlobbsProvider No Number", contract.listeners())  
+      alchemy.ws.once(contract.filters.NewBlobb(), _newBlobbEventHandlerNoNumber)
+      console.log("NewBlobb EVENTS CONNECTED to BlobbsProvider", contract.listeners())  
       getTotalBlobsNumber()
     } 
 
-    return () => contract.off(contract.filters.NewBlobb(), _newBlobbEventHandlerNoNumber)
+    return () => alchemy.ws.off(contract.filters.NewBlobb(), _newBlobbEventHandlerNoNumber)
 
   }, [number]) //contract too
 
@@ -215,10 +221,11 @@ export function BlobbsProvider({ children }) {
   const _attackFocusedBlobb = async () => {
     console.log("ATTACK FOCUSED")
     if(blobbs.focusedBlobb) {
-      // const price = await contract.attackPrice()
-      const price = ethers.utils.parseEther(blobbs.focusedBlobb.hp === 1 ? "0.04" : "0.02")
+      let price = ethers.utils.formatEther(await contract.attackPrice())
+      price = parseFloat(price) + (2.5 * (blobbs.focusedBlobb.hp === 1 ? 1 : 0)) + ""
+      // const price = ethers.utils.parseEther(blobbs.focusedBlobb.hp === 1 ? "2.52" : "0.02")
       console.log("ATTACK PRICE", price)
-      const transaction = await contract.attackBlob(blobbs.focusedBlobb.number, {value: price})
+      const transaction = await contract.attackBlob(blobbs.focusedBlobb.number, {value: ethers.utils.parseEther(price)})
       await transaction.wait()
     }
   }
@@ -226,9 +233,11 @@ export function BlobbsProvider({ children }) {
     console.log("ATTACK SEARCHED")
     if(blobbs.searchedBlobb) {
       // const price = await contract.attackPrice()
-      const price = ethers.utils.parseEther(blobbs.searchedBlobb.hp === 1 ? "0.045" : "0.025")
+      let price = ethers.utils.formatEther(await contract.attackPrice())
+      price = parseFloat(price) + 1.5 + (2.5 * (blobbs.searchedBlobb.hp === 1 ? 1 : 0)) + ""
+      // const price = ethers.utils.parseEther(blobbs.searchedBlobb.hp === 1 ? "0.045" : "0.025")
       console.log("ATTACK PRICE", price)
-      const transaction = await contract.attackBlob(blobbs.searchedBlobb.number, {value: price})
+      const transaction = await contract.attackBlob(blobbs.searchedBlobb.number, {value: ethers.utils.parseEther(price)})
       await transaction.wait()
     }
   }

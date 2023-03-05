@@ -1,12 +1,15 @@
-import { createContext, useContext, useEffect, useReducer } from "react";
-import EtherContext from "../EtherContext/EtherProvider";
+import { createContext, useContext, useEffect, useReducer } from "react"
+import EtherContext from "../EtherContext/EtherProvider"
 
-import { ethers } from "ethers";
+import { ethers } from "ethers"
+import Blobb from "../../artifacts/contracts/Blobb.sol/Blobb.json"
+
+let { POPUPS_TYPES } = require("../../popups-types")
 
 const MyBlobContext = createContext()
 
 const ACTIONS = {SET: "set", RESET: "reset"}
-const initBlob = {number: null, birthday: null, hp: null, totalActions: null, totalAttacks: null, kills: null, death: null, creator: null, owner: null, lastHit: null, colors: null, bType: null, king: null, attackTrigger: null}
+const initBlob = {number: null, birthday: null, hp: null, totalActions: null, totalAttacks: null, kills: null, death: null, creator: null, owner: null, lastHit: null, colors: null, bType: null, king: null}
 const reducer = (blob, action) => {
   const { type, data } = action
   switch (type) {
@@ -19,34 +22,39 @@ const reducer = (blob, action) => {
   }
 }
 
+const iface = new ethers.utils.Interface(Blobb.abi)
+
 export function MyBlobProvider({ children }) {
-  const {state: { account, contract }} = useContext(EtherContext)
+  const {state: { account, contract, alchemy }, funcs: { pushPopup }} = useContext(EtherContext)
   const [blob, blobDispatch] = useReducer(reducer, initBlob)
 
   // setTimeout(() => {
-  //   blobDispatch({type: ACTIONS.SET, data: {attackTrigger: !blob.attackTrigger}})
-  // }, 5000);
-  //EVENTS HANDLER CALLBACK
-  const _actionEventsHandler = (toBlobID, madeFrom, newHP, newTotAttks, kingOfBlobbs, event) => {
-    console.log("Action to MyBlobProvider EMITTED", toBlobID, madeFrom, newHP, newTotAttks, kingOfBlobbs, event)
+  //   pushPopup(0)
+  // }, 1000);
+  //EVENTS HANDLER CALLBACK - toBlobID, madeFrom, newHP, newTotAttks, kingOfBlobbs, event
+  const _actionEventsHandler = log => {
+    const [ toBlobID, madeFrom, newHP, newTotAttks, kingOfBlobbs ] = iface.parseLog(log).args
+    console.log("Action to MyBlobProvider EMITTED: Healed or Attacked", toBlobID, madeFrom, newHP, newTotAttks, kingOfBlobbs)
     console.log("VALUE: ", blob)
     const eventBlobHP = parseInt(newHP._hex, 16)
     if(eventBlobHP === blob.hp) {
       console.log("FALSE EVENT - NOTHING TO FETCH")
       return 
     }
+
+    if(eventBlobHP < blob.hp) pushPopup([POPUPS_TYPES.ATTACKED])
     const death = eventBlobHP === 0 ? _getDateFromTimestamp(Date.now()/1000) : "ALIVE"
-    const attackTrigger = blob.attackTrigger === null ? false : eventBlobHP < blob.hp ? !blob.attackTrigger : blob.attackTrigger
-    blobDispatch({type: ACTIONS.SET, data: {hp: eventBlobHP, totalActions: ++blob.totalActions, death, attackTrigger}})
+    
+    blobDispatch({type: ACTIONS.SET, data: {hp: eventBlobHP, totalActions: ++blob.totalActions, death}})
   }
-  const _attackEventHandler = (toBlobID, madeFrom, newHP, newTotAttks, kingOfBlobbs, event) => {
-    console.log("MYBLOBB ATTACK EMITTED", toBlobID, madeFrom, newHP, newTotAttks, kingOfBlobbs, event)
+  const _attackEventHandler = log => {
+    const [ toBlobID, madeFrom, newHP, newTotAttks, kingOfBlobbs ] = iface.parseLog(log).args
+    console.log("Action to MyBlobProvider EMITTED: Attack", toBlobID, madeFrom, newHP, newTotAttks, kingOfBlobbs)
     const eventBlobTotAttks = parseInt(newTotAttks._hex, 16)
     if(eventBlobTotAttks === blob.totalAttacks) {
       console.log("FALSE EVENT - NOTHING TO FETCH")
       return
     }
-
     const king = blob.number === parseInt(kingOfBlobbs._hex, 16)
     blobDispatch({type: ACTIONS.SET, data: {totalAttacks: eventBlobTotAttks, king}})
   }
@@ -54,13 +62,13 @@ export function MyBlobProvider({ children }) {
   //CONTRACT EVENTS LISTENER 
   useEffect(() => {
     if(!blob.number) return
-    contract.on(contract.filters.Action(blob.number), _actionEventsHandler)
-    contract.on(contract.filters.Action(null, blob.number), _attackEventHandler)
+    alchemy.ws.once(contract.filters.Action(blob.number), _actionEventsHandler) //_actionEventsHandler
+    alchemy.ws.once(contract.filters.Action(null, blob.number), _attackEventHandler) // _attackEventHandler
 
-    console.log("Action EVENT CONNECTED to MyBlobProvider", contract.listeners(), blob)
+    console.log("Action EVENT CONNECTED to MyBlobProvider")
     return () => {
-      contract.off(contract.filters.Action(blob.number), _actionEventsHandler)
-      contract.off(contract.filters.Action(null, blob.number), _attackEventHandler)
+      alchemy.ws.off(contract.filters.Action(blob.number), _actionEventsHandler)
+      alchemy.ws.off(contract.filters.Action(null, blob.number), _attackEventHandler)
     }
   }, [blob])
 
@@ -79,7 +87,7 @@ export function MyBlobProvider({ children }) {
       console.error("Contract function call failed!", e)
       myBlobID = 0
     }
-    console.log("b:", myBlobID, account)
+    console.log("b:", myBlobID)
     if(!myBlobID) { 
       blobDispatch({type: ACTIONS.SET, data: {...initBlob, ...{number: myBlobID}}})
       return
@@ -134,7 +142,7 @@ export function MyBlobProvider({ children }) {
   const _mintBlob = async (blobProperties) => {
     let price = ethers.utils.formatEther(await contract.mintPrice())
     const { cStart, cEnd, bType } = blobProperties
-    price = parseFloat(price) + (0.0025 * bType) + ""
+    price = parseFloat(price) + (1.5 * bType) + ""
     const transaction = await contract.mintBlob(_hexsToRGB(cStart, cEnd), bType, { value: ethers.utils.parseEther(price) })
     const receipt = await transaction.wait()
     console.log("RECEIPT", receipt)

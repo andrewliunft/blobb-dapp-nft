@@ -7,7 +7,7 @@ import Problem from "./Problem"
 import classes from "./OwnerPage.module.css"
 
 const ACTIONS = {INIT: "init", SET: "set", RESET: "reset"}
-const initialData = {isOwner: false, isContractEnabled: true, textValue: "", pending: false, isBarFocused: false, bType: 0, bColors: {start: "#000000", end: "#ff0000"}, errMsg: {errDiv: null, change: false}}
+const initialData = {isOwner: false, isContractEnabled: true, myBalance: 0, kingsTreasure: 0, forTheKing: false, textValue: "", pending: false, isBarFocused: false, bType: 0, bColors: {start: "#000000", end: "#ff0000"}, errMsg: {errDiv: null, change: false}}
 const reducer = (giftData, action) => {
   const { type, data } = action
   switch (type) {
@@ -23,14 +23,16 @@ const reducer = (giftData, action) => {
 }
 
 function OwnerPage() {
-  const {state: { account, contract }} = useContext(EtherContext)
+  const {state: { account, contract, provider }} = useContext(EtherContext)
   const [giftData, giftDispatch] = useReducer(reducer, initialData) 
 
   useEffect(() => {
     const isOwner = async () => {
       const contractOwner = await contract.owner()
       const isContractEnabled = await contract.isContractEnabled()
-      giftDispatch({type: ACTIONS.SET, data: {isOwner: contractOwner.toLowerCase() === account, isContractEnabled}})
+      const kingsTreasure = ethers.utils.formatEther(await contract.kingsTreasure()) / 1
+      const myBalance = (ethers.utils.formatEther(await provider.getBalance(contract.address)) - kingsTreasure).toFixed(4) / 1
+      giftDispatch({type: ACTIONS.SET, data: {isOwner: contractOwner.toLowerCase() === account, isContractEnabled, myBalance, kingsTreasure}})
     }
 
     if(account && contract) isOwner()
@@ -89,12 +91,15 @@ function OwnerPage() {
     return arrayRGBs
   }
 
-  const withdrawBalance = async withdrawType => {
+  const withdrawBalance = async () => {
     const errMsgClass = giftData.errMsg.change ? classes.error_div_2 : classes.error_div_1
+    const withdrawType = Number(giftData.forTheKing)
+    const myBalance = withdrawType ? giftData.myBalance : 0
+    const kingsTreasure = withdrawType ? 0 : giftData.kingsTreasure
     try {
       giftDispatch({type: ACTIONS.SET, data: { pending: true }})
       await contract.withdraw(withdrawType)
-      giftDispatch({type: ACTIONS.SET, data: { pending: false }})
+      giftDispatch({type: ACTIONS.SET, data: { myBalance, kingsTreasure, pending: false }})
     }
     catch(e) {
       giftDispatch({
@@ -121,6 +126,11 @@ function OwnerPage() {
       })
       console.error(e)
     }
+  }
+
+  const withdrawToggle = async () => {
+    if(giftData.pending) return
+    giftDispatch({type: ACTIONS.SET, data: {forTheKing: !giftData.forTheKing}})
   }
 
   if(!giftData.isOwner) return <Problem problem={404}></Problem>
@@ -201,7 +211,19 @@ function OwnerPage() {
       <div className={classes.utilities_div}>
         <span className={classes.title_span}><span className={classes.highlight}>CONTRACT</span> UTILITIES</span>
         <div className={classes.utilities_buttons}>
-          <div className={giftData.pending ? classes.buttons_off : classes.utility_button} onClick={() => withdrawBalance(0)}>
+          <span className={giftData.pending ? classes.p_king_toggle_span : giftData.forTheKing ? classes.king_toggle_span_on : classes.king_toggle_span_off} onClick={withdrawToggle}>
+            {giftData.forTheKing ? "👑" : "♕" }
+          </span>
+          <span className={classes.info_span}>
+            i 
+            <span className={classes.info_comic_span}>
+              {giftData.forTheKing ? 
+                <><span className={classes.highlight}>KING:</span> {giftData.kingsTreasure}</> :
+                <><span className={classes.highlight}>MINE:</span> {giftData.myBalance}</> 
+              } <span className={classes.highlight}>MATIC</span>
+            </span>
+          </span>
+          <div className={giftData.pending ? classes.buttons_off : classes.utility_button} onClick={withdrawBalance}>
             withdraw
           </div>
           <div className={giftData.pending ? classes.pause_toggle_off : classes.pause_toggle} onClick={toggleContractPause}>
@@ -223,7 +245,6 @@ function OwnerPage() {
           <div className={giftData.pending ? classes.buttons_off : classes.utility_button}>
             update
           </div>
-          <div onClick={() => withdrawBalance(1)}>king</div>
         </div>
       </div>
       

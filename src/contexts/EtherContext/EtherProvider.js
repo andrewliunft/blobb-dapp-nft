@@ -1,20 +1,28 @@
-import { createContext, useEffect, useReducer, useCallback } from "react"
-
+import { createContext, useEffect, useReducer, useCallback, useState } from "react"
+import { Alchemy, Network } from "alchemy-sdk"
 import { ethers } from "ethers";
 import Blobb from "../../artifacts/contracts/Blobb.sol/Blobb.json"
 
-const CONTRACT_ADDRESS = "0xaDBd17B51aaF3348Efe68078d6DA4AaF0A1Ab487" //"0xaDBd17B51aaF3348Efe68078d6DA4AaF0A1Ab487" 
+let { networkConfig } = require("../../helper-data.js")
+let { POPUPS_TYPES } = require("../../popups-types")
+
+const CONTRACT_ADDRESS = "0xaDBd17B51aaF3348Efe68078d6DA4AaF0A1Ab487" //"0x7C485eA3EeEd1BEf1C46A98a794C9eD6dd90EfAC - 0xab332Fe99cF084b000C1c75F005Ef12eFDB2571b - 0xaDBd17B51aaF3348Efe68078d6DA4AaF0A1Ab487" 
+
+const wsAlchemySettings = {
+  apiKey: process.env.REACT_APP_ALCHEMY_ID, //REACT_APP_ALCHEMY_POLYGON_ID
+  network: Network.MATIC_MUMBAI //Network.MATIC_MAINNET
+}
 
 const EtherContext = createContext()
 
-const ACTIONS = {INIT: "init", TRANSACTION: "transaction", RESET: "reset"}
-const initialState = {account: null, provider: null, signer: null, contract: null, pending: null, chain: null}
+const ACTIONS = {INIT: "init", SET: "set", RESET: "reset"}
+const initialState = {account: null, provider: null, alchemy: null, signer: null, chain: null, contract: null, pending: null, popups: []}
 const reducer = (state, action) => {
   const { type, data } = action
   switch (type) {
     case ACTIONS.INIT:
       return { ...state, ...data }
-    case ACTIONS.TRANSACTION:
+    case ACTIONS.SET:
       return { ...state, ...data }
     case ACTIONS.RESET:
       return { ...state, ...initialState }
@@ -26,28 +34,17 @@ const reducer = (state, action) => {
 
 export function EtherProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState)
+  const [asyncPopup, setAsyncPopup] = useState(null)
   
   const init = useCallback(async () => {
-    console.log("INIT", state)
     if(window.ethereum) {
-      // const provider = new ethers.providers.Web3Provider(window.ethereum)
-      const provider = new ethers.providers.WebSocketProvider("wss://polygon-mumbai.g.alchemy.com/v2/QFAA0Sagc9TkEdfEyQfl7juZ0_ygIMMU", null, window.ethereum)
-      // provider.ethereum = window.ethereum
-      // const wsProvider = new ethers.providers.WebSocketProvider("ws://localhost:8545")
-      // wsProvider.ethereum = window.ethereum
-      // const provider = new ethers.providers.Web3Provider(window.ethereum);
-      // provider._websocket = wsProvider;
-      // const provider = new ethers.providers.Web3Provider(window.ethereum);
-      // customProvider.pollingInterval = 12000; // use custom polling interval if necessary
-
-      // provider._websocket = wsProvider;
-
-      // const provider = new ethers.providers.Web3Provider(customProvider);
+      const provider = new ethers.providers.Web3Provider(window.ethereum)
       const accounts = await window.ethereum.request({ method: "eth_accounts" })
+      const alchemy = new Alchemy(wsAlchemySettings)
       const account = accounts[0] 
       const signer = provider.getSigner()
       const chain = (await provider.getNetwork()).chainId
-      console.log("SIGNER", signer, signer.getAddress(), ethers.utils.formatEther(await provider.getBalance(CONTRACT_ADDRESS)), chain)
+      console.log("Balance", ethers.utils.formatEther(await provider.getBalance(CONTRACT_ADDRESS)), chain)
 
       let contract
       try {
@@ -55,7 +52,7 @@ export function EtherProvider({ children }) {
       } catch (err) {
         console.error(err)
       }
-      dispatch({type: ACTIONS.INIT, data: { account, provider, signer, contract, chain }})
+      dispatch({type: ACTIONS.INIT, data: { account, provider, alchemy, signer, contract, chain }})
     }
     else 
       alert("Install MetaMask!")
@@ -63,7 +60,14 @@ export function EtherProvider({ children }) {
 
   const connect = async () => {
     console.log("CONNECT", state)
-    await window.ethereum.request({ method: "eth_requestAccounts" })
+    await window.ethereum.request({ method: "wallet_requestPermissions", params: [{ eth_accounts: {} }] })
+  }
+
+  const switchChain = async () => {
+    await window.ethereum.request({
+      method: 'wallet_switchEthereumChain',
+      params: [{ chainId: ethers.utils.hexValue(networkConfig.networks[0]) }],
+    })
   }
 
   const disconnect = useCallback(() => {
@@ -71,24 +75,48 @@ export function EtherProvider({ children }) {
     dispatch({type: ACTIONS.RESET})
   }, [])
 
-  const walletRequest = async (tName, tDesc, tFunc) => {
+  const walletRequest = async (tName, tDesc, tFunc, successPopup) => {
     if(state.pending) return
     
     const pending = {txName: tName, txDesc: tDesc}
-    dispatch({type: ACTIONS.TRANSACTION, data: { pending }})
+    dispatch({type: ACTIONS.SET, data: { pending }})
     try {
       await tFunc()
       const pending = null
-      dispatch({type: ACTIONS.TRANSACTION, data: { pending }})
+      dispatch({type: ACTIONS.SET, data: { pending }})
+      if(successPopup) setAsyncPopup([successPopup])
     } catch(err) {
       console.error(err)
+      // pushNewPopup(err.code === -32603 ? POPUPS_TYPES.FUNDS : err.code === "ACTION_REJECTED" ? POPUPS_TYPES.REJECTED : POPUPS_TYPES.FAILED)
       const pending = null
-      dispatch({type: ACTIONS.TRANSACTION, data: { pending }})
+      dispatch({type: ACTIONS.SET, data: { pending }})
+      const pType = err.code === -32603 ? POPUPS_TYPES.FUNDS : err.code === "ACTION_REJECTED" ? POPUPS_TYPES.REJECTED : POPUPS_TYPES.FAILED
+      setAsyncPopup([pType])
     }
   }
 
   useEffect(() => {
-    if(!window.ethereum) return alert("Install MetaMask!")
+    if(asyncPopup) pushNewPopup(asyncPopup[0])
+  }, [asyncPopup])
+
+  const pushNewPopup = popupType => {
+    // const popups = [...state.popups]
+    console.log("BEFOR PUSH: ", state.popups) 
+    const idxValue = state.popups.length ? state.popups[state.popups.length-1].idx + 1 : 0
+    const popups = state.popups.concat( {idx: idxValue, pType: popupType} )
+    console.log("AFTER PUSH: ", popups)
+    dispatch({type: ACTIONS.SET, data: { popups }})
+  }
+
+  const popFirstPopup = () => {
+    console.log("BEFOR POP: ", state.popups)
+    const popups = state.popups.find(popup => popup.idx > 0) ? state.popups.map(popup => {return {...popup, ...{idx: popup.idx-1}}}) : []
+    console.log("AFTER POP: ", popups)
+    dispatch({type: ACTIONS.SET, data: { popups }})
+  }
+
+  useEffect(() => {
+    if(!window.ethereum) return alert("No provider found! Install Metamask")
 
     //FIRST OPENING
     const tryInit = async () => {
@@ -117,7 +145,10 @@ export function EtherProvider({ children }) {
 
   const funcs = {
     connectWallet: connect,
+    switchWalletChain: switchChain,
     newWalletRequest: walletRequest,
+    pushPopup: setAsyncPopup,
+    popPopup: popFirstPopup,
   }
 
   return(

@@ -1,5 +1,5 @@
 const networkConfig = {
-  networks: [31337, 80001], //1, 137
+  networks: [80001, 31337,], //1, 137
   31337: {
     name: "LOCALHOST"
   },

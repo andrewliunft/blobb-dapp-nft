@@ -79,7 +79,7 @@
   </g>
   <g id="v">
     <circle r="8" fill="url(#gS)" stroke="url(#gS)" stroke-width="1" filter="drop-shadow(1 1 1 #0008)"/>
-    <path d="M-3,1 L-1,4 L3,-3" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="drop-shadow(1 0 1 #0009)"/>
+    <path d="M-3,1 L-1,4 L3,-3" style="stroke:var(--tG)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="drop-shadow(1 0 1 #0009)"/>
   </g>
   <text style="fill:var(--tG)" font-family="Titan One" font-size="12px" filter="drop-shadow(0 1 0 #000d)">
     <textPath text-anchor="middle" startOffset="80%">

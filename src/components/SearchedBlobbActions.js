@@ -3,7 +3,10 @@ import { useNavigate } from "react-router-dom"
 import BlobbsContext from "../contexts/BlobbsContext/BlobbsProvider"
 import EtherContext from "../contexts/EtherContext/EtherProvider"
 import MyBlobContext from "../contexts/MyBlobContext/MyBlobProvider"
+
 import classes from "./SearchedBlobbActions.module.css"
+
+let { POPUPS_TYPES } = require("./../popups-types")
 
 function SearchedBlobbActions({ sBlobb }) {
   const {funcs: { newWalletRequest }} = useContext(EtherContext)
@@ -12,7 +15,7 @@ function SearchedBlobbActions({ sBlobb }) {
   const navigate = useNavigate()
 
   function attackButtonHandler() {
-    if(sBlobb.hp === 1) newWalletRequest("KILL", "KILLING THE BLOBB!", attackSearchedBlobb)
+    if(sBlobb.hp === 1) newWalletRequest("KILL", "KILLING THE BLOBB!", attackSearchedBlobb, POPUPS_TYPES.KILLED)
     else newWalletRequest("ATTACK", "ATTACKING THE BLOBB!", attackSearchedBlobb)
   }
 
@@ -31,7 +34,7 @@ function SearchedBlobbActions({ sBlobb }) {
         </span>
       default:
         return <span className={classes.info_comic_span_R}>
-          <span className={classes.highlight}>{sBlobb.hp === 1 ? 0.045 : 0.025} ETH</span> + <span className={classes.highlight}>GAS</span>
+          <span className={classes.highlight}>{sBlobb.hp === 1 ? 9 : 6.5} ETH</span> + <span className={classes.highlight}>GAS</span>
         </span>
     }
   }

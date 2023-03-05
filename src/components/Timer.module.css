@@ -1,0 +1,47 @@
+
+.timer_div {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  /* align-items: end; */
+  translate: -25px;
+  
+  /* top: 200px; */
+}
+
+.section_div {
+  --value-text-color: #5e5e5e;
+  display: flex;
+  flex-direction: column;
+  cursor: default;
+
+  width: 73px;
+  margin-bottom: 10px;
+  padding: 0 0 2px 2px;
+
+  border-bottom: 3px solid #5e5e5e;
+
+  text-shadow: 2px 2px 5px #000a;
+  box-shadow: 0 3px 0px #0005;
+
+  transition: .25s ease;
+}
+.section_div:hover {
+  width: 75px;
+  padding: 0 0 2px 0px;
+  border-bottom: 3px solid aliceblue;
+  --value-text-color: aliceblue;
+}
+
+.label_span {
+  flex: 1;
+}
+
+.value_span {
+  /* flex: 1; */
+  font-weight: bold;
+  font-size: 20px;
+  color: var(--value-text-color);
+
+  transition: .25s ease;
+}

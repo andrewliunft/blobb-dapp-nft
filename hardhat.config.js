@@ -18,6 +18,10 @@ module.exports = {
       url: process.env.MUMBAI_RPC,
       accounts: [process.env.MUMBAI_PRIVATE_KEY],      
     },
+    polygon: {
+      url: process.env.POLYGON_RPC,
+      accounts: [process.env.POLYGON_PRIVATE_KEY],      
+    },
   },
   etherscan: {
     apiKey: process.env.POLYGONSCAN_API_KEY

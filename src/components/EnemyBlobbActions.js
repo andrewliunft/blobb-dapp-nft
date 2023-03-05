@@ -2,7 +2,10 @@ import { useContext } from "react"
 import BlobbsContext from "../contexts/BlobbsContext/BlobbsProvider"
 import EtherContext from "../contexts/EtherContext/EtherProvider"
 import MyBlobContext from "../contexts/MyBlobContext/MyBlobProvider"
+
 import classes from "./EnemyBlobbActions.module.css"
+
+let { POPUPS_TYPES } = require("./../popups-types")
 
 function EnemyBlobbActions({ fBlobb, nextBlobbFunc }) {
   const {funcs: { newWalletRequest }} = useContext(EtherContext)
@@ -10,7 +13,7 @@ function EnemyBlobbActions({ fBlobb, nextBlobbFunc }) {
   const {funcs: { attackFocusedBlobb }} = useContext(BlobbsContext)
 
   function attackButtonHandler() {
-    if(fBlobb.hp === 1) newWalletRequest("KILL", "KILLING THE BLOBB!", attackFocusedBlobb)
+    if(fBlobb.hp === 1) newWalletRequest("KILL", "KILLING THE BLOBB!", attackFocusedBlobb, POPUPS_TYPES.KILLED)
     else newWalletRequest("ATTACK", "ATTACKING THE BLOBB!", attackFocusedBlobb)
   }
 
@@ -26,7 +29,7 @@ function EnemyBlobbActions({ fBlobb, nextBlobbFunc }) {
         </span>
       default:
         return <span className={classes.info_comic_span}>
-          <span className={classes.highlight}>{fBlobb.hp === 1 ? 0.04 : 0.02} ETH</span> + <span className={classes.highlight}>GAS</span>
+          <span className={classes.highlight}>{fBlobb.hp === 1 ? 7.5 : 5} MATIC</span> + <span className={classes.highlight}>GAS</span>
         </span>
     }
   }

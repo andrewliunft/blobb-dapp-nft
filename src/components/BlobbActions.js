@@ -5,13 +5,15 @@ import MyBlobContext from "../contexts/MyBlobContext/MyBlobProvider"
 
 import classes from "./BlobbActions.module.css"
 
+let { POPUPS_TYPES } = require("./../popups-types")
+
 function BlobbActions({ currAccount, blobb }) {
   const {funcs: { newWalletRequest }} = useContext(EtherContext)
   const {funcs: { healBlob }} = useContext(MyBlobContext)
   const navigate = useNavigate()
 
   function healButtonHandler() {
-    newWalletRequest("HEAL", "HEALING YOUR BLOBB!", healBlob)
+    newWalletRequest("HEAL", "HEALING YOUR BLOBB!", healBlob, POPUPS_TYPES.HEALED)
   }
 
   function getInfoMessageLeft() {
@@ -29,7 +31,7 @@ function BlobbActions({ currAccount, blobb }) {
         </span>
       default:
         return <span className={classes.info_comic_span_L}>
-          <span className={classes.highlight}>0.001 ETH</span> + <span className={classes.highlight}>GAS</span>
+          <span className={classes.highlight}>2.5 MATIC</span> + <span className={classes.highlight}>GAS</span>
         </span>
     }
   }

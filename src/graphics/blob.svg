@@ -7,9 +7,9 @@
     svg{
       --a-dur: 10s;
 
-      --sColor: 255,255,255; /* 255,100,0 --- 121,38,30 --- */
-      --eColor: 255,255,191;   /* 255,255,0 --- 88,9,36   --- */
-      --hpAlpha: 1;
+      --sColor: 31,0,167; /* 255,100,0 --- 121,38,30 --- 114,137,218 --- */
+      --eColor: 253,10,192;   /* 255,255,0 --- 88,9,36   --- 64,37,118   --- */
+      --hpAlpha: .2;
       --multiColorDur1: 5s;
       --textGradient: url(#c-grad);
 
@@ -42,6 +42,16 @@
       stroke-width: 4px;
       /* fill: #000000; */
     }
+    #b-shield {
+      /* fill: url(#t-grad); */
+      stroke: url(#t-grad);
+      stroke-width: 8px;
+      /* filter: blur(1px); */
+      /* transform: scale(1.025); */
+      opacity: 0.25;
+      transform-box: fill-box;
+      transform-origin: center;
+    }
     #b-lvl{
       transform: translate(150px, 50px); /*translate(150px, 50px)*/
       animation: lvl infinite var(--a-dur) ease forwards;
@@ -59,7 +69,7 @@
     #c {
       transform: translate(100px, 3px) rotate(25deg) scale(1.5);
       animation: c_anim infinite var(--a-dur) ease forwards;
-      opacity: 0;
+      opacity: 1;
     }
 
     #start-fill {
@@ -139,16 +149,18 @@
   </g>
   <g id="blobs">
     <use id="b-shad" href="#b-path" />
+    
     <use id="b" href="#b-path" />
     <use id="b-blur" href="#b-path" />
+    <!-- <use id="b-shield" href="#b-path" /> -->
   </g>
   <!-- #0278d8 -->
   <g id="b-lvl">
     <circle r="10" fill="url(#grad)" stroke="url(#s-grad)" stroke-width="1" filter="drop-shadow(1 1 1 #000b)" />
     <circle r="10" stroke="url(#s-grad)" stroke-width="2" filter="blur(1px)" />
-    <circle r="15" style="stroke:var(--textGradient)" stroke-dasharray="10" stroke-dashoffset="6" pathLength="10" stroke-width="2" stroke-linecap="round" filter="drop-shadow(0 0 1 #000b)" transform="rotate(-90)" />
+    <circle r="15" style="stroke:var(--textGradient)" stroke-dasharray="10" stroke-dashoffset="0" pathLength="10" stroke-width="2" stroke-linecap="round" filter="drop-shadow(0 0 1 #000b)" transform="rotate(-90)" />
     <text style="fill:var(--textGradient)" text-anchor="middle" font-family="Titan One" font-size="12px" filter="drop-shadow(0 1 0 #000d)" transform="translate(0 4)">
-      6
+      99
     </text>
   </g>
 
@@ -162,15 +174,15 @@
   <g id="b-id">
     <text style="fill:var(--textGradient)" fill="url(#t-grad)" font-family="Titan One" font-size="12px" filter="drop-shadow(0 1 0 #000d)">
       <textPath text-anchor="middle" startOffset="80%">
-        4 / 1000
+        10 / 1000
         <animate attributeName="href" repeatCount="indefinite" dur="1s" values="#b-path" />
       </textPath>
     </text>
   </g>
-  <!-- 0x313...52af | your address -->
-  <text style="fill:var(--textGradient)" font-family="Titan One" font-size="14px" filter="drop-shadow(0 1px 0 #000b)" >
+  <!-- 0x313...52af | your address font-size="15px" -->
+  <text style="fill:var(--textGradient)" font-family="Titan One" font-size="19px" filter="drop-shadow(0 1px 0 #000b)" >
     <textPath text-anchor="middle" startOffset="50%">
-      your address 
+      tomorrow 
       <animate attributeName="href" repeatCount="indefinite" dur="1s" values="#t-path" />
     </textPath>
   </text>

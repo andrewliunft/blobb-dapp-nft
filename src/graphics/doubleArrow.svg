@@ -1,0 +1,11 @@
+<svg height="10px" viewBox="0 0 1 1" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    #arr {
+      transition: .25s ease;
+    }
+    #arr:hover {
+      stroke: aliceblue;
+    }
+  </style>
+  <path id="arr" d="M .1,.1 L.5,.45 L.9,.1 M.1,.55 L.5,.875 L.9,.55" stroke="#323232" stroke-width="0.2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

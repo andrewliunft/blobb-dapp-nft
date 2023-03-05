@@ -120,6 +120,7 @@
   border: 2px solid #5e5e5e;
   border-radius: 5px;
 
+  z-index: 1;
   box-shadow: 2px 2px 5px rgb(0, 0, 0, .75);
   text-shadow: 2px 2px 5px #000a;
 
@@ -530,4 +531,85 @@
 }
 .color_picker:hover {
   background: aliceblue;
+}
+
+.info_span {
+  --popup-alpha: 0;
+  --popup-x: -15px;
+  --popup-delay: 0s;
+
+  position: absolute;
+  user-select: none;
+  cursor: pointer;
+
+  translate: -238px 10px;
+  padding: 3px 12px;
+  
+  color: aliceblue;
+  background-color: #323232;
+  
+  border-left: 4px solid #5e5e5e;
+  border-radius: 5px 0 2px 5px;
+
+  z-index: 0;
+  text-shadow: 0 0 4px aliceblue;
+  box-shadow: 0 2px 2px #0005;
+  
+  transition: .5s ease;
+}
+.info_span:hover {
+  --popup-alpha: 1;
+  --popup-x: -5px;
+  --popup-delay: .5s;
+
+  text-shadow: 0 0 2px black;
+  border-left: 4px solid aliceblue;
+  /* color: #323232;
+  background-color: aliceblue;
+  text-shadow: 0 0 4px #5e5e5e; */
+}
+
+.info_comic_span {
+  pointer-events: none;
+  position: absolute;
+
+  top: 40px;
+  width: max-content;
+
+  padding: 5px;
+  border-radius: 0 10px 10px 10px;
+  border-bottom: 2px solid #5e5e5e;
+
+  font-size: 18px;
+  background-color: aliceblue;
+
+  translate: var(--popup-x);
+  opacity: var(--popup-alpha);
+
+  box-shadow: 2px 2px 3px #000a;
+  text-shadow: none;
+
+  transition: .5s ease var(--popup-delay);
+}
+
+.king_toggle_span_on, .king_toggle_span_off, .p_king_toggle_span {
+  position: absolute;
+  user-select: none;
+  cursor: pointer;
+
+  font-size: 25px;
+
+  translate: -237px -18px;
+  padding: 3px 12px;
+
+  text-shadow: 0 0 5px black;
+  transition: .25s ease;
+}
+.king_toggle_span_off, .p_king_toggle_span {
+  scale: .85;
+  opacity: 0.75;
+}
+.p_king_toggle_span {
+  cursor: default;
+  opacity: 0.25;
 }

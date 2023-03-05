@@ -18,7 +18,7 @@ function BlobbHome() {
   
   const [properties, setProperties] = useState({cStart: _randomColor(), cEnd: _randomColor(), bType: 0})
   // const [colors, setColors] = useState({start: "#000000", end: "#333333", time: 3000, reps: 0})
-  console.log("BLOB HOME", account, blob.number, showStats, properties)
+  // console.log("BLOB HOME", account, blob.number, showStats, properties)
   
   
   // setTimeout(() => {

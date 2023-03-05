@@ -2,6 +2,7 @@
   display: flex;
   /* flex-direction: column; */
   /* justify-content: center; */
+  /* overflow-y: hidden; */
   height: 100vh;
   background-image: url("../graphics/blobbBackground.svg");
   background-size: 100px; /*50px*/
@@ -64,6 +65,84 @@
 @keyframes idle {
   0%, 20%, 40%, 60%, 80%, 100% {rotate: -1.5deg;}
   10%, 30%, 50%, 70%, 90% {rotate: 1.5deg;}
+}
+
+.highlight_footer {
+  cursor: pointer;
+  padding: 0 3px;
+  border-radius: 5px;
+  
+  background-color: #c2c5c8;
+  text-shadow: none;
+  transition: .25s ease;
+}
+.highlight_footer:hover {
+  color: #323232;
+}
+
+.footer_div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  user-select: none;
+
+  translate: 0px 45px;
+  bottom: 0;
+  right: 0;
+  height: 60px;
+  width: 250px;
+
+  padding: 3px 5px;
+  text-shadow: 2px 2px 5px #000b;
+
+  border-top: 2px solid #5e5e5e;
+  border-left: 2px solid #5e5e5e;
+  border-radius: 5px 0 0 0;
+  /* background-color: aliceblue; */
+
+  /* box-shadow: -2px 2px 5px rgb(0, 0, 0, .75); */
+  transition: .25s ease;
+}
+
+.footer_title_span, .footer_arrow_span {
+  position: relative;
+  bottom: 17px;
+ 
+  padding: 3px 5px;
+  font-weight: bold;
+  
+  border-radius: 5px;
+  border-bottom: 2px solid #5e5e5e;
+
+  background-color: aliceblue;
+  box-shadow: 0 2px 3px #000a;
+  text-shadow: none;
+}
+.footer_arrow_span {
+  margin-right: 10px;
+}
+
+.logos_div {
+  position: absolute;
+  overflow: hidden;
+  top: 17px;
+}
+
+.logos_svg {
+  /* position: relative; */
+  cursor: pointer;
+  margin: 0 5px;
+  stroke: aliceblue;
+  /* height: 50px; */
+  transition: .25s ease;
+}
+.logos_svg:hover {
+  translate: 0 2px;
+}
+
+.no_a {
+  text-decoration: none;
 }
 
 @media all and (max-height: 700px), all and (max-width: 500px)
