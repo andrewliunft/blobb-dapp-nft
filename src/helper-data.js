@@ -1,28 +1,28 @@
 const networkConfig = {
-  networks: [137, ], //1, 137, 80001, 31337
+  networks: [80001], //1, 137, 80001, 31337
   31337: {
-    name: "LOCALHOST"
+    name: "LOCALHOST",
   },
   1: {
-    name: "MAINNET"
+    name: "MAINNET",
   },
   5: {
-    name: "GOERLI"
+    name: "GOERLI",
   },
   10: {
-    name: "OPTIMISM"
+    name: "OPTIMISM",
   },
   56: {
-    name: "BINANCE"
+    name: "BINANCE",
   },
   137: {
-    name: "POLYGON"
+    name: "POLYGON",
   },
   80001: {
-    name: "MUMBAI"
-  },  
-}
+    name: "MUMBAI",
+  },
+};
 
 module.exports = {
   networkConfig,
-}
+};
